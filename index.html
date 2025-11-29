@@ -625,6 +625,179 @@
     color: var(--primary);
   }
 
+  /* --- CHATBOT STYLES --- */
+  .chat-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary);
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s;
+  }
+  .chat-toggle-btn:hover {
+    transform: scale(1.1);
+  }
+
+  .chat-container {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 350px;
+    height: 500px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #ddd;
+  }
+  
+  .chat-header {
+    background-color: var(--primary);
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .chat-header h3 {
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  /* CORS Status Bar */
+  .cors-status-bar {
+    background-color: #f0f0f0;
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .status-badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.75rem;
+  }
+
+  .status-badge.red {
+    background-color: #dc3545; /* Red */
+    box-shadow: 0 0 5px #dc3545;
+  }
+
+  .status-badge.green {
+    background-color: #28a745; /* Green */
+    box-shadow: 0 0 5px #28a745;
+  }
+
+  .verify-btn {
+    background: none;
+    border: 1px solid #999;
+    padding: 2px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7rem;
+  }
+  .verify-btn:hover { background: #e0e0e0; }
+
+  /* Activation Notice Box */
+  .activation-notice {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 10px;
+    font-size: 0.85rem;
+    border-bottom: 1px solid #ffeeba;
+    text-align: center;
+  }
+  .activation-notice a {
+    color: #0056b3;
+    text-decoration: underline;
+    font-weight: bold;
+  }
+
+  .chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+  }
+
+  .message {
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 80%;
+    font-size: 0.95rem;
+    word-wrap: break-word;
+  }
+
+  .bot-message {
+    background-color: #e8f5e9;
+    color: var(--text);
+    align-self: flex-start;
+    border-bottom-left-radius: 0;
+  }
+
+  .user-message {
+    background-color: var(--primary);
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+  }
+
+  .chat-input-area {
+    padding: 10px;
+    background-color: white;
+    border-top: 1px solid #ddd;
+    display: flex;
+    gap: 10px;
+  }
+
+  .chat-input-area input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    outline: none;
+  }
+
+  .chat-input-area button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .chat-input-area button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
   /* Responsive Styles */
   @media (max-width: 992px) {
     .about-content, .contact-container { grid-template-columns: 1fr; }
@@ -639,6 +812,9 @@
     .weather-input-group input, .search-input-group select { min-width: 100%; }
     .price-row { grid-template-columns: 1fr; gap: 0.5rem; text-align: center; }
     .grid-2 { grid-template-columns: 1fr; }
+    
+    .chat-container { width: 100%; height: 100%; bottom: 0; right: 0; border-radius: 0; z-index: 2000; }
+    .chat-toggle-btn { z-index: 2001; }
   }
 </style>
 </head>
@@ -1063,6 +1239,39 @@
     </div>
   </div>
 </footer>
+
+<!-- Chatbot Modal -->
+<div id="chatbotModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:9999; padding:20px;">
+  <div style="background:#fff; padding:20px; border-radius:8px; width:90%; max-width:500px; height:70%; display:flex; flex-direction:column; position:relative; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+    
+    <!-- Close Button -->
+    <div id="closeChat" style="position:absolute; top:10px; right:15px; font-size:1.5rem; cursor:pointer; color:#666; transition: color 0.3s;">&times;</div>
+    
+    <!-- Header -->
+    <h2 style="text-align:center; margin-bottom:5px; color:#2e7d32;">Get Instant Help! 🤖</h2>
+    <p style="text-align:center; color:#666; font-size:0.9rem; margin-top:0; margin-bottom:15px;">Your 24/7 agriculture assistant</p>
+    
+    <!-- Chat Area -->
+    <div id="chatbotChat" style="flex:1; overflow-y:auto; background:#f9f9f9; padding:15px; border:1px solid #ddd; border-radius:8px; margin-top:5px;">
+      <!-- Initial Bot Message (Green Theme) -->
+      <div style="background:#e8f5e9; padding:10px; border-radius:8px; margin-bottom:10px; border-left:4px solid #2e7d32; color:#333;">
+        <strong style="color:#2e7d32;">Bot:</strong> Namaste! Ask me about crops, weather, prices or Chief Ministers.
+      </div>
+    </div>
+    
+    <!-- Input Area -->
+    <div style="margin-top:15px; display:flex; gap:8px;">
+      <input type="text" id="userInput" placeholder="Ask me anything..." style="flex:1; padding:12px; border:1px solid #2e7d32; border-radius:4px; outline:none;" />
+      <button id="sendBtn" style="padding:10px 20px; background:#2e7d32; color:#fff; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">Send</button>
+      <button id="micBtn" style="padding:10px; background:#2e7d32; color:#fff; border:none; border-radius:4px; cursor:pointer;">🎤</button>
+    </div>
+  </div>
+</div>
+
+<!-- Open Chatbot Button (Green) -->
+<button style="position:fixed; bottom:20px; right:20px; z-index:999; padding:15px; border:none; border-radius:50%; background:#2e7d32; color:#fff; cursor:pointer; font-size:1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.3s;" onclick="openModal('chatbotModal')" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+  <i class="fas fa-robot"></i>
+</button>  
 
 <script>
   // Slideshow functionality
@@ -1555,6 +1764,192 @@ const music = document.getElementById("bgMusic");
     }
   }
 
+  /* ==========================================
+     CHATBOT LOGIC WITH GEMINI 2.5 FLASH & CORS
+     ========================================== */
+  
+  // --- NEW CHATBOT CODE ---
+  function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+  document.getElementById('closeChat').addEventListener('click', function() { document.getElementById('chatbotModal').style.display = 'none'; });
+
+  const chatBox = document.getElementById('chatbotChat');
+  const userInput = document.getElementById('userInput');
+
+  // Predefined topics data (Updated for PatuKrishi Context)
+  const predefinedTopics = {
+    'business': {
+      patterns: ['business', 'company', 'about us', 'what do you do', 'services', 'products'],
+      responses: [
+        "PatuKrishi is a sustainable farming platform dedicated to helping Indian farmers with modern tools like Weather, Mandi Prices, and Crop Advisory.",
+        "We empower farmers with technology to improve productivity and sustainability."
+      ]
+    },
+    'hours': {
+      patterns: ['timing', 'hours', 'open', 'close', 'when are you open'],
+      responses: [
+        "Our digital platform is available 24/7 for all your farming needs.",
+        "You can access PatuKrishi tools anytime, day or night."
+      ]
+    },
+    'location': {
+      patterns: ['location', 'address', 'where are you', 'find you', 'map'],
+      responses: [
+        "We are a digital platform accessible all over India.",
+        "PatuKrishi is online! Use our tools from any village or city in India."
+      ]
+    },
+    'contact': {
+      patterns: ['contact', 'phone', 'number', 'email', 'call', 'reach'],
+      responses: [
+        "You can reach us at 📧 chanakyasahni8@gmail.com",
+        "Please use the 'Contact Us' section on the page to send a message."
+      ]
+    },
+    'products': {
+      patterns: ['products', 'items', 'sell', 'offer', 'tools', 'features'],
+      responses: [
+        "We offer Weather Forecasting, Mandi Prices, Crop Advisory, and Krishi Games.",
+        "Our main tools are the Weather Finder, Market Rates checker, and Crop Guides."
+      ]
+    },
+    'greeting': {
+      patterns: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'namaste'],
+      responses: [
+        "Namaste! Welcome to PatuKrishi. How can I help you with farming today?",
+        "Hi there! I am your Krishi Assistant. Ask me about crops or prices."
+      ]
+    },
+    'thanks': {
+      patterns: ['thank', 'thanks', 'thank you', 'appreciate'],
+      responses: [
+        "You're welcome! 😊 Happy Farming!",
+        "Happy to help! Let me know if you need anything else."
+      ]
+    }
+  };
+
+  // CM data
+  const cms = {
+    "andhra pradesh": "Sri Nara Chandrababu Naidu", "arunachal pradesh": "Shri Pema Khandu", "assam": "Shri Himanta Biswa Sarma", "bihar": "Shri Nitish Kumar", "chhattisgarh": "Shri Vishnu Deo Sai", "delhi": "Smt. Rekha Gupta", "goa": "Shri Pramod Sawant", "gujarat": "Shri Bhupendra Patel", "haryana": "Shri Nayab Singh Saini", "himachal pradesh": "Shri Sukhvinder Singh Sukhu", "jammu and kashmir": "Shri Omar Abdullah", "jharkhand": "Shri Hemant Soren", "karnataka": "Shri Siddaramaiah", "kerala": "Shri Pinarayi Vijayan", "madhya pradesh": "Shri Mohan Yadav", "maharashtra": "Shri Devendra Fadnavis", "manipur": "-", "meghalaya": "Shri Conrad Kongkal Sangma", "mizoram": "Shri PU Lalduhoma", "nagaland": "Shri Neiphiu Rio", "odisha": "Shri Mohan Charan Majhi", "puducherry": "Shri N. Rangaswamy", "punjab": "Shri Bhagwant Singh Mann", "rajasthan": "Shri Bhajan Lal Sharma", "sikkim": "Shri Prem Singh Tamang (Golay)", "tamil nadu": "Shri M. K. Stalin", "telangana": "Shri A Revanth Reddy", "tripura": "Dr. Manik Saha", "uttar pradesh": "Shri Yogi Aditya Nath", "uttarakhand": "Shri Pushkar Singh Dhami", "west bengal": "Km. Mamata Banerjee"
+  };
+
+  document.getElementById('sendBtn').addEventListener('click', () => handleSend());
+  document.getElementById('userInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') handleSend(); });
+  document.getElementById('micBtn').addEventListener('click', () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) { alert('Mic not supported in this browser'); return; }
+    const recognition = new SpeechRecognition();
+    recognition.lang='en-IN';
+    recognition.interimResults=false;
+    recognition.maxAlternatives=1;
+    recognition.onresult= (e) => {
+      const transcript = e.results[0][0].transcript;
+      document.getElementById('userInput').value=transcript;
+      handleSend();
+    };
+    recognition.onerror= (e) => { alert('Mic error: '+e.error); };
+    recognition.start();
+  });
+
+  function addBotMessage(text) {
+    const div = document.createElement('div');
+    div.innerHTML = '<strong>Bot: </strong>' + text;
+    div.style.background = '#e3f2fd';
+    div.style.padding = '10px';
+    div.style.borderRadius = '8px';
+    div.style.marginBottom = '8px';
+    div.style.borderLeft = '4px solid #1a56db';
+    chatBox.appendChild(div);
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function handleSend() {
+    const input = document.getElementById('userInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    
+    // Show user message
+    const userMsgDiv = document.createElement('div');
+    userMsgDiv.innerHTML = '💬 ' + msg;
+    userMsgDiv.style.fontWeight='bold';
+    userMsgDiv.style.marginBottom='8px';
+    userMsgDiv.style.textAlign='right';
+    chatBox.appendChild(userMsgDiv);
+    input.value='';
+
+    // Handle response
+    handleResponse(msg);
+  }
+
+  async function handleResponse(msg) {
+    const lower = msg.toLowerCase();
+
+    // Check predefined topics first
+    const topicResponse = checkPredefinedTopics(lower);
+    if (topicResponse) {
+      addBotMessage(topicResponse);
+      return;
+    }
+
+    if(lower.includes("what is your name") || lower.includes("who are you")){
+      addBotMessage('I am the PatuKrishi Assistant Bot!');
+      return;
+    }
+    
+    if(lower.includes("owner")){
+      addBotMessage('PatuKrishi is owned by Chanakya Sahni.');
+      return;
+    }
+    
+    if(lower.includes("cm of")){
+      const state = lower.replace("cm of","").trim();
+      const key = state.toLowerCase();
+      if(cms[key]){
+        addBotMessage(`The Chief Minister of ${toTitleCase(state)} is ${cms[key]}.`);
+      } else {
+        addBotMessage(`Sorry, I don't have data for ${toTitleCase(state)}.`);
+      }
+      return;
+    }
+
+    // Fallback to Gemini API (Fixed Model to 2.5-flash)
+    try {
+      const response = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIzaSyAI2Wm7GHYt24TsGSJYT1QE6oUfJN391Qc",
+        {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{ text: msg + " (Answer simply about farming in India)" }]
+            }]
+          })
+        }
+      );
+      const data = await response.json();
+      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "⚠️ Sorry, I couldn't get a response.";
+      addBotMessage(reply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>'));
+    } catch (e) {
+      addBotMessage("❌ Error: " + e.message);
+    }
+  }
+
+  function checkPredefinedTopics(message) {
+    for (const [topic, data] of Object.entries(predefinedTopics)) {
+      for (const pattern of data.patterns) {
+        if (message.includes(pattern)) {
+          const randomIndex = Math.floor(Math.random() * data.responses.length);
+          return data.responses[randomIndex];
+        }
+      }
+    }
+    return null;
+  }
+
+  function toTitleCase(str) {
+    if(!str) return str;
+    return str.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  }
 </script>
 </body>
 </html>
