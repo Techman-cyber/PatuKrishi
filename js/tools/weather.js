@@ -45,3 +45,5 @@ async function fetchWeather() {
     resultBox.innerHTML = "<p>Unable to fetch weather.</p>";
   }
 }
+
+window.lastWeatherTemp = w.temperature;
