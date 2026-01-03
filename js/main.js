@@ -1,16 +1,41 @@
-document.getElementById("menuToggle").addEventListener("click", () => {
-  document.getElementById("navLinks").classList.toggle("show");
+// ================================
+// MOBILE NAV TOGGLE
+// ================================
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", () => {
+  navLinks.classList.toggle("show");
 });
 
-const music = document.getElementById("bgMusic");
-const icon = document.getElementById("musicIcon");
+// Close menu on link click (mobile)
+document.querySelectorAll(".nav-links a").forEach(link => {
+  link.addEventListener("click", () => {
+    navLinks.classList.remove("show");
+  });
+});
 
-document.getElementById("musicToggle").onclick = () => {
-  if (music.paused) {
-    music.play();
-    icon.className = "fas fa-pause";
-  } else {
-    music.pause();
-    icon.className = "fas fa-play";
-  }
-};
+// ================================
+// ACTIVE LINK ON SCROLL
+// ================================
+const sections = document.querySelectorAll("section[id]");
+const navItems = document.querySelectorAll(".nav-links a");
+
+window.addEventListener("scroll", () => {
+  let scrollY = window.pageYOffset;
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 80;
+    const sectionHeight = section.offsetHeight;
+    const sectionId = section.getAttribute("id");
+
+    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+      navItems.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === `#${sectionId}`) {
+          link.classList.add("active");
+        }
+      });
+    }
+  });
+});
