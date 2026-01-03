@@ -1,6 +1,43 @@
-// WEATHER TOOL (Demo Logic – Phase 2 will add real API)
+async function fetchWeather() {
+  const city = document.getElementById("weatherCity").value.trim();
+  const resultBox = document.getElementById("weatherResult");
 
-function openWeatherModal() {
-  openModal("weatherModal");
-  showNotification("Weather tool opened");
+  if (!city) {
+    resultBox.innerHTML = "<p>Please enter a city name.</p>";
+    return;
+  }
+
+  resultBox.innerHTML = '<div class="shimmer" style="height:20px;"></div>';
+
+  try {
+    // Step 1: Get coordinates
+    const geoRes = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`
+    );
+    const geoData = await geoRes.json();
+
+    if (!geoData.results) {
+      throw new Error("City not found");
+    }
+
+    const { latitude, longitude } = geoData.results[0];
+
+    // Step 2: Get weather
+    const weatherRes = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+    );
+    const weatherData = await weatherRes.json();
+
+    const w = weatherData.current_weather;
+
+    resultBox.innerHTML = `
+      <div class="weather-box">
+        <p><strong>Temperature:</strong> ${w.temperature}°C</p>
+        <p><strong>Wind:</strong> ${w.windspeed} km/h</p>
+        <p><strong>Condition:</strong> Weather code ${w.weathercode}</p>
+      </div>
+    `;
+  } catch (err) {
+    resultBox.innerHTML = "<p>Unable to fetch weather.</p>";
+  }
 }
