@@ -1,1 +1,25 @@
+:root {
+    --primary: #2e7d32;
+    --primary-light: #4caf50;
+    --primary-dark: #1b5e20;
+    --secondary: #ff9800;
+    --text: #333;
+    --text-light: #666;
+    --light-bg: #f9f9f9;
+    --white: #fff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
 
+/* reset and typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    color: var(--text);
+    background-color: var(--light-bg);
+    line-height: 1.6;
+  }
