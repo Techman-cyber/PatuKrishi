@@ -162,3 +162,12 @@
 .tool-modal-content {
   cursor: default;
 }
+
+/* ================================
+   TOOL CARD INTERACTION
+================================ */
+
+.tool-card:active {
+  transform: scale(0.97);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
