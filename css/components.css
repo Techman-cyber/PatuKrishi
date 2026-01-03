@@ -82,3 +82,22 @@
   0% { background-position: -400px 0; }
   100% { background-position: 400px 0; }
 }
+
+/* ================================
+   SURFACE CONSISTENCY
+================================ */
+
+.tool-card,
+.chat-window,
+.tool-modal-content {
+  background: #ffffff;
+  border-radius: 14px;
+}
+
+.tool-card {
+  padding: 1.75rem;
+}
+
+.chat-window {
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
