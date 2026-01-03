@@ -118,7 +118,9 @@
       <h3>🌦 Weather</h3>
       <span class="tool-close" onclick="closeModal('weatherModal')">×</span>
     </div>
-    <p>Live weather information will be shown here.</p>
+    <input type="text" id="weatherCity" placeholder="Enter city name" />
+    <button class="btn btn-primary mt-2" onclick="fetchWeather()">Get Weather</button>
+    <div id="weatherResult" class="mt-2"></div>
     <p class="muted">API integration coming soon.</p>
   </div>
 </div>
