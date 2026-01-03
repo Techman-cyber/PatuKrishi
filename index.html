@@ -155,7 +155,13 @@
       <h3>🌱 Crop Advisory</h3>
       <span class="tool-close" onclick="closeModal('cropModal')">×</span>
     </div>
-    <p id="cropAdviceText"></p>
+    <input type="text" id="cropLocation" placeholder="Enter your state (e.g. Punjab)" />
+
+<button class="btn btn-primary mt-2" onclick="generateCropAdvice()">
+  Get Advisory
+</button>
+
+<div id="cropAdviceResult" class="mt-2"></div>
   </div>
 </div>
 
