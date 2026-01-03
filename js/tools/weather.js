@@ -1,3 +1,7 @@
+function openWeatherModal() {
+  openModal("weatherModal");
+}
+
 async function fetchWeather() {
   const city = document.getElementById("weatherCity").value.trim();
   const resultBox = document.getElementById("weatherResult");
