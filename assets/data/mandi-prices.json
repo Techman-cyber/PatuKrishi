@@ -1,0 +1,32 @@
+[
+  {
+    "state": "Uttar Pradesh",
+    "mandi": "Lucknow",
+    "crop": "Wheat",
+    "price": 2150
+  },
+  {
+    "state": "Punjab",
+    "mandi": "Ludhiana",
+    "crop": "Wheat",
+    "price": 2200
+  },
+  {
+    "state": "Maharashtra",
+    "mandi": "Pune",
+    "crop": "Onion",
+    "price": 1800
+  },
+  {
+    "state": "West Bengal",
+    "mandi": "Burdwan",
+    "crop": "Rice",
+    "price": 2350
+  },
+  {
+    "state": "Karnataka",
+    "mandi": "Davangere",
+    "crop": "Maize",
+    "price": 1870
+  }
+]
