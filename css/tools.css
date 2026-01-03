@@ -194,3 +194,20 @@
 .mandi-item strong {
   color: var(--primary);
 }
+
+/* ================================
+   CROP ADVISORY UI
+================================ */
+
+#cropLocation {
+  width: 100%;
+  padding: 8px;
+}
+
+.advice-box {
+  background: #f1f8f4;
+  padding: 1rem;
+  border-left: 5px solid var(--primary);
+  margin-top: 1rem;
+  border-radius: 6px;
+}
