@@ -111,5 +111,43 @@
   <script defer src="js/tools/mandi.js"></script>
   <script defer src="js/tools/crop.js"></script>
 
+  <!-- WEATHER MODAL -->
+<div class="tool-modal" id="weatherModal">
+  <div class="tool-modal-content">
+    <div class="tool-modal-header">
+      <h3>🌦 Weather</h3>
+      <span class="tool-close" onclick="closeModal('weatherModal')">×</span>
+    </div>
+    <p>Live weather information will be shown here.</p>
+    <p class="muted">API integration coming soon.</p>
+  </div>
+</div>
+
+<!-- MANDI MODAL -->
+<div class="tool-modal" id="mandiModal">
+  <div class="tool-modal-content">
+    <div class="tool-modal-header">
+      <h3>📊 Mandi Prices</h3>
+      <span class="tool-close" onclick="closeModal('mandiModal')">×</span>
+    </div>
+    <ul class="mandi-list">
+      <li>🌾 Wheat — ₹2150 / quintal</li>
+      <li>🌾 Rice — ₹2380 / quintal</li>
+      <li>🌽 Maize — ₹1870 / quintal</li>
+    </ul>
+  </div>
+</div>
+
+<!-- CROP MODAL -->
+<div class="tool-modal" id="cropModal">
+  <div class="tool-modal-content">
+    <div class="tool-modal-header">
+      <h3>🌱 Crop Advisory</h3>
+      <span class="tool-close" onclick="closeModal('cropModal')">×</span>
+    </div>
+    <p id="cropAdviceText"></p>
+  </div>
+</div>
+
 </body>
 </html>
