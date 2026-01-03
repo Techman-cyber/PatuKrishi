@@ -132,11 +132,19 @@
       <h3>📊 Mandi Prices</h3>
       <span class="tool-close" onclick="closeModal('mandiModal')">×</span>
     </div>
-    <ul class="mandi-list">
-      <li>🌾 Wheat — ₹2150 / quintal</li>
-      <li>🌾 Rice — ₹2380 / quintal</li>
-      <li>🌽 Maize — ₹1870 / quintal</li>
-    </ul>
+    <select id="cropFilter">
+  <option value="">All Crops</option>
+  <option value="Wheat">Wheat</option>
+  <option value="Rice">Rice</option>
+  <option value="Maize">Maize</option>
+  <option value="Onion">Onion</option>
+</select>
+
+<button class="btn btn-primary mt-2" onclick="loadMandiPrices()">
+  Load Prices
+</button>
+
+<div id="mandiResult" class="mt-2"></div>
   </div>
 </div>
 
