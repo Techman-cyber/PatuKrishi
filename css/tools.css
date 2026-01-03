@@ -175,3 +175,22 @@
   transform: scale(0.97);
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
+
+/* ================================
+   MANDI TOOL UI
+================================ */
+
+#cropFilter {
+  width: 100%;
+  padding: 8px;
+  margin-top: 0.5rem;
+}
+
+.mandi-item {
+  padding: 0.6rem;
+  border-bottom: 1px solid #eee;
+}
+
+.mandi-item strong {
+  color: var(--primary);
+}
