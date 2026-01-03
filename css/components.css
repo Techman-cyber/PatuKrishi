@@ -101,3 +101,11 @@
 .chat-window {
   box-shadow: 0 12px 30px rgba(0,0,0,0.2);
 }
+
+.weather-box {
+  margin-top: 1rem;
+}
+
+.weather-box p {
+  margin: 0.3rem 0;
+}
