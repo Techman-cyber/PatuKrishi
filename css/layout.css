@@ -12,10 +12,67 @@
   padding: 1rem 0;
 }
 
-.nav-links {
-  display: flex;
-  gap: 1.5rem;
-  list-style: none;
+/* ================================
+   NAVIGATION UX
+================================ */
+
+.mobile-menu {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+/* Mobile menu base */
+@media (max-width: 768px) {
+  .mobile-menu {
+    display: block;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    right: -100%;
+    height: calc(100vh - 70px);
+    width: 220px;
+    background: white;
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1rem;
+    box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+    transition: right 0.35s ease;
+  }
+
+  .nav-links.show {
+    right: 0;
+  }
+
+  .nav-links li a {
+    font-size: 1.1rem;
+    padding: 8px 0;
+  }
+}
+
+/* Desktop hover underline */
+.nav-links li a {
+  position: relative;
+}
+
+.nav-links li a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.nav-links li a:hover::after,
+.nav-links li a.active::after {
+  width: 100%;
 }
 
 .hero {
