@@ -5,13 +5,14 @@ function openCropModal() {
   let advice = "";
 
   if (month >= 6 && month <= 9) {
-    advice = "🌱 Kharif Season\nRecommended crops:\n• Rice\n• Maize\n• Cotton";
+    advice = "🌱 Kharif Season: Rice, Maize, Cotton";
   } else if (month >= 10 && month <= 2) {
-    advice = "🌾 Rabi Season\nRecommended crops:\n• Wheat\n• Mustard\n• Gram";
+    advice = "🌾 Rabi Season: Wheat, Mustard, Gram";
   } else {
-    advice = "🌻 Zaid Season\nRecommended crops:\n• Watermelon\n• Cucumber";
+    advice = "🌻 Zaid Season: Watermelon, Cucumber";
   }
 
-  alert(advice);
+  document.getElementById("cropAdviceText").textContent = advice;
+  openModal("cropModal");
   showNotification("Crop advisory generated");
 }
