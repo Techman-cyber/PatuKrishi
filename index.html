@@ -214,5 +214,26 @@
   </div>
 </div>
 
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDUXR_Ydg-F9TcLWyrRNnPasiugaw6q29s",
+    authDomain: "patu-krishi.firebaseapp.com",
+    projectId: "patu-krishi",
+    storageBucket: "patu-krishi.firebasestorage.app",
+    messagingSenderId: "999825070820",
+    appId: "1:999825070820:web:88d44c5cdce1158d422af1"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+
+  window.firebaseAuth = firebase.auth();
+  window.db = firebase.firestore();
+</script>
+
 </body>
 </html>
