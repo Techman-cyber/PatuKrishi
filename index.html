@@ -187,5 +187,30 @@
   </div>
 </div>
 
+<!-- PREFERENCES MODAL -->
+<div class="tool-modal" id="prefsModal">
+  <div class="tool-modal-content">
+    <div class="tool-modal-header">
+      <h3>⚙️ Preferences</h3>
+      <span class="tool-close" onclick="closeModal('prefsModal')">×</span>
+    </div>
+
+    <input type="text" id="prefState" placeholder="State (e.g. Punjab)" />
+    <input type="text" id="prefCity" placeholder="City (e.g. Ludhiana)" />
+
+    <label class="mt-2"><strong>Preferred Crops</strong></label>
+    <div>
+      <label><input type="checkbox" value="Wheat"> Wheat</label><br>
+      <label><input type="checkbox" value="Rice"> Rice</label><br>
+      <label><input type="checkbox" value="Maize"> Maize</label><br>
+      <label><input type="checkbox" value="Onion"> Onion</label>
+    </div>
+
+    <button class="btn btn-primary mt-2" onclick="savePreferences()">
+      Save Preferences
+    </button>
+  </div>
+</div>
+
 </body>
 </html>
