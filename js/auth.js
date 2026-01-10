@@ -1,3 +1,18 @@
+firebaseAuth.onAuthStateChanged(user => {
+  if (user) {
+    // User is logged in (or restored after refresh)
+    updateUserUI({
+      uid: user.uid,
+      email: user.email,
+      name: user.displayName
+    });
+  } else {
+    // User is logged out
+    updateUserUI(null);
+  }
+});
+
+
 let authMode = "login"; // or signup
 
 function openAuth() {
@@ -53,20 +68,18 @@ function submitAuth() {
     return;
   }
 
-  localStorage.setItem("currentUser", JSON.stringify(users[email]));
   closeModal("authModal");
   updateUserUI();
 }
 
-function updateUserUI() {
-  const user = getCurrentUser();
+function updateUserUI(user) {
   const authNav = document.getElementById("authNav");
 
   if (!authNav) return;
 
   if (user) {
     authNav.innerHTML = `
-      <a href="#" onclick="logoutUser()">
+      <a href="#" onclick="firebaseAuth.signOut()">
         👤 ${user.name || "Farmer"} (Logout)
       </a>
     `;
@@ -75,12 +88,6 @@ function updateUserUI() {
       <a href="#" onclick="openAuth()">Login</a>
     `;
   }
-}
-
-window.onload = updateUserUI;
-
-function getCurrentUser() {
-  return JSON.parse(localStorage.getItem("currentUser"));
 }
 
 function logoutUser() {
