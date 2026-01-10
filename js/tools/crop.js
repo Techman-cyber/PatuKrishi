@@ -9,6 +9,18 @@ async function generateCropAdvice() {
   if (!location) {
     resultBox.innerHTML = "<p>Please enter your state.</p>";
     return;
+
+  const user = getCurrentUser();
+let preferredNote = "";
+
+if (user) {
+  const prefs = getPreferences(user.email);
+  if (prefs.crops && prefs.crops.length) {
+    preferredNote = `
+      <p><strong>Your preferred crops:</strong>
+      ${preferredNote}</p>`;
+  }
+}
   }
 
   resultBox.innerHTML = '<div class="shimmer" style="height:20px;"></div>';
