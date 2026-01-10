@@ -45,10 +45,21 @@ function submitAuth() {
 }
 
 function updateUserUI() {
-  const user = JSON.parse(localStorage.getItem("currentUser"));
+  const user = getCurrentUser();
+  const authNav = document.getElementById("authNav");
+
+  if (!authNav) return;
+
   if (user) {
-    document.querySelector(".nav-links").innerHTML +=
-      `<li><strong>👤 ${user.name || "Farmer"}</strong></li>`;
+    authNav.innerHTML = `
+      <a href="#" onclick="logoutUser()">
+        👤 ${user.name || "Farmer"} (Logout)
+      </a>
+    `;
+  } else {
+    authNav.innerHTML = `
+      <a href="#" onclick="openAuth()">Login</a>
+    `;
   }
 }
 
