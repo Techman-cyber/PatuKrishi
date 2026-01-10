@@ -29,9 +29,9 @@ function toggleAuthMode() {
 }
 
 function submitAuth() {
-  const email = authEmail.value;
-  const password = authPassword.value;
-  const name = authName.value;
+  const email = document.getElementById("authEmail").value;
+  const password = document.getElementById("authPassword").value;
+  const name = document.getElementById("authName").value;
 
   if (!email || !password) {
     alert("Missing credentials");
