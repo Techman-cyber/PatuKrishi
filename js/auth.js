@@ -44,10 +44,12 @@ function submitAuth() {
       .then(cred => {
         return cred.user.updateProfile({ displayName: name });
       })
+      .then(() => closeModal("authModal"))
       .catch(err => alert(err.message));
   } else {
     firebaseAuth
       .signInWithEmailAndPassword(email, password)
+      .then(() => closeModal("authModal"))
       .catch(err => alert(err.message));
   }
 }
