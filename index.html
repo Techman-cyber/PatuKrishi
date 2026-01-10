@@ -165,5 +165,25 @@
   </div>
 </div>
 
+<!-- AUTH MODAL -->
+<div class="tool-modal" id="authModal">
+  <div class="tool-modal-content">
+    <div class="tool-modal-header">
+      <h3 id="authTitle">Login</h3>
+      <span class="tool-close" onclick="closeModal('authModal')">×</span>
+    </div>
+
+    <input type="text" id="authName" placeholder="Name (Signup only)" />
+    <input type="email" id="authEmail" placeholder="Email" />
+    <input type="password" id="authPassword" placeholder="Password" />
+
+    <button class="btn btn-primary mt-2" onclick="submitAuth()">Continue</button>
+
+    <p class="muted mt-1" onclick="toggleAuthMode()" style="cursor:pointer;">
+      Switch to Signup / Login
+    </p>
+  </div>
+</div>
+
 </body>
 </html>
