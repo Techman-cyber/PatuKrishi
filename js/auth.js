@@ -68,3 +68,8 @@ window.onload = updateUserUI;
 function getCurrentUser() {
   return JSON.parse(localStorage.getItem("currentUser"));
 }
+
+function logoutUser() {
+  localStorage.removeItem("currentUser");
+  updateUserUI();
+}
