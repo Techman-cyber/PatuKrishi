@@ -14,14 +14,28 @@ function toggleAuthMode() {
 }
 
 function submitAuth() {
-  const name = document.getElementById("authName").value;
-  const email = document.getElementById("authEmail").value;
-  const password = document.getElementById("authPassword").value;
+  const email = authEmail.value;
+  const password = authPassword.value;
+  const name = authName.value;
 
   if (!email || !password) {
-    alert("Please fill required fields");
+    alert("Missing credentials");
     return;
   }
+
+  if (authMode === "signup") {
+    firebaseAuth
+      .createUserWithEmailAndPassword(email, password)
+      .then(cred => {
+        return cred.user.updateProfile({ displayName: name });
+      })
+      .catch(err => alert(err.message));
+  } else {
+    firebaseAuth
+      .signInWithEmailAndPassword(email, password)
+      .catch(err => alert(err.message));
+  }
+}
 
   let users = JSON.parse(localStorage.getItem("users")) || {};
 
