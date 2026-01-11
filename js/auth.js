@@ -1,3 +1,5 @@
+console.log("auth.js LOADED");
+
 firebaseAuth.onAuthStateChanged(user => {
   if (user) {
     // User is logged in (or restored after refresh)
