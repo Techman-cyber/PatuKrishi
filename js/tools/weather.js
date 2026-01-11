@@ -46,4 +46,4 @@ async function fetchWeather() {
   }
 }
 
-window.lastWeatherTemp = w.temperature;
+window.lastWeatherTemp = data.main.temp;
