@@ -20,7 +20,7 @@ async function fetchWeather() {
     );
     const geoData = await geoRes.json();
 
-    if (!geoData.results) {
+    if (!geoData.results || geoData.results.length === 0) {
       throw new Error("City not found");
     }
 
@@ -34,6 +34,9 @@ async function fetchWeather() {
 
     const w = weatherData.current_weather;
 
+    // ✅ STORE TEMPERATURE FOR OTHER TOOLS
+    window.lastWeatherTemp = w.temperature;
+
     resultBox.innerHTML = `
       <div class="weather-box">
         <p><strong>Temperature:</strong> ${w.temperature}°C</p>
@@ -42,8 +45,7 @@ async function fetchWeather() {
       </div>
     `;
   } catch (err) {
+    console.error(err);
     resultBox.innerHTML = "<p>Unable to fetch weather.</p>";
   }
 }
-
-window.lastWeatherTemp = data.main.temp;
