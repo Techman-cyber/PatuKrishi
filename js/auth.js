@@ -58,14 +58,6 @@ function submitAuth() {
 
   let users = JSON.parse(localStorage.getItem("users")) || {};
 
-  if (authMode === "signup") {
-    if (users[email]) {
-      alert("User already exists");
-      return;
-    }
-    users[email] = { name, email };
-    localStorage.setItem("users", JSON.stringify(users));
-  }
 
   if (!users[email]) {
     alert("User not found");
