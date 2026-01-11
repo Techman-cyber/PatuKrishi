@@ -1,21 +1,24 @@
 console.log("auth.js LOADED");
 
+/* =========================
+   Firebase Session Listener
+========================= */
 firebaseAuth.onAuthStateChanged(user => {
   if (user) {
-    // User is logged in (or restored after refresh)
     updateUserUI({
       uid: user.uid,
       email: user.email,
       name: user.displayName
     });
   } else {
-    // User is logged out
     updateUserUI(null);
   }
 });
 
-
-let authMode = "login"; // or signup
+/* =========================
+   Auth Modal Controls
+========================= */
+let authMode = "login"; // login | signup
 
 window.openAuth = function () {
   openModal("authModal");
@@ -23,6 +26,7 @@ window.openAuth = function () {
 
 function toggleAuthMode() {
   authMode = authMode === "login" ? "signup" : "login";
+
   document.getElementById("authTitle").textContent =
     authMode === "login" ? "Login" : "Signup";
 
@@ -30,6 +34,9 @@ function toggleAuthMode() {
     authMode === "signup" ? "block" : "none";
 }
 
+/* =========================
+   Submit Login / Signup
+========================= */
 function submitAuth() {
   const email = document.getElementById("authEmail").value;
   const password = document.getElementById("authPassword").value;
@@ -43,9 +50,7 @@ function submitAuth() {
   if (authMode === "signup") {
     firebaseAuth
       .createUserWithEmailAndPassword(email, password)
-      .then(cred => {
-        return cred.user.updateProfile({ displayName: name });
-      })
+      .then(cred => cred.user.updateProfile({ displayName: name }))
       .then(() => closeModal("authModal"))
       .catch(err => alert(err.message));
   } else {
@@ -56,21 +61,11 @@ function submitAuth() {
   }
 }
 
-  let users = JSON.parse(localStorage.getItem("users")) || {};
-
-
-  if (!users[email]) {
-    alert("User not found");
-    return;
-  }
-
-  closeModal("authModal");
-  updateUserUI();
-}
-
+/* =========================
+   Navbar UI Update
+========================= */
 function updateUserUI(user) {
   const authNav = document.getElementById("authNav");
-
   if (!authNav) return;
 
   if (user) {
@@ -84,9 +79,4 @@ function updateUserUI(user) {
       <a href="#" onclick="openAuth()">Login</a>
     `;
   }
-}
-
-function logoutUser() {
-  localStorage.removeItem("currentUser");
-  updateUserUI();
 }
