@@ -42,17 +42,18 @@ function savePreferences() {
   const user = firebaseAuth.currentUser;
   if (!user) return;
 
-  const state = document.getElementById("prefState").value.trim();
-  const city = document.getElementById("prefCity").value.trim();
-
-  const crops = [];
-  document
-    .querySelectorAll("#prefsModal input[type=checkbox]:checked")
-    .forEach(cb => crops.push(cb.value));
-
   const prefs = {
-    location: { state, city },
-    crops,
+    location: {
+      state: document.getElementById("prefState").value.trim(),
+      city: document.getElementById("prefCity").value.trim()
+    },
+    crops: [...document.querySelectorAll("#prefsModal input[type=checkbox][data-crop]:checked")]
+      .map(cb => cb.value),
+    alerts: {
+      weather: document.getElementById("alertWeather").checked,
+      mandi: document.getElementById("alertMandi").checked,
+      crop: document.getElementById("alertCrop").checked
+    },
     updatedAt: new Date()
   };
 
@@ -61,9 +62,7 @@ function savePreferences() {
     .set(prefs)
     .then(() => {
       closeModal("prefsModal");
-      showNotification("Preferences saved");
+      showNotification("Preferences & alerts saved");
     })
-    .catch(err => {
-      console.error("Failed to save preferences:", err);
-    });
+    .catch(console.error);
 }
