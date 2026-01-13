@@ -49,3 +49,23 @@ async function fetchWeather() {
     resultBox.innerHTML = "<p>Unable to fetch weather.</p>";
   }
 }
+
+function checkWeatherAlerts(temp) {
+  const user = firebaseAuth.currentUser;
+  if (!user) return;
+
+  db.collection("preferences").doc(user.uid).get()
+    .then(doc => {
+      if (!doc.exists) return;
+
+      const prefs = doc.data();
+      if (!prefs.alerts?.weather) return;
+
+      if (temp > 38) {
+        showNotification("🔥 Heat alert! Take crop protection measures.");
+      } else if (temp < 5) {
+        showNotification("❄️ Cold alert! Frost risk detected.");
+      }
+    });
+}
+
