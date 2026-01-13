@@ -48,6 +48,9 @@ async function fetchWeather() {
     console.error(err);
     resultBox.innerHTML = "<p>Unable to fetch weather.</p>";
   }
+
+checkWeatherAlerts(w.temperature);
+
 }
 
 function checkWeatherAlerts(temp) {
