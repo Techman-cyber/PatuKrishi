@@ -32,6 +32,10 @@ async function loadPreferences(uid) {
         cb.checked = prefs.crops?.includes(cb.value) || false;
       });
 
+    document.getElementById("alertWeather").checked = prefs.alerts?.weather ?? true;
+    document.getElementById("alertMandi").checked = prefs.alerts?.mandi ?? true;
+    document.getElementById("alertCrop").checked = prefs.alerts?.crop ?? true;
+    
   } catch (err) {
     console.error("Failed to load preferences:", err);
   }
