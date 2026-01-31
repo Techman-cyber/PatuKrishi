@@ -1,5 +1,5 @@
 // Open Preferences Modal
-function openPreferences() {
+window.openPreferences = function () {
   const user = firebaseAuth.currentUser;
 
   if (!user) {
