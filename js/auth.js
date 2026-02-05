@@ -4,14 +4,14 @@ console.log("auth.js LOADED");
    Firebase Session Listener
 ========================= */
 firebaseAuth.onAuthStateChanged(user => {
+  const authButton = document.getElementById("authButton");
+
+  if (!authButton) return;
+
   if (user) {
-    updateUserUI({
-      uid: user.uid,
-      email: user.email,
-      name: user.displayName
-    });
+    authButton.textContent = `👤 ${user.displayName || "Farmer"} (Logout)`;
   } else {
-    updateUserUI(null);
+    authButton.textContent = "Login";
   }
 });
 
