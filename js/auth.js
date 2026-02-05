@@ -22,12 +22,12 @@ let authMode = "login"; // login | signup
 
 window.openModal = function (id) {
   const el = document.getElementById(id);
-  if (el) el.classList.add("active");
+  if (el) el.style.display = "block";
 };
 
 window.closeModal = function (id) {
   const el = document.getElementById(id);
-  if (el) el.classList.remove("active");
+  if (el) el.style.display = "none";
 };
 
 
