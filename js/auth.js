@@ -64,12 +64,10 @@ function submitAuth() {
 /* =========================
    Navbar UI Update
 ========================= */
-document.addEventListener("DOMContentLoaded", () => {
+const authButton = document.getElementById("authButton");
+const preferencesButton = document.getElementById("preferencesButton");
 
-  const authButton = document.getElementById("authButton");
-  const preferencesButton = document.getElementById("preferencesButton");
-
-  // Attach listeners ONCE
+if (authButton) {
   authButton.addEventListener("click", (e) => {
     e.preventDefault();
 
@@ -79,10 +77,11 @@ document.addEventListener("DOMContentLoaded", () => {
       openModal("authModal");
     }
   });
+}
 
+if (preferencesButton) {
   preferencesButton.addEventListener("click", (e) => {
     e.preventDefault();
     openPreferences();
   });
-
-});
+}
