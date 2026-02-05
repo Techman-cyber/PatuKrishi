@@ -74,7 +74,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.45);
-  display: flex;
+  display: none;
   opacity: 0;
   pointer-events: none;
   justify-content: center;
@@ -84,6 +84,7 @@
 }
 
 .tool-modal.active {
+  display: flex;
   opacity: 1;
   pointer-events: auto;
 }
