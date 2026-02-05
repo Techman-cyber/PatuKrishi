@@ -64,19 +64,25 @@ function submitAuth() {
 /* =========================
    Navbar UI Update
 ========================= */
-function updateUserUI(user) {
-  const authNav = document.getElementById("authNav");
-  if (!authNav) return;
+document.addEventListener("DOMContentLoaded", () => {
 
-  if (user) {
-    authNav.innerHTML = `
-      <a href="#" onclick="firebaseAuth.signOut()">
-        👤 ${user.name || "Farmer"} (Logout)
-      </a>
-    `;
-  } else {
-    authNav.innerHTML = `
-      <a href="#" onclick="openAuth()">Login</a>
-    `;
-  }
-}
+  const authButton = document.getElementById("authButton");
+  const preferencesButton = document.getElementById("preferencesButton");
+
+  // Attach listeners ONCE
+  authButton.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    if (firebaseAuth.currentUser) {
+      firebaseAuth.signOut();
+    } else {
+      openModal("authModal");
+    }
+  });
+
+  preferencesButton.addEventListener("click", (e) => {
+    e.preventDefault();
+    openPreferences();
+  });
+
+});
