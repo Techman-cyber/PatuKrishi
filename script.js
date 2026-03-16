@@ -1,19 +1,4 @@
 (function(){
-    // Firebase configuration (your actual keys)
-    const firebaseConfig = {
-        apiKey: "AIzaSyDiBFyfZ5p-H4vOzY2yNTutgh-Rs4InuFw",
-        authDomain: "patukrishi-cdd27.firebaseapp.com",
-        projectId: "patukrishi-cdd27",
-        storageBucket: "patukrishi-cdd27.firebasestorage.app",
-        messagingSenderId: "901306788714",
-        appId: "1:901306788714:web:607bd37f955d216ef81313",
-        measurementId: "G-2N6CSBR7ZM"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
     const swiper = new Swiper('.mySwiper', {
         loop: !0,
         autoplay: {
@@ -85,69 +70,6 @@
             or: { logo: "ପଟୁକୃଷି", home: "ହୋମ୍", weather: "ପାଣିପାଗ", mandi: "ମଣ୍ଡି", lens: "କ୍ରପ୍ ଲେନ୍ସ", advisory: "ପରାମର୍ଶ", analytics: "ଆନାଲିଟିକ୍ସ", about: "ଆମ ବିଷୟରେ", profile: "ପ୍ରୋଫାଇଲ୍", logout: "ଲଗ୍‌ଆଉଟ୍", namaste: "ନମସ୍କାର", "hero-text": "ଆପଣଙ୍କ କୃଷକ ବନ୍ଧୁ - ସ୍ମାର୍ଟ ଚାଷ ସହିତ", "sustainable-title": "🌱 ପଟୁକୃଷି – ସ୍ମାର୍ଟ ଚାଷ", "sustainable-text": "🇮🇳 ଭାରତରେ କୃଷକମାନଙ୍କୁ ସମୟୋଚିତ ଏବଂ ସଠିକ୍ ସୂଚନା ମିଳିବା ଅତ୍ୟନ୍ତ ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ। ପଟୁକୃଷି ଆପଣଙ୍କୁ ଲାଇଭ୍ ମଣ୍ଡି ମୂଲ୍ୟ, ପାଣିପାଗ ପୂର୍ବାନୁମାନ, କ୍ରପ୍ ଲେନ୍ସ (ରୋଗ ଚିହ୍ନଟ ଏବଂ ଚିକିତ୍ସା), ଏବଂ ବୁଣାଠାରୁ ଅମଳ ପର୍ଯ୍ୟନ୍ତ ପର୍ଯ୍ୟାୟକ୍ରମେ ମାର୍ଗଦର୍ଶନ ପ୍ରଦାନ କରେ। ଆପଣଙ୍କ କ୍ଷେତର ଉତ୍ପାଦନକୁ ଲାଭରେ ପରିଣତ କରିବା ପାଇଁ ଆମେ ଏଠାରେ ଅଛୁ। ଆପଣ ପଞ୍ଜାବର ଗହମ କୃଷକ ହୁଅନ୍ତୁ କିମ୍ବା ତାମିଲନାଡୁର ଧାନ ଉତ୍ପାଦକ, ପଟୁକୃଷି ପ୍ରତ୍ୟେକ କୃଷକଙ୍କ ପାଇଁ। ବର୍ତ୍ତମାନ ଚାଷ ସ୍ମାର୍ଟ, ଏବଂ ଲାଭ ନିଶ୍ଚିତ! 💚", "weather-desc": "ଲାଇଭ୍ ପୂର୍ବାନୁମାନ · ଫସଲ ସୁପାରିଶ", "mandi-desc": "ସମସ୍ତ ରାଜ୍ୟ ଏବଂ କେନ୍ଦ୍ରଶାସିତ ଅଞ୍ଚଳ · ଜିଲ୍ଲା · ଏକାଧିକ ହାର", "advisory-desc": "ରାଜ୍ୟ/କେନ୍ଦ୍ରଶାସିତ ଅଞ୍ଚଳ + ଫସଲ · 3-ପଦକ୍ଷେପ ଗାଇଡ୍", "weather-title": "ପାଣିପାଗ · ପାଣିପାଗ ପରାମର୍ଶ", "city-placeholder": "ସହର ନାମ ଦିଅନ୍ତୁ (ଯଥା ଦିଲ୍ଲୀ)", search: "ଖୋଜନ୍ତୁ", "my-location": "ମୋର ସ୍ଥାନ", "mandi-title": "ମଣ୍ଡି ମୂଲ୍ୟ · ମଣ୍ଡି ଭାଉ", "show-prices": "ମୂଲ୍ୟ ଦେଖାନ୍ତୁ", "lens-title": "କ୍ରପ୍ ଲେନ୍ସ · ରୋଗ ଚିହ୍ନଟ", "upload-title": "ଫସଲ ଫଟୋ ଅପଲୋଡ୍ କରନ୍ତୁ", "upload-desc": "ନକଲି ରୋଗ ଚିହ୍ନଟ", "advisory-title": "ଫସଲ ପରାମର୍ଶ · ସମ୍ପୂର୍ଣ୍ଣ ଗାଇଡ୍", "state-season": "ରାଜ୍ୟ/କେନ୍ଦ୍ରଶାସିତ ଅଞ୍ଚଳ + ଋତୁ", "specific-crop": "ନିର୍ଦ୍ଦିଷ୍ଟ ଫସଲ (3-ପଦକ୍ଷେପ)", "get-advice": "ପରାମର୍ଶ ନିଅନ୍ତୁ", "get-guide": "3-ପଦକ୍ଷେପ ଗାଇଡ୍ ନିଅନ୍ତୁ", "analytics-title": "କୃଷି ଆନାଲିଟିକ୍ସ · ତଥ୍ୟ ଅନ୍ତର୍ଦୃଷ୍ଟି", "happy-farmers": "ଖୁସି କୃଷକ", "avg-profit": "ହାରାହାରି ଲାଭ/ଏକର", "weather-alerts": "ପାଣିପାଗ ସତର୍କତା", "active-farms": "ସକ୍ରିୟ କୃଷିକ୍ଷେତ୍ର", "price-trends": "📈 ମୂଲ୍ୟ ଧାରା (ଗତ 6 ମାସ)", "crop-distribution": "🌾 ଫସଲ ବଣ୍ଟନ", "weather-patterns": "🌡️ ପାଣିପାଗ ଢାଞ୍ଚା", "profit-calculator": "💰 ଲାଭ କ୍ୟାଲକୁଲେଟର", "select-crop": "ଫସଲ ଚୟନ କରନ୍ତୁ", area: "କ୍ଷେତ୍ରଫଳ (ଏକରରେ)", calculate: "ଲାଭ ଗଣନା କରନ୍ତୁ", "market-insights": "📊 ବଜାର ଅନ୍ତର୍ଦୃଷ୍ଟି", rising: "⬆️ ବୃଦ୍ଧି ପାଉଛି", stable: "↗️ ସ୍ଥିର", falling: "⬇️ ହ୍ରାସ ପାଉଛି", "seasonal-forecast": "🌦️ ଋତୁକାଳୀନ ପୂର୍ବାନୁମାନ 2026", rabi: "ରବି ଋତୁ", kharif: "ଖରିଫ୍ ଋତୁ", zaid: "ଜାୟଦ ଋତୁ", "optimal-conditions": "ସର୍ବୋତ୍ତମ ପରିସ୍ଥିତି", "rabi-crops": "ଗହମ, ସୋରିଷ, ଛେନା", "kharif-crops": "ଧାନ, ତୁଳା, ମକା", "zaid-crops": "ମୁଗ, ପନିପରିବା", "about-title": "ଆମ ବିଷୟରେ · ଆମର କାହାଣୀ", mission: "ଆମର ଲକ୍ଷ୍ୟ", "mission-text": "ଟକାଇ ଏବଂ ଲାଭଦାୟକ ଚାଷ ପାଇଁ ପ୍ରତ୍ୟେକ ଭାରତୀୟ କୃଷକଙ୍କୁ ପ୍ରଯୁକ୍ତିବିଦ୍ୟା-ଚାଳିତ ସମାଧାନ ସହିତ ସଶକ୍ତ କରିବା। ଆମେ ପାରମ୍ପରିକ ଜ୍ଞାନ ଏବଂ ଆଧୁନିକ ନବସୃଜନ ମଧ୍ୟରେ ଥିବା ବ୍ୟବଧାନକୁ କମ୍ କରୁ।", vision: "ଆମର ସ୍ୱପ୍ନ", "vision-text": "ଏକ ଡିଜିଟାଲ୍ ଇକୋସିଷ୍ଟମ୍ ସୃଷ୍ଟି କରିବା ଯେଉଁଠାରେ ପ୍ରତ୍ୟେକ କୃଷକଙ୍କର ରିୟଲ-ଟାଇମ୍ ବଜାର ତଥ୍ୟ, ପାଣିପାଗ ସୂଚନା ଏବଂ ବିଶେଷଜ୍ଞ ମାର୍ଗଦର୍ଶନରେ ପ୍ରବେଶ ଅଛି - ଚାଷକୁ ସ୍ମାର୍ଟ ଏବଂ ଅଧିକ ଲାଭଦାୟକ କରିବା।", values: "ଆମର ମୂଲ୍ୟବୋଧ", "values-text": "ସଚ୍ଚୋଟତା, ନବସୃଜନ, ସମାବେଶୀତା। ଆମେ କୃଷକମାନଙ୍କୁ ପ୍ରଥମେ ରଖିବା ଏବଂ ସେହି ସମାଧାନ ସୃଷ୍ଟି କରିବାରେ ବିଶ୍ୱାସ କରୁ ଯାହା ସେମାନଙ୍କ ଜୀବନରେ ପ୍ରକୃତ ପରିବର୍ତ୍ତନ ଆଣେ।", "founder-role": "ପ୍ରତିଷ୍ଠାତା ଏବଂ ବିକାଶକାରୀ", "founder-quote": "\"ମୁଁ ପଟୁକୃଷି ନିର୍ମାଣ କଲି କାରଣ ଆମର କୃଷକମାନେ ଡିଜିଟାଲ୍ ଦୁନିଆରେ ଜଣେ ବନ୍ଧୁଙ୍କ ଅଧିକାରୀ—କେହି ଜଣେ ଯେ ସେମାନଙ୍କ ଭାଷା କୁହେ, ସେମାନଙ୍କ ସଂଘର୍ଷ ବୁଝେ ଏବଂ ସେମାନଙ୍କୁ ବଢିବାରେ ସାହାଯ୍ୟ କରେ। ଏହା ହେଉଛି ସେହି ହାତଗୁଡ଼ିକୁ ଧନ୍ୟବାଦ ଦେବାର ମୋର ଉପାୟ ଯେଉଁମାନେ ଆମ ରାଷ୍ଟ୍ରକୁ ଖାଦ୍ୟ ଯୋଗାନ୍ତି।\"", "why-choose": "❓ କାହିଁକି କୃଷକମାନେ ପଟୁକୃଷି ବାଛନ୍ତି", "real-time": "ରିୟଲ-ଟାଇମ୍ ତଥ୍ୟ", "real-time-desc": "ଲାଇଭ୍ ମଣ୍ଡି ମୂଲ୍ୟ ଏବଂ ପାଣିପାଗ", "ai-powered": "AI-ଚାଳିତ", "ai-powered-desc": "ସ୍ମାର୍ଟ ରୋଗ ଚିହ୍ନଟ", "local-langs": "🌐 ସ୍ଥାନୀୟ ଭାଷାଗୁଡ଼ିକ", "local-langs-desc": "ଇଂରାଜୀ, ହିନ୍ଦୀ, ବଙ୍ଗାଳୀ, ତେଲୁଗୁ, ମରାଠୀ, ଗୁଜରାଟୀ, ମାରୱାଡ଼ୀ, ପଞ୍ଜାବୀ, ତାମିଲ, ମାଲାୟାଲମ୍, ଉର୍ଦ୍ଦୁ, କନ୍ନଡ଼, ଓଡ଼ିଆ, ସଂସ୍କୃତ, ଭୋଜପୁରୀ, ଡୋଗ୍ରୀ ଏବଂ ଅଧିକ", free: "100% ମାଗଣା", "free-desc": "କୃଷକମାନଙ୍କ ପାଇଁ ସବୁବେଳେ ମାଗଣା", "send-message": "ଆମକୁ ଏକ ସନ୍ଦେଶ ପଠାନ୍ତୁ", "message-desc": "ପ୍ରଶ୍ନ ଅଛି? ଆମେ ଆପଣଙ୍କଠାରୁ ଶୁଣିବାକୁ ପସନ୍ଦ କରିବୁ!", "message-placeholder": "ଆପଣଙ୍କ ପ୍ରଶ୍ନ ଏଠାରେ ଲେଖନ୍ତୁ...", "google-form": "ଗୁଗୁଲ୍ ଫର୍ମ ଖୋଲନ୍ତୁ", "google-form-note": "📝 ଆମର ଫିଡବ୍ୟାକ୍ ଫର୍ମ ଖୋଲିବାକୁ ଉପରୋକ୍ତ ବଟନ୍‌ରେ କ୍ଲିକ୍ କରନ୍ତୁ", "footer-tagline": "ଭାରତୀୟ କୃଷକମାନଙ୍କ ପାଇଁ ସ୍ମାର୍ଟ ଚାଷ।", "quick-links": "ଶୀଘ୍ର ଲିଙ୍କ୍‌ଗୁଡ଼ିକ", policies: "ନୀତି ଏବଂ ଆଇନଗତ", privacy: "ଗୋପନୀୟତା ନୀତି: ଆମେ ଆପଣଙ୍କ ତଥ୍ୟର ସମ୍ମାନ କରୁ। କୌଣସି ତୃତୀୟ-ପକ୍ଷ ସେୟାରିଂ ନାହିଁ।", terms: "ନିୟମ ଏବଂ ସର୍ତ୍ତାବଳୀ: ଏହି ସାଇଟ୍‌ର ବ୍ୟବହାର ସ୍ୱୀକୃତି ସୂଚିତ କରେ।", cookie: "କୁକି ନୀତି: କାର୍ଯ୍ୟକାରିତା ପାଇଁ ଆମେ ଅତ୍ୟାବଶ୍ୟକ କୁକି ବ୍ୟବହାର କରୁ।", disclaimer: "ଅସ୍ୱୀକାର: ସୂଚନା କେବଳ ମାର୍ଗଦର୍ଶନ ପାଇଁ। ସ୍ଥାନୀୟ ଭାବରେ ଯାଞ୍ଚ କରନ୍ତୁ।", refund: "ଫେରସ୍ତ ନୀତି: ସେବାଗୁଡ଼ିକ ମାଗଣା ହୋଇଥିବାରୁ ପ୍ରଯୁଜ୍ୟ ନୁହେଁ।", "support": "ସହାୟତା ଏବଂ ସୂଚନା", faq: "FAQ: ଆମର ସହାୟତା ବିଭାଗ ପରିଦର୍ଶନ କରନ୍ତୁ।", contact: "ଯୋଗାଯୋଗ: patukrishi@gmail.com", careers: "କ୍ୟାରିୟର: ଆମର ଲକ୍ଷ୍ୟରେ ଯୋଗ ଦିଅନ୍ତୁ।", press: "ପ୍ରେସ୍: ମିଡିଆ ଅନୁସନ୍ଧାନ ସ୍ୱାଗତଯୋଗ୍ୟ।", office: "କାର୍ଯ୍ୟାଳୟ: ଡିଜିଟାଲ୍ ପ୍ଲାଟଫର୍ମ - ପ୍ୟାନ୍-ଇଣ୍ଡିଆ ସେବା", copyright: "© 2026 ପଟୁକୃଷି – ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ। ଭାରତୀୟ କୃଷକମାନଙ୍କ ପାଇଁ 💚 ରେ ନିର୍ମିତ।", "edit-profile": "ପ୍ରୋଫାଇଲ୍ ସମ୍ପାଦନ କରନ୍ତୁ", "name-placeholder": "ନାମ", save: "ସଞ୍ଚୟ କରନ୍ତୁ", cancel: "ବାତିଲ୍ କରନ୍ତୁ", "krishi-bot": "କୃଷି ବଟ୍", "bot-welcome": "🙏 ନମସ୍କାର! ମୁଁ ଆପଣଙ୍କ କୃଷି ବଟ୍। ପଚାରନ୍ତୁ - ମଣ୍ଡି ଭାଉ, ପାଣିପାଗ, କ୍ରପ୍ ଲେନ୍ସ, ପରାମର୍ଶ, ଆନାଲିଟିକ୍ସ କିମ୍ବା କିଛି!", "chat-placeholder": "ଏଠାରେ ଲେଖନ୍ତୁ..." },
             sa: { logo: "पटुकृषिः", home: "मुखपृष्ठम्", weather: "वातावरणम्", mandi: "मण्डी", lens: "फसल-लेन्स्", advisory: "सलाह", analytics: "विश्लेषणम्", about: "अस्माकं विषये", profile: "व्यक्तिचित्रम्", logout: "निर्गमनम्", namaste: "नमस्कारः", "hero-text": "भवतः कृषकमित्रम् - स्मार्ट-कृष्या सह", "sustainable-title": "🌱 पटुकृषिः – स्मार्ट-कृषिः", "sustainable-text": "🇮🇳 भारते कृषकेभ्यः समयोचितं यथार्थं च सूचनाप्राप्तिः अतीव महत्त्वपूर्णा। पटुकृषिः भवभ्यः प्रत्यक्षमण्डीमूल्यानि, वातावरणपूर्वानुमानम्, फसल-लेन्स् (रोगज्ञानं चिकित्सा च), वपनात् कट्टनपर्यन्तं सोपानमार्गदर्शनं च प्रददाति। वयं भवतः क्षेत्रोत्पादनं लाभे परिणन्तुम् अत्र स्मः। भवान् पञ्जाबप्रदेशस्य गोधूमकृषको वा तमिळनाडुराज्यस्य व्रीहिकृषको वा भवतु, पटुकृषिः प्रत्येककृषकाय अस्ति। अधुना कृषिः स्मार्ट, लाभः निश्चितः! 💚", "weather-desc": "प्रत्यक्षपूर्वानुमानम् · फसलशिफारसिः", "mandi-desc": "सर्वे राज्यानि केन्द्रशासितप्रदेशाः च · मण्डलानि · बहूनि मूल्यानि", "advisory-desc": "राज्यम्/केन्द्रशासितप्रदेशः + फसलम् · ३-चरणीयमार्गदर्शिका", "weather-title": "वातावरणम् · मौसमसलाह", "city-placeholder": "नगरं लिखत (यथा दिल्ली)", search: "अन्वेषणम्", "my-location": "मम स्थानम्", "mandi-title": "मण्डीमूल्यानि · मण्डीभावाः", "show-prices": "मूल्यानि दर्शयतु", "lens-title": "फसल-लेन्स् · रोगस्य पहचान", "upload-title": "फसलचित्रम् उपारोपयतु", "upload-desc": "अनुकरण-रोगपरीक्षा", "advisory-title": "फसल-सलाह · पूर्णमार्गदर्शिका", "state-season": "राज्यम्/केन्द्रशासितप्रदेशः + ऋतुः", "specific-crop": "विशिष्टफसलम् (३-चरणीयम्)", "get-advice": "सलाह प्राप्नोतु", "get-guide": "३-चरणीयमार्गदर्शिकां प्राप्नोतु", "analytics-title": "कृषि-विश्लेषणम् · डेटा-अन्तर्दृष्टयः", "happy-farmers": "सन्तुष्टाः कृषकाः", "avg-profit": "सामान्यलाभः/एकर", "weather-alerts": "वातावरण-सूचनाः", "active-farms": "सक्रियक्षेत्राणि", "price-trends": "📈 मूल्यप्रवृत्तयः (गत ६ मासाः)", "crop-distribution": "🌾 फसलवितरणम्", "weather-patterns": "🌡️ वातावरणप्रारूपाणि", "profit-calculator": "💰 लाभगणकयन्त्रम्", "select-crop": "फसलं चिनोतु", area: "क्षेत्रफलम् (एकरेषु)", calculate: "लाभं गणयतु", "market-insights": "📊 बाजार-अन्तर्दृष्टयः", rising: "⬆️ वर्धमानम्", stable: "↗️ स्थिरम्", falling: "⬇️ ह्रसमानम्", "seasonal-forecast": "🌦️ ऋतु-पूर्वानुमानम् २०२६", rabi: "रबि-ऋतुः", kharif: "खरीफ-ऋतुः", zaid: "जायद-ऋतुः", "optimal-conditions": "अनुकूलाः परिस्थितयः", "rabi-crops": "गोधूमः, सर्षपः, चणकः", "kharif-crops": "व्रीहिः, कार्पासः, यवनालः", "zaid-crops": "मुद्गः, शाकानि", "about-title": "अस्माकं विषये · अस्माकं कथा", mission: "अस्माकं लक्ष्यम्", "mission-text": "प्रत्येकं भारतीयं कृषकं प्रौद्योगिकी-चालितसमाधानैः सशक्तं कर्तुम्, येन धारणीया लाभदायका च कृषिः स्यात्। वयं पारम्परिकज्ञानं आधुनिकनवाचारं च मध्ये अन्तरं पूरयामः।", vision: "अस्माकं दृष्टिः", "vision-text": "एकं डिजिटल-परितन्त्रं निर्मातुम् यत्र प्रत्येकः कृषकः वास्तविकसमय-बाजारतथ्यानि, वातावरणसूचनाः, विशेषज्ञमार्गदर्शनं च प्राप्नुयात् - कृषिं स्मार्टं अधिकलाभदायकं च कुर्वन्।", values: "अस्माकं मूल्यानि", "values-text": "सत्यनिष्ठा, नवाचारः, समावेशिता। वयं कृषकान् प्रथमं स्थापयितुं, तेषां जीवने वास्तविकं परिवर्तनम् आनयन्ति समाधानानि निर्मातुं च विश्वसिमः।", "founder-role": "संस्थापकः & विकासकः", "founder-quote": "\"अहं पटुकृषिं निर्मितवान् यतः अस्माकं कृषकेभ्यः डिजिटल-जगति मित्रम् अर्हति—यः तेषां भाषां वदति, तेषां संघर्षान् अवगच्छति, तान् वर्धितुं साहाय्यं च करोति। अस्माकं राष्ट्रं पोषयद्भ्यः हस्तेभ्यः धन्यवादः ज्ञापनस्य एषः मम मार्गः।\"", "why-choose": "❓ कृषकाः पटुकृषिं किमर्थं चिन्वन्ति", "real-time": "वास्तविकसमय-तथ्यानि", "real-time-desc": "प्रत्यक्षमण्डीमूल्यानि वातावरणं च", "ai-powered": "कृत्रिम-बुद्धि-चालितम्", "ai-powered-desc": "स्मार्ट-रोगज्ञानम्", "local-langs": "🌐 स्थानीयभाषाः", "local-langs-desc": "आङ्ग्लभाषा, हिन्दी, बाङ्गला, तेलुगु, मराठी, गुजराती, मारवाडी, पञ्जाबी, तमिळ्, मलयाळम्, उर्दू, कन्नड, ओडिया, संस्कृतम्, भोजपुरी, डोगरी इत्यादयः", free: "१००% निःशुल्कम्", "free-desc": "कृषकेभ्यः सदा निःशुल्कम्", "send-message": "अस्मभ्यं सन्देशं प्रेषयतु", "message-desc": "प्रश्नाः सन्ति? भवतः समीपात् श्रोतुम् इच्छामः!", "message-placeholder": "अत्र भवतः प्रश्नं लिखतु...", "google-form": "गूगल-फार्मम् उद्घाटयतु", "google-form-note": "📝 अस्माकं प्रतिक्रिया-फार्मम् उद्घाटितुम् उपरिस्थितं बटनं नोदयतु", "footer-tagline": "भारतीयकृषकेभ्यः स्मार्ट-कृषिः।", "quick-links": "शीघ्र-सम्पर्काः", policies: "नीतयः & विधिकाः", privacy: "गोपनीयता-नीतिः: वयं भवतः तथ्यानि आद्रियामहे। तृतीय-पक्षसहभागः नास्ति।", terms: "नियमाः & शर्ताः: अस्य जालस्थानस्य उपयोगः स्वीकारं सूचयति।", cookie: "कुकी-नीतिः: कार्यक्षमतायै वयं आवश्यकाः कुकीः उपयुञ्ज्महे।", disclaimer: "अस्वीकरणम्: सूचना केवलं मार्गदर्शनाय। स्थानीयतया सत्यापयतु।", refund: "प्रतिनिवृत्ति-नीतिः: सेवाः निःशुल्काः इति कारणेन अनुपयुक्ता।", "support": "साहाय्यं & सूचना", faq: "सामान्यप्रश्नाः: अस्माकं साहाय्य-विभागं पश्यन्तु।", contact: "सम्पर्कः: patukrishi@gmail.com", careers: "वृत्तिः: अस्माकं लक्ष्ये सम्मिल्यन्ताम्।", press: "प्रेसः: माध्यम-जिज्ञासाः स्वागतम्।", office: "कार्यालयः: डिजिटल-मञ्चः - सर्वभारत-सेवा", copyright: "© २०२६ पटुकृषिः – सर्वे अधिकाराः सुरक्षिताः। भारतीयकृषकेभ्यः 💚 सह निर्मितम्।", "edit-profile": "व्यक्तिचित्रं सम्पादयतु", "name-placeholder": "नाम", save: "रक्षयतु", cancel: "निरस्यतु", "krishi-bot": "कृषि-बाट्", "bot-welcome": "🙏 नमस्कार! अहं भवतः कृषि-बाट् अस्मि। पृच्छन्तु - मण्डीभावाः, वातावरणम्, फसल-लेन्स्, सलाह, विश्लेषणम् अथवा किमपि!", "chat-placeholder": "अत्र लिखन्तु..." }
         };
-
-    // State analytics data
-    const stateAnalyticsData = {
-        "Punjab": {
-            farmers: "12.5 Cr+",
-            avgProfit: "₹42,500",
-            weatherAlerts: 15,
-            activeFarms: "8.5 Cr+",
-            priceTrends: {
-                wheat: [2450, 2500, 2550, 2600, 2580, 2620],
-                rice: [2150, 2180, 2200, 2220, 2250, 2280],
-                cotton: [7200, 7300, 7450, 7500, 7600, 7700]
-            },
-            cropDistribution: [40, 30, 15, 10, 5],
-            weatherPatterns: {
-                temp: [28, 30, 32, 33, 31, 29, 27],
-                rainfall: [2, 0, 0, 8, 12, 18, 3]
-            },
-            marketInsights: {
-                wheat: { price: 2450, change: "+3.2%" },
-                rice: { price: 2150, change: "+2.1%" },
-                cotton: { price: 7200, change: "+4.5%" },
-                sugarcane: { price: 380, change: "+1.8%" },
-                potato: { price: 2850, change: "-1.5%" },
-                onion: { price: 3900, change: "+5.0%" }
-            },
-            seasonalForecast: {
-                rabi: 85,
-                kharif: 78,
-                zaid: 92
-            }
-        },
-        "Rajasthan": {
-            farmers: "8.2 Cr+",
-            avgProfit: "₹38,200",
-            weatherAlerts: 22,
-            activeFarms: "5.3 Cr+",
-            priceTrends: {
-                wheat: [2350, 2400, 2420, 2480, 2500, 2520],
-                rice: [2050, 2080, 2100, 2120, 2150, 2180],
-                cotton: [7000, 7100, 7200, 7300, 7400, 7500]
-            },
-            cropDistribution: [30, 20, 25, 15, 10],
-            weatherPatterns: {
-                temp: [30, 32, 35, 36, 34, 32, 29],
-                rainfall: [0, 0, 2, 5, 10, 15, 5]
-            },
-            marketInsights: {
-                wheat: { price: 2350, change: "+2.5%" },
-                rice: { price: 2050, change: "+1.8%" },
-                cotton: { price: 7000, change: "+3.0%" },
-                sugarcane: { price: 360, change: "+1.2%" },
-                potato: { price: 2700, change: "-2.0%" },
-                onion: { price: 3800, change: "+4.0%" }
-            },
-            seasonalForecast: {
-                rabi: 75,
-                kharif: 70,
-                zaid: 88
-            }
-        }
-    };
-    // Add more states as needed – you can extend this object
 
     function translatePage() {
         document.querySelectorAll('[data-translate]').forEach(e => {
@@ -236,11 +158,8 @@
     }
 
     function checkAuth() {
-        // Firebase will handle auth; just hide loading screen
-        document.getElementById('loading-screen').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('loading-screen').style.display = 'none';
-        }, 500);
+        let e = localStorage.getItem('patukrishi_session');
+        e ? (currentUser = JSON.parse(e), loadDashboard()) : document.getElementById('auth-container').style.display = 'flex';
     }
 
     window.switchAuthTab = e => {
@@ -249,69 +168,35 @@
             (document.querySelectorAll('.auth-tab')[1].classList.add('active'), document.getElementById('signup-form').classList.add('active'));
     };
 
-    window.handleLogin = async (e) => {
+    window.handleLogin = e => {
         e.preventDefault();
-        let email = document.getElementById('login-email').value;
-        let password = document.getElementById('login-password').value;
-
-        try {
-            const userCredential = await auth.signInWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-
-            if (!user.emailVerified) {
-                await auth.signOut();
-                document.getElementById('login-error').innerText = 'Please verify your email first. Check your inbox.';
-                return;
-            }
-
-            // Email verified – create local session
-            let userData = userDatabase[email] || { name: user.displayName || email.split('@')[0], email };
-            userDatabase[email] = userData;
-            localStorage.setItem('patukrishi_users', JSON.stringify(userDatabase));
-
-            currentUser = userData;
-            localStorage.setItem('patukrishi_session', JSON.stringify(currentUser));
-            document.getElementById('auth-container').style.display = 'none';
-            loadDashboard();
-            showNotification('Login successful', 'success');
-        } catch (error) {
-            document.getElementById('login-error').innerText = error.message;
-        }
+        let t = document.getElementById('login-email').value,
+            n = document.getElementById('login-password').value;
+        userDatabase[t] && userDatabase[t].password === n ? (currentUser = userDatabase[t], localStorage.setItem('patukrishi_session', JSON.stringify(currentUser)), document.getElementById('auth-container').style.display = 'none', loadDashboard(), showNotification('Login successful', 'success')) :
+            document.getElementById('login-error').innerText = 'Invalid email/password';
     };
 
-    window.handleSignup = async (e) => {
+    window.handleSignup = e => {
         e.preventDefault();
-        let name = document.getElementById('signup-name').value;
-        let email = document.getElementById('signup-email').value;
-        let password = document.getElementById('signup-password').value;
-
-        if (!name || !email || !password) {
-            document.getElementById('signup-error').innerText = 'All fields required';
+        let t = document.getElementById('signup-name').value,
+            n = document.getElementById('signup-email').value,
+            o = document.getElementById('signup-password').value;
+        if (!t || !n || !o) return;
+        if (userDatabase[n]) {
+            document.getElementById('signup-error').innerText = 'Email already exists';
             return;
         }
-
-        try {
-            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-            const user = userCredential.user;
-            await user.updateProfile({ displayName: name });
-            await user.sendEmailVerification();
-
-            // Store user info locally (no password!)
-            let userData = { name, email };
-            userDatabase[email] = userData;
-            localStorage.setItem('patukrishi_users', JSON.stringify(userDatabase));
-
-            await auth.signOut(); // force verification before login
-            showNotification('Verification email sent! Check your inbox (and spam).', 'success');
-            switchAuthTab('login');
-            document.getElementById('signup-form').reset();
-        } catch (error) {
-            document.getElementById('signup-error').innerText = error.message;
-        }
+        let l = { name: t, email: n, password: o };
+        userDatabase[n] = l;
+        localStorage.setItem('patukrishi_users', JSON.stringify(userDatabase));
+        currentUser = l;
+        localStorage.setItem('patukrishi_session', JSON.stringify(currentUser));
+        document.getElementById('auth-container').style.display = 'none';
+        loadDashboard();
+        showNotification('Account created!', 'success');
     };
 
     window.logout = () => {
-        auth.signOut();
         localStorage.removeItem('patukrishi_session');
         location.reload();
     };
@@ -321,8 +206,6 @@
         document.getElementById('welcome-name').innerText = currentUser.name.split(' ')[0];
         document.getElementById('header-name').innerText = currentUser.name;
         document.getElementById('header-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
-
-        // Populate mandi state dropdown
         let e = Object.keys(districtDB).sort(),
             t = document.getElementById('mandiStateSelect'),
             n = document.getElementById('advisoryStateSelect');
@@ -331,28 +214,14 @@
             t.add(new Option(e, e));
             n.add(new Option(e, e));
         });
-
-        // Populate analytics state dropdown
-        let analyticsSelect = document.getElementById('analyticsStateSelect');
-        analyticsSelect.innerHTML = '';
-        e.forEach(state => {
-            analyticsSelect.add(new Option(state, state));
-        });
-        analyticsSelect.value = 'Punjab'; // default
-
-        // Populate mandi crop dropdown
         let o = document.getElementById('mandiCropSelect');
         o.innerHTML = '';
         crops.forEach(e => o.add(new Option(e.name, e.name)));
-
-        // Populate specific crop dropdown
         let l = document.getElementById('specificCropSelect');
         l.innerHTML = '';
         Object.keys(specificCropAdvice).forEach(e => l.add(new Option(e, e)));
-
         updateDistrictDropdown();
         initAnalyticsCharts();
-        updateAnalytics(); // set initial analytics data
         AOS.refresh();
     }
 
@@ -459,111 +328,49 @@
     };
 
     function initAnalyticsCharts() {
-        const priceCtx = document.getElementById('priceTrendChart')?.getContext('2d');
-        if (priceCtx) {
-            window.priceChart = new Chart(priceCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [
-                        { label: 'Wheat (₹/q)', data: [2250, 2300, 2380, 2420, 2400, 2450], borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,0.1)', tension: .4, fill: !0 },
-                        { label: 'Rice (₹/q)', data: [2e3, 2050, 2100, 2150, 2120, 2150], borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.1)', tension: .4, fill: !0 },
-                        { label: 'Cotton (₹/q)', data: [6800, 6900, 7050, 7150, 7100, 7200], borderColor: '#d32f2f', backgroundColor: 'rgba(211,47,47,0.1)', tension: .4, fill: !0 }
-                    ]
-                },
-                options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
-            });
-        }
+        const e = document.getElementById('priceTrendChart')?.getContext('2d');
+        e && new Chart(e, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [
+                    { label: 'Wheat (₹/q)', data: [2250, 2300, 2380, 2420, 2400, 2450], borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,0.1)', tension: .4, fill: !0 },
+                    { label: 'Rice (₹/q)', data: [2e3, 2050, 2100, 2150, 2120, 2150], borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.1)', tension: .4, fill: !0 },
+                    { label: 'Cotton (₹/q)', data: [6800, 6900, 7050, 7150, 7100, 7200], borderColor: '#d32f2f', backgroundColor: 'rgba(211,47,47,0.1)', tension: .4, fill: !0 }
+                ]
+            },
+            options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
+        });
 
-        const cropCtx = document.getElementById('cropDistributionChart')?.getContext('2d');
-        if (cropCtx) {
-            window.cropChart = new Chart(cropCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Wheat', 'Rice', 'Cotton', 'Sugarcane', 'Other'],
-                    datasets: [{ data: [38, 32, 14, 10, 6], backgroundColor: ['#2e7d32', '#f9a825', '#d32f2f', '#4caf50', '#9c27b0'] }]
-                },
-                options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
-            });
-        }
+        const t = document.getElementById('cropDistributionChart')?.getContext('2d');
+        t && new Chart(t, {
+            type: 'doughnut',
+            data: {
+                labels: ['Wheat', 'Rice', 'Cotton', 'Sugarcane', 'Other'],
+                datasets: [{ data: [38, 32, 14, 10, 6], backgroundColor: ['#2e7d32', '#f9a825', '#d32f2f', '#4caf50', '#9c27b0'] }]
+            },
+            options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
+        });
 
-        const weatherCtx = document.getElementById('weatherPatternChart')?.getContext('2d');
-        if (weatherCtx) {
-            window.weatherChart = new Chart(weatherCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [
-                        { label: 'Temperature (°C)', data: [28, 30, 32, 33, 31, 29, 27], borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.5)', yAxisID: 'y' },
-                        { label: 'Rainfall (mm)', data: [2, 0, 0, 8, 12, 18, 3], borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,0.5)', yAxisID: 'y1' }
-                    ]
-                },
-                options: {
-                    responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } },
-                    scales: {
-                        y: { type: 'linear', display: !0, position: 'left', title: { display: !0, text: 'Temperature (°C)' } },
-                        y1: { type: 'linear', display: !0, position: 'right', title: { display: !0, text: 'Rainfall (mm)' }, grid: { drawOnChartArea: !1 } }
-                    }
+        const n = document.getElementById('weatherPatternChart')?.getContext('2d');
+        n && new Chart(n, {
+            type: 'bar',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [
+                    { label: 'Temperature (°C)', data: [28, 30, 32, 33, 31, 29, 27], borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.5)', yAxisID: 'y' },
+                    { label: 'Rainfall (mm)', data: [2, 0, 0, 8, 12, 18, 3], borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,0.5)', yAxisID: 'y1' }
+                ]
+            },
+            options: {
+                responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } },
+                scales: {
+                    y: { type: 'linear', display: !0, position: 'left', title: { display: !0, text: 'Temperature (°C)' } },
+                    y1: { type: 'linear', display: !0, position: 'right', title: { display: !0, text: 'Rainfall (mm)' }, grid: { drawOnChartArea: !1 } }
                 }
-            });
-        }
+            }
+        });
     }
-
-    window.updateAnalytics = function() {
-        const state = document.getElementById('analyticsStateSelect').value;
-        const data = stateAnalyticsData[state] || stateAnalyticsData["Punjab"]; // fallback
-
-        // Update stats
-        document.getElementById('total-farmers').textContent = data.farmers;
-        document.getElementById('avg-profit').textContent = data.avgProfit;
-        document.getElementById('weather-alerts').textContent = data.weatherAlerts;
-        document.getElementById('active-farms').textContent = data.activeFarms;
-
-        // Update price trend chart
-        if (window.priceChart) {
-            window.priceChart.data.datasets[0].data = data.priceTrends.wheat;
-            window.priceChart.data.datasets[1].data = data.priceTrends.rice;
-            window.priceChart.data.datasets[2].data = data.priceTrends.cotton;
-            window.priceChart.update();
-        }
-
-        // Update crop distribution chart
-        if (window.cropChart) {
-            window.cropChart.data.datasets[0].data = data.cropDistribution;
-            window.cropChart.update();
-        }
-
-        // Update weather pattern chart
-        if (window.weatherChart) {
-            window.weatherChart.data.datasets[0].data = data.weatherPatterns.temp;
-            window.weatherChart.data.datasets[1].data = data.weatherPatterns.rainfall;
-            window.weatherChart.update();
-        }
-
-        // Update market insights
-        const mi = data.marketInsights;
-        document.querySelector('.market-insights-panel').innerHTML = `
-            <div><span class="insight-badge green" data-translate="rising">⬆️ Rising</span><span class="insight-badge yellow" data-translate="stable">↗️ Stable</span><span class="insight-badge red" data-translate="falling">⬇️ Falling</span></div>
-            <div>
-                <p><strong>Wheat:</strong> ₹${mi.wheat.price}/q <span class="price-change price-up">${mi.wheat.change}</span></p>
-                <p><strong>Rice:</strong> ₹${mi.rice.price}/q <span class="price-change price-up">${mi.rice.change}</span></p>
-                <p><strong>Cotton:</strong> ₹${mi.cotton.price}/q <span class="price-change price-up">${mi.cotton.change}</span></p>
-            </div>
-            <div>
-                <p><strong>Sugarcane:</strong> ₹${mi.sugarcane.price}/q <span class="price-change price-up">${mi.sugarcane.change}</span></p>
-                <p><strong>Potato:</strong> ₹${mi.potato.price}/q <span class="price-change price-down">${mi.potato.change}</span></p>
-                <p><strong>Onion:</strong> ₹${mi.onion.price}/q <span class="price-change price-up">${mi.onion.change}</span></p>
-            </div>
-        `;
-
-        // Update seasonal forecast progress bars
-        document.querySelector('[data-season="rabi"]').style.width = data.seasonalForecast.rabi + '%';
-        document.querySelector('[data-season="kharif"]').style.width = data.seasonalForecast.kharif + '%';
-        document.querySelector('[data-season="zaid"]').style.width = data.seasonalForecast.zaid + '%';
-        document.querySelector('[data-season="rabi"] + p .season-percent').textContent = data.seasonalForecast.rabi;
-        document.querySelector('[data-season="kharif"] + p .season-percent').textContent = data.seasonalForecast.kharif;
-        document.querySelector('[data-season="zaid"] + p .season-percent').textContent = data.seasonalForecast.zaid;
-    };
 
     window.calculateProfit = function() {
         const e = document.getElementById('profit-crop').value,
@@ -679,24 +486,6 @@
         document.getElementById(e + '-section').classList.add('active');
         window.scrollTo(0, 0);
     };
-
-    // Listen to Firebase auth state changes
-    auth.onAuthStateChanged(async (user) => {
-        if (user && user.emailVerified) {
-            // Auto-login if verified
-            let userData = userDatabase[user.email] || { name: user.displayName || user.email.split('@')[0], email: user.email };
-            currentUser = userData;
-            localStorage.setItem('patukrishi_session', JSON.stringify(currentUser));
-            document.getElementById('auth-container').style.display = 'none';
-            loadDashboard();
-        } else {
-            // No verified user – show auth container if no local session
-            if (!localStorage.getItem('patukrishi_session')) {
-                document.getElementById('dashboard').style.display = 'none';
-                document.getElementById('auth-container').style.display = 'flex';
-            }
-        }
-    });
 
     const districtDB = {
         Punjab: ["Amritsar", "Ludhiana", "Jalandhar", "Patiala", "Bathinda", "Firozpur", "Moga"],
