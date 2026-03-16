@@ -1,0 +1,7 @@
+PatuKrishi/
+│
+├── index.html
+├── style.css
+├── script.js
+└── assets/               (optional – for local images)
+    └── patukrishi logo.png
