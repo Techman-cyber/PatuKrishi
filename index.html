@@ -31,16 +31,22 @@
 <link rel="apple-touch-icon" sizes="180x180" href="https://ibb.co/1Gx0s6sR">
 
 <style>
-     /* Custom Cursor Integration */
-        body {
-            /* Yellow Pointer + Seedling Emoji for PatuKrishi vibe */
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="27" viewBox="0 0 24 27"><polygon points="2,2 22,13 12,16 2,25" fill="%23ffd966" stroke="%23b45f06" stroke-width="1.5"/><text x="8" y="18" font-size="10">🌱</text></svg>'), auto;
-        }
+    /* Custom Logo Cursor */
+    body {
+        /* Use your actual logo file here */
+        /* 'auto' is the fallback in case the image fails to load */
+        cursor: url('patukrishi logo.png'), auto;
+    }
 
-        /* Ensure interactive elements keep a clean pointer or the custom cursor */
-        button, .click-card, .nav-item, .lang-header, .user-profile {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="27" viewBox="0 0 24 27"><polygon points="2,2 22,13 12,16 2,25" fill="%23ffd966" stroke="%23b45f06" stroke-width="1.5"/><text x="8" y="18" font-size="10">🌱</text></svg>'), pointer;
-        }
+    /* Important: Resize the cursor for interactive elements */
+    /* We add 'pointer' so users know they can click things */
+    button, .click-card, .nav-item, .lang-header, .user-profile, .lang-option, a {
+        cursor: url('patukrishi logo.png'), pointer;
+    }
+    
+    /* Make sure the logo isn't too huge on the screen */
+    /* Note: CSS cursor URLs don't support width/height properties directly, 
+       so your 'patukrishi logo.png' file should ideally be 32x32px or 64x64px. */
 </style>
    
 </head>
