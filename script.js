@@ -314,7 +314,7 @@ window.getLocationWeatherData = () => {
     function updateLangHeader() {
         const e = document.getElementById('currentLangFlag'),
             t = document.getElementById('currentLangName'),
-            n = { en: '🇬🇧', hi: '🇮🇳', bn: '🇧🇩', te: '🇮🇳', mr: '🇮🇳', gu: '🇮🇳', mwr: '🇮🇳', pa: '🇮🇳', ta: '🇮🇳', ml: '🇮🇳', ur: '🇵🇰', kn: '🇮🇳', or: '🇮🇳', sa: '🇮🇳', bho: '🇮🇳', doi: '🇮🇳' },
+            n = { en: '🇬🇧', hi: '🇮🇳', bn: '🇮🇩', te: '🇮🇳', mr: '🇮🇳', gu: '🇮🇳', mwr: '🇮🇳', pa: '🇮🇳', ta: '🇮🇳', ml: '🇮🇳', ur: '🇮', kn: '🇮🇳', or: '🇮🇳', sa: '🇮🇳', bho: '🇮🇳', doi: '🇮🇳' },
             l = { en: 'English', hi: 'हिंदी', bn: 'বাংলা', te: 'తెలుగు', mr: 'मराठी', gu: 'ગુજરાતી', mwr: 'मारवाड़ी', pa: 'ਪੰਜਾਬੀ', ta: 'தமிழ்', ml: 'മലയാളം', ur: 'اردو', kn: 'ಕನ್ನಡ', or: 'ଓଡ଼ିଆ', sa: 'संस्कृतम्', bho: 'भोजपुरी', doi: 'डोगरी' };
         e.textContent = n[currentLanguage];
         t.textContent = l[currentLanguage];
@@ -784,16 +784,211 @@ window.getLocationWeatherData = () => {
     };
 
     const specificCropAdvice = {
-        Wheat: "🌾 **Wheat – 3-Step Guide**\n\n1️⃣ **Sowing (Oct-Nov)**: Use 100 kg seed/ha, treat with carbendazim. Row spacing 20 cm.\n2️⃣ **Irrigation & Fertilizer**: Apply 120:60:40 npk. Irrigate at crown root, tillering, flowering, dough stage.\n3️⃣ **Harvest (Mar-Apr)**: When grains hard, combine harvest. Yield 45-50 q/ha.",
-        Rice: "🍚 **Rice – 3-Step Guide**\n\n1️⃣ **Nursery (May-Jun)**: Raise nursery, 25-day seedlings.\n2️⃣ **Transplant (Jun-Jul)**: 20x10 cm, 120:60:40 npk. Maintain 5 cm water.\n3️⃣ **Harvest (Oct-Nov)**: 80% panicles golden, yield 50-60 q/ha.",
-        Cotton: "🧶 **Cotton – 3-Step Guide**\n\n1️⃣ **Sowing (Apr-May)**: 90x60 cm, bt hybrids, 150:75:75 npk.\n2️⃣ **Pest Control**: Pink bollworm traps, spray need-based.\n3️⃣ **Picking (Oct-Dec)**: Open bolls, yield 20-25 q/ha.",
-        Maize: "🌽 **Maize – 3-Step Guide**\n\n1️⃣ **Sowing (Jun-Jul/Oct-Nov)**: 20 kg seed/ha, 60x25 cm.\n2️⃣ **Nutrition**: 150:75:75 npk, top dress urea at knee-high & tasselling.\n3️⃣ **Harvest**: 90-110 days, husk brown, yield 50-60 q/ha.",
-        Sugarcane: "🎋 **Sugarcane – 3-Step Guide**\n\n1️⃣ **Planting (Jan-Mar)**: Setts with 2-3 buds, treat.\n2️⃣ **Manuring**: 250:100:150 npk, earth up at 120 days.\n3️⃣ **Harvest (10-12 months)**: Brix >18, yield 70-80 t/ha.",
-        Mustard: "🌼 **Mustard – 3-Step Guide**\n\n1️⃣ **Sowing (Oct-Nov)**: 5 kg/ha, row 45 cm, 80:40:40 npk.\n2️⃣ **Irrigation**: At flowering & siliqua formation.\n3️⃣ **Harvest (Feb-Mar)**: Pods yellow, yield 18-20 q/ha.",
-        Potato: "🥔 **Potato – 3-Step Guide**\n\n1️⃣ **Planting (Oct-Nov)**: Disease-free tubers, 60x20 cm, 150:100:150 npk.\n2️⃣ **Earthing Up**: At 25 days, dehaulm 15 days before harvest.\n3️⃣ **Harvest (Jan-Mar)**: Yield 250-300 q/ha.",
-        Tomato: "🍅 **Tomato – 3-Step Guide**\n\n1️⃣ **Nursery (Sep-Oct)**: 25-day seedlings, spacing 75x45 cm.\n2️⃣ **Staking & Suckering**: 120:80:80 npk.\n3️⃣ **Harvest (65-80 days)**: Yield 250-300 q/ha.",
-        Onion: "🧅 **Onion – 3-Step Guide**\n\n1️⃣ **Nursery (Oct-Nov)**: 6-8 weeks seedlings, 15x10 cm.\n2️⃣ **Fertilizer**: 100:50:100 npk, stop irrigation when tops fall.\n3️⃣ **Harvest (Mar-May)**: Yield 200-250 q/ha.",
-        Barley: "🌾 **Barley – 3-Step Guide**\n\n1️⃣ **Sowing (Oct-Nov)**: 100 kg seed/ha, 60:40:40 npk.\n2️⃣ **Irrigation**: 2-3 irrigations, drought tolerant.\n3️⃣ **Harvest (Mar-Apr)**: 35-40 q/ha."
-    };
+    "Wheat (Gehu)": `🌾 **WHEAT (GEHU) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: SOWING & PREPARATION**
+═══════════════════════════════════════════════════════════
+📅 **Sowing Time**: October-November (Rabi season)
+🌱 **Seed Rate**: 100-125 kg per hectare
+💊 **Seed Treatment**: Treat with Carbendazim @ 2g/kg seed
+📏 **Spacing**: Row spacing 20-22.5 cm
+🌍 **Soil**: Well-drained loamy soil, pH 6.5-7.5
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 10-12 tons/ha (apply 15 days before sowing)
+• NPK: 120:60:40 kg/ha
+• Zinc Sulphate: 25 kg/ha if zinc deficient
+
+💧 **STEP 2: IRRIGATION**
+• 5-6 irrigations total
+• Critical stages: Crown root initiation, Tillering, Flowering
+
+🌾 **STEP 3: HARVEST**
+• Time: March-April when grains are hard & moisture 12-14%
+• Yield: 45-55 quintals per hectare`,
+
+    "Rice (Dhan/Chawal)": `🍚 **RICE (DHAN/CHAWAL) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: NURSERY & TRANSPLANTING**
+📅 **Nursery Time**: May-June
+🌱 **Seed Rate**: 40-50 kg/ha
+💊 **Seed Treatment**: Soak in salt water, treat with Trichoderma
+👶 **Seedling Age**: 25-30 days
+📏 **Spacing**: 20 cm x 15 cm
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 8-10 tons/ha
+• NPK: 120:60:40 kg/ha
+• Zinc Sulphate: 25 kg/ha
+
+💧 **STEP 2: WATER MANAGEMENT**
+• Maintain 5 cm standing water from transplanting to flowering
+• Drain 2 weeks before harvest
+
+🌾 **STEP 3: HARVEST**
+• Time: October-November when 80% grains are golden yellow
+• Yield: 50-65 quintals per hectare`,
+
+    "Maize (Makka/Bhutta)": `🌽 **MAIZE (MAKKA/BHUTTA) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: SOWING**
+📅 **Time**: June-July (Kharif) or October-November (Rabi)
+🌱 **Seed Rate**: 20-25 kg/ha
+💊 **Seed Treatment**: Carbendazim + Thiram @ 3g/kg seed
+📏 **Spacing**: 60 cm x 25 cm
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 10-12 tons/ha
+• NPK: 150:75:75 kg/ha
+• Zinc Sulphate: 25 kg/ha
+
+💧 **STEP 2: IRRIGATION & CARE**
+• 4-5 irrigations
+• Critical: Knee-high, tasseling, silking stages
+• Earthing up at 25-30 days
+
+🌾 **STEP 3: HARVEST**
+• Time: 90-110 days after sowing (husk turns brown)
+• Yield: 45-60 quintals per hectare`,
+
+    "Cotton (Kapas)": `🧶 **COTTON (KAPAS) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: SOWING**
+📅 **Time**: April-May (Kharif)
+🌱 **Seed Rate**: 15-20 kg/ha (hybrids)
+💊 **Seed Treatment**: Carbendazim + Thiram @ 3g/kg seed
+📏 **Spacing**: 90 cm x 60 cm (hybrids)
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 12-15 tons/ha
+• NPK: 150:75:75 kg/ha
+• Zinc Sulphate: 25 kg/ha
+
+💧 **STEP 2: IRRIGATION & PEST MANAGEMENT**
+• 5-6 irrigations
+• Install pheromone traps for pink bollworm
+
+🌾 **STEP 3: HARVEST**
+• Time: October-December when bolls open fully
+• 3-4 pickings at 7-10 day intervals
+• Yield: 20-25 quintals seed cotton per hectare`,
+
+    "Potato (Aloo)": `🥔 **POTATO (ALOO) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: PLANTING**
+📅 **Time**: October-November (Rabi)
+🌱 **Seed Rate**: 25-30 quintals tubers/ha
+💊 **Seed Treatment**: Dip in Carbendazim + Mancozeb
+📏 **Spacing**: 60 cm x 20 cm
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 15-20 tons/ha
+• NPK: 150:100:150 kg/ha
+• Zinc Sulphate: 25 kg/ha
+
+💧 **STEP 2: IRRIGATION & EARTHING UP**
+• 5-6 irrigations
+• Earthing up at 25-30 days after planting
+
+🌾 **STEP 3: HARVEST**
+• Time: January-March when vines dry completely
+• Yield: 250-350 quintals per hectare`,
+
+    "Onion (Pyaz)": `🧅 **ONION (PYAZ) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: NURSERY & TRANSPLANTING**
+📅 **Nursery Time**: October-November (Rabi)
+🌱 **Seed Rate**: 8-10 kg/ha
+💊 **Seed Treatment**: Carbendazim @ 2g/kg seed
+👶 **Seedling Age**: 6-8 weeks
+📏 **Spacing**: 15 cm x 10 cm
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 15-20 tons/ha
+• NPK: 100:50:100 kg/ha
+• Sulphur: 20-25 kg/ha
+
+💧 **STEP 2: IRRIGATION & CARE**
+• 5-6 irrigations
+• Stop irrigation when tops start falling (15-20 days before harvest)
+
+🌾 **STEP 3: HARVEST**
+• Time: March-May when 50% tops fall
+• Curing: Dry in field for 5-7 days
+• Yield: 200-250 quintals per hectare`,
+
+    "Tomato (Tamatar)": `🍅 **TOMATO (TAMATAR) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: NURSERY & TRANSPLANTING**
+📅 **Nursery Time**: September-October (Rabi)
+🌱 **Seed Rate**: 400-500 gm/ha
+💊 **Seed Treatment**: Trichoderma @ 4g/kg seed
+👶 **Seedling Age**: 25-30 days
+📏 **Spacing**: 75 cm x 45 cm (determinate)
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 15-20 tons/ha
+• NPK: 120:80:80 kg/ha
+• Boron: 1 kg/ha, Calcium Nitrate: 25 kg/ha
+
+💧 **STEP 2: IRRIGATION & STAKING**
+• Drip irrigation every 2-3 days
+• Provide support with bamboo sticks
+
+🌾 **STEP 3: HARVEST**
+• Time: 65-80 days after transplanting
+• Yield: 250-350 quintals per hectare`,
+
+    "Sugarcane (Ganna)": `🎋 **SUGARCANE (GANNA) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: PLANTING**
+📅 **Time**: January-February (Spring) or October-November (Autumn)
+🌱 **Seed Rate**: 35-40 quintals setts/ha
+💊 **Seed Treatment**: Carbendazim + Imidacloprid
+📏 **Spacing**: 90 cm x 60 cm
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 20-25 tons/ha
+• NPK: 250:100:150 kg/ha
+• Zinc Sulphate: 25 kg/ha
+
+💧 **STEP 2: IRRIGATION & EARTHING UP**
+• 15-20 irrigations (every 10-15 days)
+• Earthing up at 120 days after planting
+
+🌾 **STEP 3: HARVEST**
+• Time: 10-12 months after planting
+• Yield: 70-85 tons per hectare`,
+
+    "Mustard (Sarson)": `🌼 **MUSTARD (SARSON) - COMPLETE FARMER'S GUIDE**
+    
+═══════════════════════════════════════════════════════════
+🌱 **STEP 1: SOWING**
+📅 **Time**: October-November (Rabi)
+🌱 **Seed Rate**: 5-6 kg/ha
+💊 **Seed Treatment**: Carbendazim @ 2g/kg seed
+📏 **Spacing**: 45 cm x 15 cm
+
+💊 **FERTILIZER & MANURE**:
+• FYM: 8-10 tons/ha
+• NPK: 80:40:40 kg/ha
+• Sulphur: 20-25 kg/ha
+
+💧 **STEP 2: IRRIGATION & CARE**
+• 2-3 irrigations (critical at flowering and pod formation)
+• Hand weeding at 25 days
+
+🌾 **STEP 3: HARVEST**
+• Time: February-March when pods turn yellow
+• Yield: 15-20 quintals per hectare`
+};
 
 })();
