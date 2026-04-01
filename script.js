@@ -314,7 +314,7 @@ window.getLocationWeatherData = () => {
     function updateLangHeader() {
         const e = document.getElementById('currentLangFlag'),
             t = document.getElementById('currentLangName'),
-            n = { en: '🇬🇧', hi: '🇮🇳', bn: '🇮🇩', te: '🇮🇳', mr: '🇮🇳', gu: '🇮🇳', mwr: '🇮🇳', pa: '🇮🇳', ta: '🇮🇳', ml: '🇮🇳', ur: '🇮', kn: '🇮🇳', or: '🇮🇳', sa: '🇮🇳', bho: '🇮🇳', doi: '🇮🇳' },
+            n = { en: '🇬🇧', hi: '🇮🇳', bn: '🇮🇳', te: '🇮🇳', mr: '🇮🇳', gu: '🇮🇳', mwr: '🇮🇳', pa: '🇮🇳', ta: '🇮🇳', ml: '🇮🇳', ur: '🇮🇳', kn: '🇮🇳', or: '🇮🇳', sa: '🇮🇳', bho: '🇮🇳', doi: '🇮🇳' },
             l = { en: 'English', hi: 'हिंदी', bn: 'বাংলা', te: 'తెలుగు', mr: 'मराठी', gu: 'ગુજરાતી', mwr: 'मारवाड़ी', pa: 'ਪੰਜਾਬੀ', ta: 'தமிழ்', ml: 'മലയാളം', ur: 'اردو', kn: 'ಕನ್ನಡ', or: 'ଓଡ଼ିଆ', sa: 'संस्कृतम्', bho: 'भोजपुरी', doi: 'डोगरी' };
         e.textContent = n[currentLanguage];
         t.textContent = l[currentLanguage];
