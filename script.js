@@ -163,7 +163,7 @@ window.getWeatherData = async () => {
         resultDiv.innerHTML = `
             <div style="background: #d32f2f; color: white; padding: 20px; border-radius: 28px; text-align: center;">
                 <i class="fas fa-exclamation-triangle"></i> Error: ${error.message}<br>
-                <small>Please check city name or API key. Get free API key from openweathermap.org</small>
+                <small>Please check city name.</small>
             </div>
         `;
     }
