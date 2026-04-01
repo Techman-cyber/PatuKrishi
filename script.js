@@ -17,7 +17,234 @@
     let currentUser = null,
         userDatabase = JSON.parse(localStorage.getItem('patukrishi_users') || '{}'),
         currentLanguage = 'en';
-    const WEATHER_API_KEY = '20f6a3909724aac57a9b95e4f3e0194c',
+   // ==================== WEATHER API KEY ====================
+// GET FREE API KEY FROM: https://openweathermap.org/api
+const WEATHER_API_KEY = '20f6a3909724aac57a9b95e4f3e0194c';
+// ↑↑↑ REPLACE WITH YOUR OWN API KEY ↑↑↑
+
+// ==================== WEATHER HELPER FUNCTIONS ====================
+function getMostCommon(arr) {
+    return arr.sort((a, b) => arr.filter(v => v === a).length - arr.filter(v => v === b).length).pop();
+}
+
+function formatDate(dateStr) {
+    let date = new Date(dateStr);
+    let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`;
+}
+
+function getFarmingAdvice(weatherCondition, temperature) {
+    if (weatherCondition.includes('Rain') || weatherCondition.includes('Drizzle')) {
+        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+            <strong>🌧️ Rain Alert:</strong> Avoid spraying pesticides. Check for waterlogging in fields. Good for irrigation.
+        </div>`;
+    } else if (weatherCondition.includes('Clear') && temperature > 35) {
+        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+            <strong>☀️ Heat Alert:</strong> Increase irrigation frequency. Provide shade for sensitive crops. Best time for harvesting.
+        </div>`;
+    } else if (weatherCondition.includes('Clear') || weatherCondition.includes('Sun')) {
+        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+            <strong>🌾 Good Farming Weather:</strong> Ideal for spraying, weeding, and harvesting activities.
+        </div>`;
+    } else if (weatherCondition.includes('Cloud')) {
+        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+            <strong>☁️ Cloudy Day:</strong> Good for transplanting seedlings. Monitor for pest activity in humid conditions.
+        </div>`;
+    } else if (weatherCondition.includes('Thunderstorm')) {
+        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+            <strong>⛈️ Storm Alert:</strong> Secure farm equipment. Avoid field work. Ensure proper drainage.
+        </div>`;
+    }
+    return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+        <strong>🌱 Farming Tip:</strong> Check soil moisture regularly. Maintain proper irrigation schedule.
+    </div>`;
+}
+
+// ==================== MAIN WEATHER FUNCTION (REAL 5-DAY FORECAST) ====================
+window.getWeatherData = async () => {
+    let city = document.getElementById('cityInput').value;
+    let resultDiv = document.getElementById('weather-result');
+    
+    if (!city) {
+        resultDiv.innerHTML = '<p style="color:red">❌ Please enter a city name</p>';
+        resultDiv.style.display = 'block';
+        return;
+    }
+    
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<div style="text-align:center"><i class="fas fa-spinner fa-pulse fa-2x"></i><p>Fetching weather data...</p></div>';
+    
+    try {
+        // Fetch CURRENT weather
+        let currentRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&units=metric`);
+        let currentData = await currentRes.json();
+        
+        if (currentData.cod !== 200) throw new Error(currentData.message);
+        
+        // Fetch 5-DAY FORECAST (every 3 hours)
+        let forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${WEATHER_API_KEY}&units=metric`);
+        let forecastData = await forecastRes.json();
+        
+        if (forecastData.cod !== '200') throw new Error(forecastData.message);
+        
+        // GROUP forecast data by day
+        let dailyForecast = {};
+        forecastData.list.forEach(item => {
+            let date = new Date(item.dt * 1000).toLocaleDateString();
+            if (!dailyForecast[date]) {
+                dailyForecast[date] = {
+                    temps: [],
+                    icons: [],
+                    conditions: []
+                };
+            }
+            dailyForecast[date].temps.push(item.main.temp);
+            dailyForecast[date].icons.push(item.weather[0].icon);
+            dailyForecast[date].conditions.push(item.weather[0].description);
+        });
+        
+        // BUILD 5-DAY FORECAST HTML
+        let forecastHtml = '<div style="margin-top:25px;"><h3>📅 5-Day Weather Forecast</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:15px;margin-top:15px;">';
+        
+        let dayCount = 0;
+        for (let [date, data] of Object.entries(dailyForecast)) {
+            if (dayCount >= 5) break;
+            
+            let avgTemp = (data.temps.reduce((a, b) => a + b, 0) / data.temps.length).toFixed(0);
+            let minTemp = Math.min(...data.temps).toFixed(0);
+            let maxTemp = Math.max(...data.temps).toFixed(0);
+            let mostCommonIcon = getMostCommon(data.icons);
+            let mostCommonCondition = getMostCommon(data.conditions);
+            
+            forecastHtml += `
+                <div style="background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid var(--border); box-shadow: var(--shadow);">
+                    <div style="font-weight: 700; color: #2e7d32; margin-bottom: 10px;">${formatDate(date)}</div>
+                    <img src="https://openweathermap.org/img/wn/${mostCommonIcon}@2x.png" alt="weather" style="width: 60px;">
+                    <div style="font-size: 1.6rem; font-weight: 700; margin: 8px 0;">${avgTemp}°C</div>
+                    <div style="font-size: 0.85rem; color: #666; text-transform: capitalize;">${mostCommonCondition}</div>
+                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px; font-size: 0.8rem;">
+                        <span style="color: #f9a825;">↑ ${maxTemp}°</span>
+                        <span style="color: #2e7d32;">↓ ${minTemp}°</span>
+                    </div>
+                </div>
+            `;
+            dayCount++;
+        }
+        forecastHtml += '</div></div>';
+        
+        // BUILD CURRENT WEATHER HTML
+        let currentHtml = `
+            <div style="text-align: center; padding: 20px; background: var(--bg); border-radius: 32px; margin-bottom: 20px;">
+                <h2 style="color: #2e7d32;">📍 ${currentData.name}, ${currentData.sys.country}</h2>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 25px; margin: 20px 0; flex-wrap: wrap;">
+                    <img src="https://openweathermap.org/img/wn/${currentData.weather[0].icon}@4x.png" alt="weather" style="width: 100px;">
+                    <div>
+                        <div style="font-size: 4rem; font-weight: 700;">${Math.round(currentData.main.temp)}°C</div>
+                        <div style="font-size: 1.3rem; text-transform: capitalize;">${currentData.weather[0].description}</div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 15px;">
+                    <div><i class="fas fa-thermometer-half"></i> Feels like: ${Math.round(currentData.main.feels_like)}°C</div>
+                    <div><i class="fas fa-tint"></i> Humidity: ${currentData.main.humidity}%</div>
+                    <div><i class="fas fa-wind"></i> Wind: ${currentData.wind.speed} km/h</div>
+                    <div><i class="fas fa-compress-alt"></i> Pressure: ${currentData.main.pressure} hPa</div>
+                </div>
+            </div>
+        `;
+        
+        // ADD FARMING ADVICE
+        let farmingAdvice = getFarmingAdvice(currentData.weather[0].main, currentData.main.temp);
+        
+        // DISPLAY EVERYTHING
+        resultDiv.innerHTML = currentHtml + forecastHtml + farmingAdvice;
+        
+    } catch (error) {
+        resultDiv.innerHTML = `
+            <div style="background: #d32f2f; color: white; padding: 20px; border-radius: 28px; text-align: center;">
+                <i class="fas fa-exclamation-triangle"></i> Error: ${error.message}<br>
+                <small>Please check city name or API key. Get free API key from openweathermap.org</small>
+            </div>
+        `;
+    }
+};
+
+// ==================== LOCATION WEATHER FUNCTION ====================
+window.getLocationWeatherData = () => {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+            let resultDiv = document.getElementById('weather-result');
+            
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div style="text-align:center"><i class="fas fa-spinner fa-pulse fa-2x"></i><p>Fetching weather for your location...</p></div>';
+            
+            try {
+                // Current weather by coordinates
+                let currentRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`);
+                let currentData = await currentRes.json();
+                
+                // 5-day forecast by coordinates
+                let forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`);
+                let forecastData = await forecastRes.json();
+                
+                // Group forecast by day
+                let dailyForecast = {};
+                forecastData.list.forEach(item => {
+                    let date = new Date(item.dt * 1000).toLocaleDateString();
+                    if (!dailyForecast[date]) {
+                        dailyForecast[date] = { temps: [], icons: [] };
+                    }
+                    dailyForecast[date].temps.push(item.main.temp);
+                    dailyForecast[date].icons.push(item.weather[0].icon);
+                });
+                
+                // Build forecast HTML
+                let forecastHtml = '<div style="margin-top:25px;"><h3>📅 5-Day Forecast</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:15px;">';
+                let dayCount = 0;
+                for (let [date, data] of Object.entries(dailyForecast)) {
+                    if (dayCount++ >= 5) break;
+                    let avgTemp = (data.temps.reduce((a,b)=>a+b,0)/data.temps.length).toFixed(0);
+                    let icon = getMostCommon(data.icons);
+                    forecastHtml += `
+                        <div style="background:var(--bg);border-radius:18px;padding:12px;text-align:center;">
+                            <div style="font-weight:600;">${formatDate(date)}</div>
+                            <img src="https://openweathermap.org/img/wn/${icon}.png" width="50">
+                            <div><strong>${avgTemp}°C</strong></div>
+                        </div>
+                    `;
+                }
+                forecastHtml += '</div></div>';
+                
+                // Current weather HTML
+                let currentHtml = `
+                    <div style="text-align:center;">
+                        <h2 style="color:#2e7d32;">📍 ${currentData.name}</h2>
+                        <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:15px 0;">
+                            <img src="https://openweathermap.org/img/wn/${currentData.weather[0].icon}@2x.png" width="80">
+                            <div>
+                                <div style="font-size:3rem;font-weight:700;">${Math.round(currentData.main.temp)}°C</div>
+                                <div>${currentData.weather[0].description}</div>
+                            </div>
+                        </div>
+                        <div>💧 ${currentData.main.humidity}% | 🌬️ ${currentData.wind.speed} km/h</div>
+                    </div>
+                `;
+                
+                let farmingAdvice = getFarmingAdvice(currentData.weather[0].main, currentData.main.temp);
+                resultDiv.innerHTML = currentHtml + forecastHtml + farmingAdvice;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color:red">❌ Unable to fetch location weather. Please try again.</p>`;
+            }
+        }, () => {
+            alert('Please allow location access to get weather for your area');
+        });
+    } else {
+        alert('Geolocation is not supported by your browser');
+    }
+};
         farmingTips = {
             en: ["🌱 Always test your soil before sowing - different crops need different nutrients","💧 Drip irrigation saves 30% water","🌾 Practice crop rotation - maintains soil fertility","🐛 Regular pest inspection - early detection saves crops","📱 Get all updates on PatuKrishi app","💰 Check mandi prices before selling - get best rates","🌞 Mulching helps retain soil moisture","🌱 Increase use of cow dung manure - reduce chemical fertilizers","🌾 Treat wheat seeds before sowing","🍚 Prepare nursery before paddy transplantation","🧶 Install pheromone traps to prevent pink bollworm in cotton","🎋 Use 2-3 eye pieces for sugarcane planting","🌽 Maintain 60x25 cm spacing for maize","🥔 Plant potatoes in October-November","🧅 Use 6-8 week old seedlings for onion nursery","🍅 Stake tomato plants for better yield","🌱 Green manure improves soil health","💧 Reduce irrigation in cold weather","🌾 Harvest wheat at 12-14% moisture","📊 Get crop insurance - protection against natural disasters","🌱 Maintain proper fertilizer quantity per hectare","💧 Check water quality for irrigation","🌾 Don't burn crop residue - beneficial for soil","🐛 Increase use of organic pesticides","🌱 Maintain proper seed rate - not too less or too much","📅 Sow Rabi crops in October-November","🌧️ Sow Kharif crops in June-July","☀️ Light irrigation for Zaid crops","🌾 4-5 irrigations sufficient for wheat","🍚 Maintain 5 cm water in paddy fields","🧶 Maintain 90x60 cm spacing for cotton","🌽 Top dress urea in maize","🥔 Earth up potato plants","🌱 Spray neem oil for crop protection","💧 Drip irrigated crops give higher yield","🌾 Harvest wheat in March-April","🍚 Harvest paddy in October-November","🧶 Pick cotton in October-December","🌽 Harvest maize in 90-110 days","🎋 Harvest sugarcane in 10-12 months","🌱 Sow groundnut in June-July","🌾 Sow mustard in October","🌱 Sow chickpea in October-November","🌾 Sow barley in October-November","🌱 Control pests in pigeon pea","💧 Prevent yellow mosaic in soybean","🌾 Sow bajra in July","🌱 Manage moisture in jowar crop","📊 Check mandi rates before selling","🌾 PatuKrishi - Every farmer's companion"],
             hi: ["🌱 बुवाई से पहले मिट्टी की जांच जरूर करें - अलग फसलों को अलग पोषक तत्व चाहिए","💧 ड्रिप सिंचाई से 30% पानी की बचत करें","🌾 फसल चक्र अपनाएं - मिट्टी की उर्वरता बनी रहेगी","🐛 कीटों की नियमित जांच करें - समय पर पहचान से फसल बचेगी","📱 पटुकृषि ऐप से हर अपडेट पाएं","💰 मंडी भाव देखकर ही फसल बेचें - सही दाम मिलेगा","🌞 मल्चिंग से मिट्टी की नमी बनी रहती है","🌱 गोबर खाद का प्रयोग बढ़ाएं - रासायनिक खाद कम करें","🌾 गेहूं की बुवाई से पहले बीज उपचार जरूरी","🍚 धान की रोपाई से पहले नर्सरी तैयार करें","🧶 कपास में गुलाबी सुंडी से बचाव के लिए फेरोमोन ट्रैप लगाएं","🎋 गन्ने की बुवाई के समय 2-3 आंख वाले टुकड़े लें","🌽 मक्का की फसल में 60x25 सेमी की दूरी रखें","🥔 आलू की बुवाई अक्टूबर-नवंबर में करें","🧅 प्याज की नर्सरी में 6-8 सप्ताह पुराने पौधे लगाएं","🍅 टमाटर में सहारा देने से उपज बढ़ती है","🌱 हरी खाद से मिट्टी की सेहत सुधरेगी","💧 ठंड के मौसम में सिंचाई कम करें","🌾 गेहूं की कटाई नमी 12-14% पर करें","📊 फसल बीमा जरूर कराएं - प्राकृतिक आपदा से बचाव","🌱 प्रति हेक्टेयर खाद की सही मात्रा का ध्यान रखें","💧 सिंचाई के लिए पानी की गुणवत्ता जांचें","🌾 फसल अवशेष न जलाएं - मिट्टी के लिए फायदेमंद","🐛 जैविक कीटनाशकों का प्रयोग बढ़ाएं","🌱 बीज दर का ध्यान रखें - कम या ज्यादा न हो","📅 रबी की बुवाई अक्टूबर-नवंबर में करें","🌧️ खरीफ की बुवाई जून-जुलाई में करें","☀️ जायद की फसलों के लिए हल्की सिंचाई","🌾 गेहूं में 4-5 सिंचाई पर्याप्त","🍚 धान में 5 सेमी पानी जरूर रखें","🧶 कपास में 90x60 सेमी की दूरी रखें","🌽 मक्का में यूरिया की टॉप ड्रेसिंग करें","🥔 आलू में मिट्टी चढ़ाना जरूरी","🌱 फसल सुरक्षा के लिए नीम तेल का छिड़काव","💧 ड्रिप सिंचित फसलों में पैदावार अधिक","🌾 गेहूं की कटाई मार्च-अप्रैल में","🍚 धान की कटाई अक्टूबर-नवंबर में","🧶 कपास की तुड़ाई अक्टूबर-दिसंबर में","🌽 मक्का की कटाई 90-110 दिन में","🎋 गन्ने की कटाई 10-12 महीने में","🌱 मूंगफली की बुवाई जून-जुलाई में","🌾 सरसों की बुवाई अक्टूबर में","🌱 चने की बुवाई अक्टूबर-नवंबर में","🌾 जौ की बुवाई अक्टूबर-नवंबर में","🌱 अरहर की फसल में कीट नियंत्रण जरूरी","💧 सोयाबीन में पीला मोज़ेक रोग से बचाव","🌾 बाजरे की बुवाई जुलाई में करें","🌱 ज्वार की फसल में नमी प्रबंधन","📊 मंडी भाव की जानकारी लेकर ही बेचें","🌾 पटुकृषि - हर किसान का साथी"],
