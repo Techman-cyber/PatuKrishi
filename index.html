@@ -127,7 +127,18 @@
 
         </section>
 
-        <section id="weather-section" class="content-section"><h2 class="agri-border"><i class="fas fa-map-marker-alt"></i> <span data-translate="weather-title">Weather · Mausam Salah</span></h2><div class="card"><div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center"><input type="text" id="cityInput" class="form-input" placeholder="Enter city (e.g. Delhi)" data-translate="city-placeholder" style="flex:2"><button class="btn-3d" onclick="getWeather()"><i class="fas fa-search"></i> <span data-translate="search">Search</span></button><button class="btn-3d" style="background:#f9a825" onclick="getLocationWeather()"><i class="fas fa-location-dot"></i> <span data-translate="my-location">My Location</span></button></div><div id="weather-result" style="margin-top:25px;display:none;padding:20px;background:var(--bg);border-radius:32px"></div></div></section>
+<!-- WEATHER SECTION with REAL 5-DAY FORECAST -->
+<section id="weather-section" class="content-section">
+    <h2 class="agri-border"><i class="fas fa-cloud-sun-rain"></i> Weather & 5-Day Forecast</h2>
+    <div class="card">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px">
+            <input type="text" id="cityInput" class="form-input" placeholder="Enter city name (Delhi, Mumbai, Chennai...)" style="flex:2">
+            <button class="btn-3d" onclick="getWeatherData()"><i class="fas fa-search"></i> Get Forecast</button>
+            <button class="btn-3d" style="background:#f9a825" onclick="getLocationWeatherData()"><i class="fas fa-location-dot"></i> My Location</button>
+        </div>
+        <div id="weather-result" style="display:none;"></div>
+    </div>
+</section>
 
         <section id="mandi-section" class="content-section"><h2 class="agri-border"><i class="fas fa-rupee-sign"></i> <span data-translate="mandi-title">Mandi Prices · Kai Bhav</span></h2><div class="card"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:25px"><select id="mandiStateSelect" class="nice-select" onchange="updateDistrictDropdown()"></select><select id="mandiDistrictSelect" class="nice-select"></select><select id="mandiCropSelect" class="nice-select"></select><button class="btn-3d" onclick="fetchMandiPrices()"><span data-translate="show-prices">Show Prices</span></button></div><div id="mandi-multiple-list" style="margin-bottom:20px"></div><div id="mandi-cards-container" class="mandi-card-grid"></div></div></section>
 
