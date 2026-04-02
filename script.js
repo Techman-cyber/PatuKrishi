@@ -1,4 +1,5 @@
 (function(){
+    // ==================== SWIPER INITIALIZATION ====================
     const swiper = new Swiper('.mySwiper', {
         loop: !0,
         autoplay: {
@@ -14,238 +15,341 @@
             prevEl: '.swiper-button-prev'
         }
     });
+    
+    // ==================== GLOBAL VARIABLES ====================
     let currentUser = null,
         userDatabase = JSON.parse(localStorage.getItem('patukrishi_users') || '{}'),
         currentLanguage = 'en';
-   // ==================== WEATHER API KEY ====================
-// GET FREE API KEY FROM: https://openweathermap.org/api
-const WEATHER_API_KEY = '20f6a3909724aac57a9b95e4f3e0194c';
-// ↑↑↑ REPLACE WITH YOUR OWN API KEY ↑↑↑
-
-// ==================== WEATHER HELPER FUNCTIONS ====================
-function getMostCommon(arr) {
-    return arr.sort((a, b) => arr.filter(v => v === a).length - arr.filter(v => v === b).length).pop();
-}
-
-function formatDate(dateStr) {
-    let date = new Date(dateStr);
-    let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`;
-}
-
-function getFarmingAdvice(weatherCondition, temperature) {
-    if (weatherCondition.includes('Rain') || weatherCondition.includes('Drizzle')) {
-        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
-            <strong>🌧️ Rain Alert:</strong> Avoid spraying pesticides. Check for waterlogging in fields. Good for irrigation.
-        </div>`;
-    } else if (weatherCondition.includes('Clear') && temperature > 35) {
-        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
-            <strong>☀️ Heat Alert:</strong> Increase irrigation frequency. Provide shade for sensitive crops. Best time for harvesting.
-        </div>`;
-    } else if (weatherCondition.includes('Clear') || weatherCondition.includes('Sun')) {
-        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
-            <strong>🌾 Good Farming Weather:</strong> Ideal for spraying, weeding, and harvesting activities.
-        </div>`;
-    } else if (weatherCondition.includes('Cloud')) {
-        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
-            <strong>☁️ Cloudy Day:</strong> Good for transplanting seedlings. Monitor for pest activity in humid conditions.
-        </div>`;
-    } else if (weatherCondition.includes('Thunderstorm')) {
-        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
-            <strong>⛈️ Storm Alert:</strong> Secure farm equipment. Avoid field work. Ensure proper drainage.
-        </div>`;
-    }
-    return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
-        <strong>🌱 Farming Tip:</strong> Check soil moisture regularly. Maintain proper irrigation schedule.
-    </div>`;
-}
-
-// ==================== MAIN WEATHER FUNCTION (REAL 5-DAY FORECAST) ====================
-window.getWeatherData = async () => {
-    let city = document.getElementById('cityInput').value;
-    let resultDiv = document.getElementById('weather-result');
     
-    if (!city) {
-        resultDiv.innerHTML = '<p style="color:red">❌ Please enter a city name</p>';
-        resultDiv.style.display = 'block';
-        return;
+    // ==================== API KEYS ====================
+    const WEATHER_API_KEY = '20f6a3909724aac57a9b95e4f3e0194c';
+    const MANDI_API_URL = 'https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070';
+    const MANDI_API_KEY = '579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b';
+    
+    // ==================== WEATHER HELPER FUNCTIONS ====================
+    function getMostCommon(arr) {
+        return arr.sort((a, b) => arr.filter(v => v === a).length - arr.filter(v => v === b).length).pop();
     }
     
-    resultDiv.style.display = 'block';
-    resultDiv.innerHTML = '<div style="text-align:center"><i class="fas fa-spinner fa-pulse fa-2x"></i><p>Fetching weather data...</p></div>';
+    function formatDate(dateStr) {
+        let date = new Date(dateStr);
+        let days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`;
+    }
     
-    try {
-        // Fetch CURRENT weather
-        let currentRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&units=metric`);
-        let currentData = await currentRes.json();
-        
-        if (currentData.cod !== 200) throw new Error(currentData.message);
-        
-        // Fetch 5-DAY FORECAST (every 3 hours)
-        let forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${WEATHER_API_KEY}&units=metric`);
-        let forecastData = await forecastRes.json();
-        
-        if (forecastData.cod !== '200') throw new Error(forecastData.message);
-        
-        // GROUP forecast data by day
-        let dailyForecast = {};
-        forecastData.list.forEach(item => {
-            let date = new Date(item.dt * 1000).toLocaleDateString();
-            if (!dailyForecast[date]) {
-                dailyForecast[date] = {
-                    temps: [],
-                    icons: [],
-                    conditions: []
-                };
+    function getFarmingAdvice(weatherCondition, temperature) {
+        if (weatherCondition.includes('Rain') || weatherCondition.includes('Drizzle')) {
+            return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+                <strong>🌧️ Rain Alert:</strong> Avoid spraying pesticides. Check for waterlogging in fields. Good for irrigation.
+            </div>`;
+        } else if (weatherCondition.includes('Clear') && temperature > 35) {
+            return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+                <strong>☀️ Heat Alert:</strong> Increase irrigation frequency. Provide shade for sensitive crops. Best time for harvesting.
+            </div>`;
+        } else if (weatherCondition.includes('Clear') || weatherCondition.includes('Sun')) {
+            return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+                <strong>🌾 Good Farming Weather:</strong> Ideal for spraying, weeding, and harvesting activities.
+            </div>`;
+        } else if (weatherCondition.includes('Cloud')) {
+            return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+                <strong>☁️ Cloudy Day:</strong> Good for transplanting seedlings. Monitor for pest activity in humid conditions.
+            </div>`;
+        } else if (weatherCondition.includes('Thunderstorm')) {
+            return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+                <strong>⛈️ Storm Alert:</strong> Secure farm equipment. Avoid field work. Ensure proper drainage.
+            </div>`;
+        }
+        return `<div style="margin-top:25px;padding:20px;background:linear-gradient(135deg,#2e7d32,#f9a825);border-radius:25px;color:white;">
+            <strong>🌱 Farming Tip:</strong> Check soil moisture regularly. Maintain proper irrigation schedule.
+        </div>`;
+    }
+    
+    // ==================== REAL MANDI API FUNCTION ====================
+    async function fetchRealMandiPricesFromAPI(state, district, commodity) {
+        try {
+            const url = `${MANDI_API_URL}?api-key=${MANDI_API_KEY}&format=json&filters[state]=${encodeURIComponent(state)}&filters[district]=${encodeURIComponent(district)}&filters[commodity]=${encodeURIComponent(commodity)}&limit=20`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data && data.records && data.records.length > 0) {
+                return data.records;
             }
-            dailyForecast[date].temps.push(item.main.temp);
-            dailyForecast[date].icons.push(item.weather[0].icon);
-            dailyForecast[date].conditions.push(item.weather[0].description);
-        });
+            return null;
+        } catch (error) {
+            console.error('Error fetching mandi prices:', error);
+            return null;
+        }
+    }
+    
+    // ==================== MAIN WEATHER FUNCTION (REAL 5-DAY FORECAST) ====================
+    window.getWeatherData = async () => {
+        let city = document.getElementById('cityInput').value;
+        let resultDiv = document.getElementById('weather-result');
         
-        // BUILD 5-DAY FORECAST HTML
-        let forecastHtml = '<div style="margin-top:25px;"><h3>📅 5-Day Weather Forecast</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:15px;margin-top:15px;">';
+        if (!city) {
+            resultDiv.innerHTML = '<p style="color:red">❌ Please enter a city name</p>';
+            resultDiv.style.display = 'block';
+            return;
+        }
         
-        let dayCount = 0;
-        for (let [date, data] of Object.entries(dailyForecast)) {
-            if (dayCount >= 5) break;
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = '<div style="text-align:center"><i class="fas fa-spinner fa-pulse fa-2x"></i><p>Fetching weather data...</p></div>';
+        
+        try {
+            // Fetch CURRENT weather
+            let currentRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${WEATHER_API_KEY}&units=metric`);
+            let currentData = await currentRes.json();
             
-            let avgTemp = (data.temps.reduce((a, b) => a + b, 0) / data.temps.length).toFixed(0);
-            let minTemp = Math.min(...data.temps).toFixed(0);
-            let maxTemp = Math.max(...data.temps).toFixed(0);
-            let mostCommonIcon = getMostCommon(data.icons);
-            let mostCommonCondition = getMostCommon(data.conditions);
+            if (currentData.cod !== 200) throw new Error(currentData.message);
             
-            forecastHtml += `
-                <div style="background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid var(--border); box-shadow: var(--shadow);">
-                    <div style="font-weight: 700; color: #2e7d32; margin-bottom: 10px;">${formatDate(date)}</div>
-                    <img src="https://openweathermap.org/img/wn/${mostCommonIcon}@2x.png" alt="weather" style="width: 60px;">
-                    <div style="font-size: 1.6rem; font-weight: 700; margin: 8px 0;">${avgTemp}°C</div>
-                    <div style="font-size: 0.85rem; color: #666; text-transform: capitalize;">${mostCommonCondition}</div>
-                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px; font-size: 0.8rem;">
-                        <span style="color: #f9a825;">↑ ${maxTemp}°</span>
-                        <span style="color: #2e7d32;">↓ ${minTemp}°</span>
+            // Fetch 5-DAY FORECAST (every 3 hours)
+            let forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${WEATHER_API_KEY}&units=metric`);
+            let forecastData = await forecastRes.json();
+            
+            if (forecastData.cod !== '200') throw new Error(forecastData.message);
+            
+            // GROUP forecast data by day
+            let dailyForecast = {};
+            forecastData.list.forEach(item => {
+                let date = new Date(item.dt * 1000).toLocaleDateString();
+                if (!dailyForecast[date]) {
+                    dailyForecast[date] = {
+                        temps: [],
+                        icons: [],
+                        conditions: []
+                    };
+                }
+                dailyForecast[date].temps.push(item.main.temp);
+                dailyForecast[date].icons.push(item.weather[0].icon);
+                dailyForecast[date].conditions.push(item.weather[0].description);
+            });
+            
+            // BUILD 5-DAY FORECAST HTML
+            let forecastHtml = '<div style="margin-top:25px;"><h3>📅 5-Day Weather Forecast</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:15px;margin-top:15px;">';
+            
+            let dayCount = 0;
+            for (let [date, data] of Object.entries(dailyForecast)) {
+                if (dayCount >= 5) break;
+                
+                let avgTemp = (data.temps.reduce((a, b) => a + b, 0) / data.temps.length).toFixed(0);
+                let minTemp = Math.min(...data.temps).toFixed(0);
+                let maxTemp = Math.max(...data.temps).toFixed(0);
+                let mostCommonIcon = getMostCommon(data.icons);
+                let mostCommonCondition = getMostCommon(data.conditions);
+                
+                forecastHtml += `
+                    <div style="background: var(--card-bg); border-radius: 20px; padding: 15px; text-align: center; border: 1px solid var(--border); box-shadow: var(--shadow);">
+                        <div style="font-weight: 700; color: #2e7d32; margin-bottom: 10px;">${formatDate(date)}</div>
+                        <img src="https://openweathermap.org/img/wn/${mostCommonIcon}@2x.png" alt="weather" style="width: 60px;">
+                        <div style="font-size: 1.6rem; font-weight: 700; margin: 8px 0;">${avgTemp}°C</div>
+                        <div style="font-size: 0.85rem; color: #666; text-transform: capitalize;">${mostCommonCondition}</div>
+                        <div style="display: flex; justify-content: center; gap: 20px; margin-top: 10px; font-size: 0.8rem;">
+                            <span style="color: #f9a825;">↑ ${maxTemp}°</span>
+                            <span style="color: #2e7d32;">↓ ${minTemp}°</span>
+                        </div>
+                    </div>
+                `;
+                dayCount++;
+            }
+            forecastHtml += '</div></div>';
+            
+            // BUILD CURRENT WEATHER HTML
+            let currentHtml = `
+                <div style="text-align: center; padding: 20px; background: var(--bg); border-radius: 32px; margin-bottom: 20px;">
+                    <h2 style="color: #2e7d32;">📍 ${currentData.name}, ${currentData.sys.country}</h2>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 25px; margin: 20px 0; flex-wrap: wrap;">
+                        <img src="https://openweathermap.org/img/wn/${currentData.weather[0].icon}@4x.png" alt="weather" style="width: 100px;">
+                        <div>
+                            <div style="font-size: 4rem; font-weight: 700;">${Math.round(currentData.main.temp)}°C</div>
+                            <div style="font-size: 1.3rem; text-transform: capitalize;">${currentData.weather[0].description}</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 15px;">
+                        <div><i class="fas fa-thermometer-half"></i> Feels like: ${Math.round(currentData.main.feels_like)}°C</div>
+                        <div><i class="fas fa-tint"></i> Humidity: ${currentData.main.humidity}%</div>
+                        <div><i class="fas fa-wind"></i> Wind: ${currentData.wind.speed} km/h</div>
+                        <div><i class="fas fa-compress-alt"></i> Pressure: ${currentData.main.pressure} hPa</div>
                     </div>
                 </div>
             `;
-            dayCount++;
+            
+            let farmingAdvice = getFarmingAdvice(currentData.weather[0].main, currentData.main.temp);
+            resultDiv.innerHTML = currentHtml + forecastHtml + farmingAdvice;
+            
+        } catch (error) {
+            resultDiv.innerHTML = `<p style="color:red">❌ Error: ${error.message}. Please check city name and try again.</p>`;
         }
-        forecastHtml += '</div></div>';
-        
-        // BUILD CURRENT WEATHER HTML
-        let currentHtml = `
-            <div style="text-align: center; padding: 20px; background: var(--bg); border-radius: 32px; margin-bottom: 20px;">
-                <h2 style="color: #2e7d32;">📍 ${currentData.name}, ${currentData.sys.country}</h2>
-                <div style="display: flex; align-items: center; justify-content: center; gap: 25px; margin: 20px 0; flex-wrap: wrap;">
-                    <img src="https://openweathermap.org/img/wn/${currentData.weather[0].icon}@4x.png" alt="weather" style="width: 100px;">
-                    <div>
-                        <div style="font-size: 4rem; font-weight: 700;">${Math.round(currentData.main.temp)}°C</div>
-                        <div style="font-size: 1.3rem; text-transform: capitalize;">${currentData.weather[0].description}</div>
-                    </div>
-                </div>
-                <div style="display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; margin-top: 15px;">
-                    <div><i class="fas fa-thermometer-half"></i> Feels like: ${Math.round(currentData.main.feels_like)}°C</div>
-                    <div><i class="fas fa-tint"></i> Humidity: ${currentData.main.humidity}%</div>
-                    <div><i class="fas fa-wind"></i> Wind: ${currentData.wind.speed} km/h</div>
-                    <div><i class="fas fa-compress-alt"></i> Pressure: ${currentData.main.pressure} hPa</div>
-                </div>
-            </div>
-        `;
-        
-        // ADD FARMING ADVICE
-        let farmingAdvice = getFarmingAdvice(currentData.weather[0].main, currentData.main.temp);
-        
-        // DISPLAY EVERYTHING
-        resultDiv.innerHTML = currentHtml + forecastHtml + farmingAdvice;
-        
-    } catch (error) {
-        resultDiv.innerHTML = `
-            <div style="background: #d32f2f; color: white; padding: 20px; border-radius: 28px; text-align: center;">
-                <i class="fas fa-exclamation-triangle"></i> Error: ${error.message}<br>
-                <small>Please check city name.</small>
-            </div>
-        `;
-    }
-};
-
-// ==================== LOCATION WEATHER FUNCTION ====================
-window.getLocationWeatherData = () => {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(async (position) => {
-            let lat = position.coords.latitude;
-            let lon = position.coords.longitude;
-            let resultDiv = document.getElementById('weather-result');
-            
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<div style="text-align:center"><i class="fas fa-spinner fa-pulse fa-2x"></i><p>Fetching weather for your location...</p></div>';
-            
-            try {
-                // Current weather by coordinates
-                let currentRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`);
-                let currentData = await currentRes.json();
+    };
+    
+    // ==================== LOCATION WEATHER FUNCTION ====================
+    window.getLocationWeatherData = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                let lat = position.coords.latitude;
+                let lon = position.coords.longitude;
+                let resultDiv = document.getElementById('weather-result');
                 
-                // 5-day forecast by coordinates
-                let forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`);
-                let forecastData = await forecastRes.json();
+                resultDiv.style.display = 'block';
+                resultDiv.innerHTML = '<div style="text-align:center"><i class="fas fa-spinner fa-pulse fa-2x"></i><p>Fetching weather for your location...</p></div>';
                 
-                // Group forecast by day
-                let dailyForecast = {};
-                forecastData.list.forEach(item => {
-                    let date = new Date(item.dt * 1000).toLocaleDateString();
-                    if (!dailyForecast[date]) {
-                        dailyForecast[date] = { temps: [], icons: [] };
+                try {
+                    // Current weather by coordinates
+                    let currentRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`);
+                    let currentData = await currentRes.json();
+                    
+                    // 5-day forecast by coordinates
+                    let forecastRes = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`);
+                    let forecastData = await forecastRes.json();
+                    
+                    // Group forecast by day
+                    let dailyForecast = {};
+                    forecastData.list.forEach(item => {
+                        let date = new Date(item.dt * 1000).toLocaleDateString();
+                        if (!dailyForecast[date]) {
+                            dailyForecast[date] = { temps: [], icons: [], conditions: [] };
+                        }
+                        dailyForecast[date].temps.push(item.main.temp);
+                        dailyForecast[date].icons.push(item.weather[0].icon);
+                        dailyForecast[date].conditions.push(item.weather[0].description);
+                    });
+                    
+                    // Build forecast HTML
+                    let forecastHtml = '<div style="margin-top:25px;"><h3>📅 5-Day Forecast</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:15px;">';
+                    let dayCount = 0;
+                    for (let [date, data] of Object.entries(dailyForecast)) {
+                        if (dayCount++ >= 5) break;
+                        let avgTemp = (data.temps.reduce((a,b)=>a+b,0)/data.temps.length).toFixed(0);
+                        let icon = getMostCommon(data.icons);
+                        let condition = getMostCommon(data.conditions);
+                        forecastHtml += `
+                            <div style="background:var(--bg);border-radius:18px;padding:12px;text-align:center;">
+                                <div style="font-weight:600;">${formatDate(date)}</div>
+                                <img src="https://openweathermap.org/img/wn/${icon}.png" width="50">
+                                <div><strong>${avgTemp}°C</strong></div>
+                                <div style="font-size:0.75rem;">${condition}</div>
+                            </div>
+                        `;
                     }
-                    dailyForecast[date].temps.push(item.main.temp);
-                    dailyForecast[date].icons.push(item.weather[0].icon);
-                });
-                
-                // Build forecast HTML
-                let forecastHtml = '<div style="margin-top:25px;"><h3>📅 5-Day Forecast</h3><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:15px;">';
-                let dayCount = 0;
-                for (let [date, data] of Object.entries(dailyForecast)) {
-                    if (dayCount++ >= 5) break;
-                    let avgTemp = (data.temps.reduce((a,b)=>a+b,0)/data.temps.length).toFixed(0);
-                    let icon = getMostCommon(data.icons);
-                    forecastHtml += `
-                        <div style="background:var(--bg);border-radius:18px;padding:12px;text-align:center;">
-                            <div style="font-weight:600;">${formatDate(date)}</div>
-                            <img src="https://openweathermap.org/img/wn/${icon}.png" width="50">
-                            <div><strong>${avgTemp}°C</strong></div>
+                    forecastHtml += '</div></div>';
+                    
+                    // Current weather HTML
+                    let currentHtml = `
+                        <div style="text-align:center;">
+                            <h2 style="color:#2e7d32;">📍 ${currentData.name}</h2>
+                            <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:15px 0;">
+                                <img src="https://openweathermap.org/img/wn/${currentData.weather[0].icon}@2x.png" width="80">
+                                <div>
+                                    <div style="font-size:3rem;font-weight:700;">${Math.round(currentData.main.temp)}°C</div>
+                                    <div>${currentData.weather[0].description}</div>
+                                </div>
+                            </div>
+                            <div>💧 ${currentData.main.humidity}% | 🌬️ ${currentData.wind.speed} km/h</div>
                         </div>
                     `;
+                    
+                    let farmingAdvice = getFarmingAdvice(currentData.weather[0].main, currentData.main.temp);
+                    resultDiv.innerHTML = currentHtml + forecastHtml + farmingAdvice;
+                    
+                } catch (error) {
+                    resultDiv.innerHTML = `<p style="color:red">❌ Unable to fetch location weather. Please try again.</p>`;
                 }
-                forecastHtml += '</div></div>';
-                
-                // Current weather HTML
-                let currentHtml = `
-                    <div style="text-align:center;">
-                        <h2 style="color:#2e7d32;">📍 ${currentData.name}</h2>
-                        <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:15px 0;">
-                            <img src="https://openweathermap.org/img/wn/${currentData.weather[0].icon}@2x.png" width="80">
-                            <div>
-                                <div style="font-size:3rem;font-weight:700;">${Math.round(currentData.main.temp)}°C</div>
-                                <div>${currentData.weather[0].description}</div>
-                            </div>
-                        </div>
-                        <div>💧 ${currentData.main.humidity}% | 🌬️ ${currentData.wind.speed} km/h</div>
-                    </div>
-                `;
-                
-                let farmingAdvice = getFarmingAdvice(currentData.weather[0].main, currentData.main.temp);
-                resultDiv.innerHTML = currentHtml + forecastHtml + farmingAdvice;
-                
-            } catch (error) {
-                resultDiv.innerHTML = `<p style="color:red">❌ Unable to fetch location weather. Please try again.</p>`;
+            }, () => {
+                alert('Please allow location access to get weather for your area');
+            });
+        } else {
+            alert('Geolocation is not supported by your browser');
+        }
+    };
+    
+    // ==================== UPDATED MANDI PRICES FUNCTION WITH REAL API ====================
+    window.fetchMandiPrices = async () => {
+        const state = document.getElementById('mandiStateSelect').value;
+        const district = document.getElementById('mandiDistrictSelect').value;
+        const crop = document.getElementById('mandiCropSelect').value;
+        const container = document.getElementById('mandi-cards-container');
+        const messageDiv = document.getElementById('mandi-multiple-list');
+        
+        if (!state || !district || !crop) {
+            showNotification('Please select state, district and crop', 'error');
+            return;
+        }
+        
+        container.innerHTML = '<div style="text-align:center; padding:40px;"><i class="fas fa-spinner fa-pulse fa-3x"></i><p>Fetching live mandi prices from government API...</p></div>';
+        
+        try {
+            const records = await fetchRealMandiPricesFromAPI(state, district, crop);
+            if (records && records.length > 0) {
+                container.innerHTML = '';
+                records.forEach(record => {
+                    const card = document.createElement('div');
+                    card.className = 'market-card';
+                    const price = record.modal_price || record.avg_price || record.min_price || record.max_price;
+                    const priceValue = price ? `₹${parseInt(price).toLocaleString()}` : 'N/A';
+                    card.innerHTML = `
+                        <h4>🏪 ${record.market || record.arrival_mandi || 'Market Name'}</h4>
+                        <p><strong>🌾 Crop:</strong> ${record.commodity || crop}</p>
+                        <p><strong>💰 Price (₹/q):</strong> <span style="font-size:1.4rem; color:#2e7d32;">${priceValue}</span></p>
+                        <p><strong>📅 Date:</strong> ${record.arrival_date || record.updated_date || 'Latest'}</p>
+                        <p><strong>📍 Location:</strong> ${record.district || district}, ${record.state || state}</p>
+                        <small style="color:#666;">📊 Source: AGMARKNET (Government of India)</small>
+                    `;
+                    container.appendChild(card);
+                });
+                messageDiv.innerHTML = `<p class="big-friendly" style="background:#e8f5e9; padding:15px; border-radius:15px;">
+                    ✅ <strong>Real-time mandi prices from ${district}, ${state}</strong><br>
+                    Showing ${records.length} market rates for ${crop}. Prices are updated by government sources.
+                </p>`;
+                showNotification(`Found ${records.length} market rates for ${crop} in ${district}`, 'success');
+            } else {
+                useMockMandiData(state, district, crop, container, messageDiv);
+                showNotification(`Using demo data for ${crop}. Real API will update soon.`, 'info');
             }
-        }, () => {
-            alert('Please allow location access to get weather for your area');
+        } catch (error) {
+            console.error('API error, using mock data:', error);
+            useMockMandiData(state, district, crop, container, messageDiv);
+            showNotification('Unable to fetch live prices. Showing demo data.', 'warning');
+        }
+    };
+    
+    function useMockMandiData(state, district, crop, container, messageDiv) {
+        const cropsData = {
+            'Wheat': { basePrice: 2450, markets: ['APMC Main Yard', 'Grain Market', 'Kisan Mandi', 'Wholesale Market'], minPrice: 2350, maxPrice: 2550 },
+            'Rice': { basePrice: 2150, markets: ['Rice Millers Association', 'Grain Market', 'APMC Yard', 'Farmers Market'], minPrice: 2050, maxPrice: 2250 },
+            'Tomato': { basePrice: 45, markets: ['Vegetable Market', 'Farmers Market', 'Wholesale Mandi', 'Retail Hub'], minPrice: 35, maxPrice: 65 },
+            'Potato': { basePrice: 2850, markets: ['Cold Storage Hub', 'APMC Market', 'Farmers Mandi', 'Wholesale Center'], minPrice: 2750, maxPrice: 3100 },
+            'Onion': { basePrice: 3900, markets: ['Lasalgaon Market', 'APMC Yard', 'Farmers Mandi', 'Wholesale Hub'], minPrice: 3500, maxPrice: 4500 },
+            'Cotton': { basePrice: 7200, markets: ['Cotton Mandi', 'Ginning Mill Hub', 'APMC Yard', 'Farmers Market'], minPrice: 6900, maxPrice: 7600 },
+            'Maize': { basePrice: 2100, markets: ['Grain Market', 'APMC Yard', 'Farmers Mandi', 'Wholesale Hub'], minPrice: 2000, maxPrice: 2250 },
+            'Sugarcane': { basePrice: 380, markets: ['Sugar Mill Gate', 'Cooperative Society', 'Farmers Mandi', 'APMC Yard'], minPrice: 360, maxPrice: 410 }
+        };
+        const cropData = cropsData[crop] || { basePrice: 2000, markets: ['Main Market', 'APMC Yard', 'Local Mandi', 'Farmers Market'], minPrice: 1900, maxPrice: 2200 };
+        container.innerHTML = '';
+        cropData.markets.forEach((marketName) => {
+            const variation = (Math.random() - 0.5) * 200;
+            const price = Math.round(cropData.basePrice + variation);
+            const minPrice = cropData.minPrice || (cropData.basePrice - 100);
+            const maxPrice = cropData.maxPrice || (cropData.basePrice + 100);
+            const change = ((Math.random() - 0.5) * 8).toFixed(1);
+            const changeClass = change >= 0 ? 'price-up' : 'price-down';
+            const card = document.createElement('div');
+            card.className = 'market-card';
+            card.innerHTML = `
+                <h4>🏪 ${marketName}</h4>
+                <p><strong>🌾 Crop:</strong> ${crop}</p>
+                <p><strong>💰 Price (₹/q):</strong> <span style="font-size:1.4rem; color:#2e7d32;">₹${price.toLocaleString()}</span></p>
+                <p><strong>📊 Range:</strong> ₹${minPrice} - ₹${maxPrice}</p>
+                <p><strong>📈 Change:</strong> <span class="${changeClass}">${change}%</span></p>
+                <p><strong>📍 Market:</strong> ${district}, ${state}</p>
+                <small style="color:#f9a825;">🔄 Demo data - Real API coming soon</small>
+            `;
+            container.appendChild(card);
         });
-    } else {
-        alert('Geolocation is not supported by your browser');
+        messageDiv.innerHTML = `<p class="big-friendly" style="background:#fff3e0; padding:15px; border-radius:15px;">
+            📊 <strong>${district} mandi prices for ${crop}</strong><br>
+            Showing ${cropData.markets.length} market rates. Compare prices before selling your crop!
+        </p>`;
     }
-};
-        farmingTips = {
+ farmingTips = {
             en: ["🌱 Always test your soil before sowing - different crops need different nutrients","💧 Drip irrigation saves 30% water","🌾 Practice crop rotation - maintains soil fertility","🐛 Regular pest inspection - early detection saves crops","📱 Get all updates on PatuKrishi app","💰 Check mandi prices before selling - get best rates","🌞 Mulching helps retain soil moisture","🌱 Increase use of cow dung manure - reduce chemical fertilizers","🌾 Treat wheat seeds before sowing","🍚 Prepare nursery before paddy transplantation","🧶 Install pheromone traps to prevent pink bollworm in cotton","🎋 Use 2-3 eye pieces for sugarcane planting","🌽 Maintain 60x25 cm spacing for maize","🥔 Plant potatoes in October-November","🧅 Use 6-8 week old seedlings for onion nursery","🍅 Stake tomato plants for better yield","🌱 Green manure improves soil health","💧 Reduce irrigation in cold weather","🌾 Harvest wheat at 12-14% moisture","📊 Get crop insurance - protection against natural disasters","🌱 Maintain proper fertilizer quantity per hectare","💧 Check water quality for irrigation","🌾 Don't burn crop residue - beneficial for soil","🐛 Increase use of organic pesticides","🌱 Maintain proper seed rate - not too less or too much","📅 Sow Rabi crops in October-November","🌧️ Sow Kharif crops in June-July","☀️ Light irrigation for Zaid crops","🌾 4-5 irrigations sufficient for wheat","🍚 Maintain 5 cm water in paddy fields","🧶 Maintain 90x60 cm spacing for cotton","🌽 Top dress urea in maize","🥔 Earth up potato plants","🌱 Spray neem oil for crop protection","💧 Drip irrigated crops give higher yield","🌾 Harvest wheat in March-April","🍚 Harvest paddy in October-November","🧶 Pick cotton in October-December","🌽 Harvest maize in 90-110 days","🎋 Harvest sugarcane in 10-12 months","🌱 Sow groundnut in June-July","🌾 Sow mustard in October","🌱 Sow chickpea in October-November","🌾 Sow barley in October-November","🌱 Control pests in pigeon pea","💧 Prevent yellow mosaic in soybean","🌾 Sow bajra in July","🌱 Manage moisture in jowar crop","📊 Check mandi rates before selling","🌾 PatuKrishi - Every farmer's companion"],
             hi: ["🌱 बुवाई से पहले मिट्टी की जांच जरूर करें - अलग फसलों को अलग पोषक तत्व चाहिए","💧 ड्रिप सिंचाई से 30% पानी की बचत करें","🌾 फसल चक्र अपनाएं - मिट्टी की उर्वरता बनी रहेगी","🐛 कीटों की नियमित जांच करें - समय पर पहचान से फसल बचेगी","📱 पटुकृषि ऐप से हर अपडेट पाएं","💰 मंडी भाव देखकर ही फसल बेचें - सही दाम मिलेगा","🌞 मल्चिंग से मिट्टी की नमी बनी रहती है","🌱 गोबर खाद का प्रयोग बढ़ाएं - रासायनिक खाद कम करें","🌾 गेहूं की बुवाई से पहले बीज उपचार जरूरी","🍚 धान की रोपाई से पहले नर्सरी तैयार करें","🧶 कपास में गुलाबी सुंडी से बचाव के लिए फेरोमोन ट्रैप लगाएं","🎋 गन्ने की बुवाई के समय 2-3 आंख वाले टुकड़े लें","🌽 मक्का की फसल में 60x25 सेमी की दूरी रखें","🥔 आलू की बुवाई अक्टूबर-नवंबर में करें","🧅 प्याज की नर्सरी में 6-8 सप्ताह पुराने पौधे लगाएं","🍅 टमाटर में सहारा देने से उपज बढ़ती है","🌱 हरी खाद से मिट्टी की सेहत सुधरेगी","💧 ठंड के मौसम में सिंचाई कम करें","🌾 गेहूं की कटाई नमी 12-14% पर करें","📊 फसल बीमा जरूर कराएं - प्राकृतिक आपदा से बचाव","🌱 प्रति हेक्टेयर खाद की सही मात्रा का ध्यान रखें","💧 सिंचाई के लिए पानी की गुणवत्ता जांचें","🌾 फसल अवशेष न जलाएं - मिट्टी के लिए फायदेमंद","🐛 जैविक कीटनाशकों का प्रयोग बढ़ाएं","🌱 बीज दर का ध्यान रखें - कम या ज्यादा न हो","📅 रबी की बुवाई अक्टूबर-नवंबर में करें","🌧️ खरीफ की बुवाई जून-जुलाई में करें","☀️ जायद की फसलों के लिए हल्की सिंचाई","🌾 गेहूं में 4-5 सिंचाई पर्याप्त","🍚 धान में 5 सेमी पानी जरूर रखें","🧶 कपास में 90x60 सेमी की दूरी रखें","🌽 मक्का में यूरिया की टॉप ड्रेसिंग करें","🥔 आलू में मिट्टी चढ़ाना जरूरी","🌱 फसल सुरक्षा के लिए नीम तेल का छिड़काव","💧 ड्रिप सिंचित फसलों में पैदावार अधिक","🌾 गेहूं की कटाई मार्च-अप्रैल में","🍚 धान की कटाई अक्टूबर-नवंबर में","🧶 कपास की तुड़ाई अक्टूबर-दिसंबर में","🌽 मक्का की कटाई 90-110 दिन में","🎋 गन्ने की कटाई 10-12 महीने में","🌱 मूंगफली की बुवाई जून-जुलाई में","🌾 सरसों की बुवाई अक्टूबर में","🌱 चने की बुवाई अक्टूबर-नवंबर में","🌾 जौ की बुवाई अक्टूबर-नवंबर में","🌱 अरहर की फसल में कीट नियंत्रण जरूरी","💧 सोयाबीन में पीला मोज़ेक रोग से बचाव","🌾 बाजरे की बुवाई जुलाई में करें","🌱 ज्वार की फसल में नमी प्रबंधन","📊 मंडी भाव की जानकारी लेकर ही बेचें","🌾 पटुकृषि - हर किसान का साथी"],
             bn: ["🌱 বপনের আগে মাটি পরীক্ষা করুন - বিভিন্ন ফসলের বিভিন্ন পুষ্টি প্রয়োজন","💧 ড্রিপ সেচ 30% জল বাঁচায়","🌾 ফসলের আবর্তন করুন - মাটির উর্বরতা বজায় থাকে","🐛 নিয়মিত পোকা পরীক্ষা - আগে শনাক্ত করলে ফসল বাঁচে","📱 পাটুকৃষি অ্যাপে সব আপডেট পান","💰 বিক্রির আগে মন্ডির দাম দেখুন - সেরা দাম পান","🌞 মালচিং মাটির আর্দ্রতা ধরে রাখে","🌱 গোবর সারের ব্যবহার বাড়ান - রাসায়নিক সার কমান","🌾 বপনের আগে গমের বীজ শোধন করুন","🍚 ধান রোপণের আগে নার্সারি তৈরি করুন","🧶 তুলোতে গোলাপী বলওয়ার্ম প্রতিরোধে ফেরোমন ফাঁদ বসান","🎋 আখ রোপণের সময় 2-3 চোখযুক্ত টুকরো ব্যবহার করুন","🌽 ভুট্টার জন্য 60x25 সেমি দূরত্ব বজায় রাখুন","🥔 অক্টোবর-নভেম্বরে আলু রোপণ করুন","🧅 পেঁয়াজের নার্সারিতে 6-8 সপ্তাহের চারা ব্যবহার করুন","🍅 ভাল ফলনের জন্য টমেটো গাছকে সাপোর্ট দিন","🌱 সবুজ সার মাটির স্বাস্থ্য উন্নত করে","💧 ঠান্ডা আবহাওয়ায় সেচ কমান","🌾 12-14% আর্দ্রতায় গম কাটুন","📊 ফসল বীমা করান - প্রাকৃতিক দুর্যোগ থেকে সুরক্ষা","🌱 প্রতি হেক্টরে সঠিক সার পরিমাণ বজায় রাখুন","💧 সেচের জন্য জলের গুণমান পরীক্ষা করুন","🌾 ফসলের অবশিষ্টাংশ পোড়াবেন না - মাটির জন্য উপকারী","🐛 জৈব কীটনাশকের ব্যবহার বাড়ান","🌱 সঠিক বীজ হার বজায় রাখুন - কম বা বেশি না হয়","📅 অক্টোবর-নভেম্বরে রবি ফসল বপন করুন","🌧️ জুন-জুলাইতে খরিফ ফসল বপন করুন","☀️ জায়েদ ফসলের জন্য হালকা সেচ","🌾 গমের জন্য 4-5 সেচ যথেষ্ট","🍚 ধান ক্ষেতে 5 সেমি জল বজায় রাখুন","🧶 তুলোর জন্য 90x60 সেমি দূরত্ব বজায় রাখুন","🌽 ভুট্টায় ইউরিয়ার টপ ড্রেসিং করুন","🥔 আলু গাছে মাটি তোলা জরুরি","🌱 ফসল সুরক্ষার জন্য নিম তেল স্প্রে করুন","💧 ড্রিপ সেচ দেওয়া ফসলে ফলন বেশি হয়","🌾 মার্চ-এপ্রিলে গম কাটুন","🍚 অক্টোবর-নভেম্বরে ধান কাটুন","🧶 অক্টোবর-ডিসেম্বরে তুলো তুলুন","🌽 90-110 দিনে ভুট্টা কাটুন","🎋 10-12 মাসে আখ কাটুন","🌱 জুন-জুলাইতে চিনাবাদাম বপন করুন","🌾 অক্টোবরে সরিষা বপন করুন","🌱 অক্টোবর-নভেম্বরে ছোলা বপন করুন","🌾 অক্টোবর-নভেম্বরে যব বপন করুন","🌱 অড়হর ফসলে পোকা নিয়ন্ত্রণ জরুরি","💧 সয়াবিনে হলুদ মোজাইক প্রতিরোধ করুন","🌾 জুলাইতে বাজরা বপন করুন","🌱 জোয়ার ফসলে আর্দ্রতা ব্যবস্থাপনা","📊 বিক্রির আগে মন্ডির দাম দেখে নিন","🌾 পাটুকৃষি - প্রতিটি কৃষকের সঙ্গী"],
@@ -427,293 +531,326 @@ window.getLocationWeatherData = () => {
         localStorage.removeItem('patukrishi_session');
         location.reload();
     };
-
+    
+    // ==================== DASHBOARD FUNCTIONS ====================
     function loadDashboard() {
-        document.getElementById('dashboard').style.display = 'block';
-        document.getElementById('welcome-name').innerText = currentUser.name.split(' ')[0];
-        document.getElementById('header-name').innerText = currentUser.name;
-        document.getElementById('header-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
-        let e = Object.keys(districtDB).sort(),
-            t = document.getElementById('mandiStateSelect'),
-            n = document.getElementById('advisoryStateSelect');
-        t.innerHTML = n.innerHTML = '';
-        e.forEach(e => {
-            t.add(new Option(e, e));
-            n.add(new Option(e, e));
-        });
+        const dashboard = document.getElementById('dashboard');
+        if(dashboard) dashboard.style.display = 'block';
+        const welcomeName = document.getElementById('welcome-name');
+        if(welcomeName) welcomeName.innerText = currentUser.name.split(' ')[0];
+        const headerName = document.getElementById('header-name');
+        if(headerName) headerName.innerText = currentUser.name;
+        const headerAvatar = document.getElementById('header-avatar');
+        if(headerAvatar) headerAvatar.innerText = currentUser.name.charAt(0).toUpperCase();
+        
+        let e = Object.keys(districtDB).sort();
+        let t = document.getElementById('mandiStateSelect');
+        let n = document.getElementById('advisoryStateSelect');
+        if(t && n) {
+            t.innerHTML = n.innerHTML = '';
+            e.forEach(e => {
+                t.add(new Option(e, e));
+                n.add(new Option(e, e));
+            });
+        }
+        
         let o = document.getElementById('mandiCropSelect');
-        o.innerHTML = '';
-        crops.forEach(e => o.add(new Option(e.name, e.name)));
+        if(o) {
+            o.innerHTML = '';
+            crops.forEach(e => o.add(new Option(e.name, e.name)));
+        }
+        
         let l = document.getElementById('specificCropSelect');
-        l.innerHTML = '';
-        Object.keys(specificCropAdvice).forEach(e => l.add(new Option(e, e)));
+        if(l) {
+            l.innerHTML = '';
+            Object.keys(specificCropAdvice).forEach(e => l.add(new Option(e, e)));
+        }
+        
         updateDistrictDropdown();
         initAnalyticsCharts();
-        AOS.refresh();
+        if(typeof AOS !== 'undefined') AOS.refresh();
     }
-
+    
     window.updateDistrictDropdown = () => {
-        let e = document.getElementById('mandiStateSelect').value,
-            t = document.getElementById('mandiDistrictSelect');
-        t.innerHTML = '';
-        let n = districtDB[e] || ["Main market"];
-        n.forEach(e => t.add(new Option(e, e)));
-    };
-
-    window.getWeather = async () => {
-        let e = document.getElementById('cityInput').value,
-            t = document.getElementById('weather-result');
-        t.style.display = 'block';
-        if (!e) {
-            t.innerHTML = '<p>Please enter a city</p>';
-            return;
-        }
-        try {
-            let n = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${e}&appid=${WEATHER_API_KEY}&units=metric`),
-                o = await n.json();
-            if (o.cod !== 200) throw new Error(o.message);
-            let l = o.main.temp,
-                r = o.weather[0].description,
-                i = o.wind.speed,
-                a = o.main.humidity;
-            t.innerHTML = `<h3>${o.name}, ${o.sys.country}</h3><h1 style="font-size:3rem;">${Math.round(l)}°C</h1><p><i class="fas fa-wind"></i> ${i} km/h  |  <i class="fas fa-tint"></i> ${a}%</p><p class="big-friendly">${r}</p>`;
-        } catch (e) {
-            t.innerHTML = '<p style="color:red;">City not found. Try again.</p>';
+        let e = document.getElementById('mandiStateSelect');
+        let t = document.getElementById('mandiDistrictSelect');
+        if(e && t) {
+            let state = e.value;
+            t.innerHTML = '';
+            let n = districtDB[state] || ["Main market"];
+            n.forEach(e => t.add(new Option(e, e)));
         }
     };
-
-    window.getLocationWeather = () => {
-        navigator.geolocation ? navigator.geolocation.getCurrentPosition(async e => {
-            let t = e.coords.latitude,
-                n = e.coords.longitude,
-                o = document.getElementById('weather-result');
-            o.style.display = 'block';
-            try {
-                let l = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${t}&lon=${n}&appid=${WEATHER_API_KEY}&units=metric`),
-                    r = await l.json(),
-                    i = r.main.temp,
-                    a = r.weather[0].description,
-                    s = r.wind.speed,
-                    c = r.main.humidity;
-                o.innerHTML = `<h3>${r.name}</h3><h1 style="font-size:3rem;">${Math.round(i)}°C</h1><p><i class="fas fa-wind"></i> ${s} km/h  |  <i class="fas fa-tint"></i> ${c}%</p><p class="big-friendly">${a}</p>`;
-            } catch (e) {
-                o.innerHTML = '<p>Unable to fetch location weather.</p>';
-            }
-        }, () => { showNotification('Location access denied', 'error'); }) : showNotification('Geolocation not supported', 'error');
-    };
-
-    window.fetchMandiPrices = () => {
-        let e = document.getElementById('mandiStateSelect').value,
-            t = document.getElementById('mandiDistrictSelect').value,
-            n = document.getElementById('mandiCropSelect').value,
-            o = crops.find(e => e.name === n) || crops[0],
-            l = document.getElementById('mandi-cards-container'),
-            r = document.getElementById('mandi-multiple-list');
-        l.innerHTML = '';
-        let i = ['Main Market', 'Subyard', 'Kisan Mandi'];
-        for (let a = 0; a < 3; a++) {
-            let s = o.basePrice + Math.floor(400 * Math.random() - 200),
-                c = (8 * Math.random() - 4).toFixed(1),
-                d = c >= 0 ? 'price-up' : 'price-down',
-                u = document.createElement('div');
-            u.className = 'market-card';
-            u.innerHTML = `<h4>${t} - ${i[a]}</h4><p><span>Crop:</span> <span class="market-price">${n}</span></p><p><span>Price (₹/q):</span> <span class="market-price">₹${s}</span></p><p><span>Change:</span> <span class="price-change ${d}">${c}%</span></p>`;
-            l.appendChild(u);
-        }
-        r.innerHTML = `<p class="big-friendly">📊 ${t} mein ${n} ke kai bhav uplabdh. Sabse achha rate dekh kar beche!</p>`;
-        showNotification(`Mandi prices for ${n}`);
-    };
-
+    
+    // ==================== CROP LENS FUNCTION ====================
     window.processImage = () => {
         let e = document.getElementById('lens-result');
+        if(!e) return;
         e.style.display = 'block';
         e.innerHTML = '<i class="fas fa-spinner fa-pulse fa-3x"></i><p> Analyzing...</p>';
         setTimeout(() => {
             let t = Math.random();
-            t < .33 ? e.innerHTML = '<div class="healthy-note"><h2>✅ Crop Is Healthy</h2><p class="big-friendly">🌟 Aapki fasal swasth dikh rahi hai! Phir bhi regular inspection karte rahe. Neem oil spray se suraksha karein. Soil me sufficient moisture banaaye rakhein.</p></div>' :
-                t < .66 ? e.innerHTML = '<div class="disease-alert"><h2>⚠️ Late Blight Detected</h2><p class="big-friendly">🌧️ **Remedy**: Remove infected leaves immediately. Spray copper oxychloride 2.5g/L. Avoid overhead irrigation, maintain proper spacing. Drench soil with metalaxyl if needed. Repeat after 10 days.</p><p>🌱 **Prevention**: Use resistant varieties, seed treatment, and crop rotation.</p></div>' :
-                e.innerHTML = '<div class="disease-alert"><h2>⚠️ Powdery Mildew Detected</h2><p class="big-friendly">🌾 **Remedy**: Spray wettable sulfur 2g/L or dinocap. Improve air circulation. Remove infected plant parts.</p><p>🌱 **Prevention**: Avoid overcrowding, use disease-free seed.</p></div>';
+            if(t < .33) {
+                e.innerHTML = '<div class="healthy-note"><h2>✅ Crop Is Healthy</h2><p class="big-friendly">🌟 Aapki fasal swasth dikh rahi hai! Neem oil spray se suraksha karein.</p></div>';
+            } else if(t < .66) {
+                e.innerHTML = '<div class="disease-alert"><h2>⚠️ Late Blight Detected</h2><p class="big-friendly">🌧️ Remedy: Remove infected leaves. Spray copper oxychloride 2.5g/L.</p></div>';
+            } else {
+                e.innerHTML = '<div class="disease-alert"><h2>⚠️ Powdery Mildew Detected</h2><p class="big-friendly">🌾 Remedy: Spray wettable sulfur 2g/L. Improve air circulation.</p></div>';
+            }
         }, 2e3);
     };
-
+    
+    // ==================== ADVISORY FUNCTIONS ====================
     window.setAdvisoryMode = e => {
-        e === 'general' ? (document.getElementById('generalAdvisoryInputs').style.display = 'block', document.getElementById('specificAdvisoryInputs').style.display = 'none', document.getElementById('generalModeBtn').style.background = 'linear-gradient(145deg,var(--primary),var(--primary-dark))', document.getElementById('specificModeBtn').style.background = '#f9a825') :
-            (document.getElementById('generalAdvisoryInputs').style.display = 'none', document.getElementById('specificAdvisoryInputs').style.display = 'block', document.getElementById('specificModeBtn').style.background = 'linear-gradient(145deg,var(--primary),var(--primary-dark))', document.getElementById('generalModeBtn').style.background = '#f9a825');
+        const generalInputs = document.getElementById('generalAdvisoryInputs');
+        const specificInputs = document.getElementById('specificAdvisoryInputs');
+        const generalBtn = document.getElementById('generalModeBtn');
+        const specificBtn = document.getElementById('specificModeBtn');
+        if(e === 'general') {
+            if(generalInputs) generalInputs.style.display = 'block';
+            if(specificInputs) specificInputs.style.display = 'none';
+            if(generalBtn) generalBtn.style.background = 'linear-gradient(145deg,var(--primary),var(--primary-dark))';
+            if(specificBtn) specificBtn.style.background = '#f9a825';
+        } else {
+            if(generalInputs) generalInputs.style.display = 'none';
+            if(specificInputs) specificInputs.style.display = 'block';
+            if(specificBtn) specificBtn.style.background = 'linear-gradient(145deg,var(--primary),var(--primary-dark))';
+            if(generalBtn) generalBtn.style.background = '#f9a825';
+        }
     };
-
+    
     window.showGeneralAdvisory = () => {
-        let e = document.getElementById('advisoryStateSelect').value,
-            t = document.getElementById('advisorySeasonSelect').value,
-            n = advisoryDB[e]?.[t] || 'No detailed advisory for this state/season';
-        document.getElementById('generalAdvisoryContent').innerHTML = `<h3>${e} - ${t}</h3><p class="big-friendly">${n.replace(/\n/g, '<br>')}</p>`;
+        let e = document.getElementById('advisoryStateSelect');
+        let t = document.getElementById('advisorySeasonSelect');
+        let container = document.getElementById('generalAdvisoryContent');
+        if(e && t && container) {
+            let state = e.value;
+            let season = t.value;
+            let n = advisoryDB[state]?.[season] || 'No detailed advisory for this state/season';
+            container.innerHTML = `<h3>${state} - ${season}</h3><p class="big-friendly">${n.replace(/\n/g, '<br>')}</p>`;
+        }
     };
-
+    
     window.showSpecificAdvisory = () => {
-        let e = document.getElementById('specificCropSelect').value,
-            t = specificCropAdvice[e] || 'Guide not available';
-        document.getElementById('specificAdvisoryContent').innerHTML = `<h3>${e} – 3-Step Guide</h3><p class="big-friendly" style="white-space:pre-line;">${t}</p>`;
+        let e = document.getElementById('specificCropSelect');
+        let container = document.getElementById('specificAdvisoryContent');
+        if(e && container) {
+            let crop = e.value;
+            let t = specificCropAdvice[crop] || 'Guide not available';
+            container.innerHTML = `<h3>${crop} – 3-Step Guide</h3><p class="big-friendly" style="white-space:pre-line;">${t}</p>`;
+        }
     };
-
+    
+    // ==================== ANALYTICS FUNCTIONS ====================
     function initAnalyticsCharts() {
-        const e = document.getElementById('priceTrendChart')?.getContext('2d');
-        e && new Chart(e, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [
-                    { label: 'Wheat (₹/q)', data: [2250, 2300, 2380, 2420, 2400, 2450], borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,0.1)', tension: .4, fill: !0 },
-                    { label: 'Rice (₹/q)', data: [2e3, 2050, 2100, 2150, 2120, 2150], borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.1)', tension: .4, fill: !0 },
-                    { label: 'Cotton (₹/q)', data: [6800, 6900, 7050, 7150, 7100, 7200], borderColor: '#d32f2f', backgroundColor: 'rgba(211,47,47,0.1)', tension: .4, fill: !0 }
-                ]
-            },
-            options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
-        });
-
-        const t = document.getElementById('cropDistributionChart')?.getContext('2d');
-        t && new Chart(t, {
-            type: 'doughnut',
-            data: {
-                labels: ['Wheat', 'Rice', 'Cotton', 'Sugarcane', 'Other'],
-                datasets: [{ data: [38, 32, 14, 10, 6], backgroundColor: ['#2e7d32', '#f9a825', '#d32f2f', '#4caf50', '#9c27b0'] }]
-            },
-            options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
-        });
-
-        const n = document.getElementById('weatherPatternChart')?.getContext('2d');
-        n && new Chart(n, {
-            type: 'bar',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [
-                    { label: 'Temperature (°C)', data: [28, 30, 32, 33, 31, 29, 27], borderColor: '#f9a825', backgroundColor: 'rgba(249,168,37,0.5)', yAxisID: 'y' },
-                    { label: 'Rainfall (mm)', data: [2, 0, 0, 8, 12, 18, 3], borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,0.5)', yAxisID: 'y1' }
-                ]
-            },
-            options: {
-                responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } },
-                scales: {
-                    y: { type: 'linear', display: !0, position: 'left', title: { display: !0, text: 'Temperature (°C)' } },
-                    y1: { type: 'linear', display: !0, position: 'right', title: { display: !0, text: 'Rainfall (mm)' }, grid: { drawOnChartArea: !1 } }
-                }
-            }
-        });
+        if(typeof Chart === 'undefined') return;
+        const priceChart = document.getElementById('priceTrendChart')?.getContext('2d');
+        if(priceChart) {
+            new Chart(priceChart, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        { label: 'Wheat (₹/q)', data: [2250, 2300, 2380, 2420, 2400, 2450], borderColor: '#2e7d32', tension: .4, fill: !0 },
+                        { label: 'Rice (₹/q)', data: [2e3, 2050, 2100, 2150, 2120, 2150], borderColor: '#f9a825', tension: .4, fill: !0 }
+                    ]
+                },
+                options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+        const cropChart = document.getElementById('cropDistributionChart')?.getContext('2d');
+        if(cropChart) {
+            new Chart(cropChart, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Wheat', 'Rice', 'Cotton', 'Sugarcane', 'Other'],
+                    datasets: [{ data: [38, 32, 14, 10, 6], backgroundColor: ['#2e7d32', '#f9a825', '#d32f2f', '#4caf50', '#9c27b0'] }]
+                },
+                options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
     }
-
+    
     window.calculateProfit = function() {
-        const e = document.getElementById('profit-crop').value,
-            t = parseFloat(document.getElementById('profit-area').value) || 1,
-            n = {
-                wheat: { yield: 48, price: 2450, cost: 37e3 },
-                rice: { yield: 58, price: 2150, cost: 42e3 },
-                cotton: { yield: 24, price: 7200, cost: 58e3 },
-                sugarcane: { yield: 780, price: 380, cost: 85e3 },
-                potato: { yield: 265, price: 2850, cost: 47e3 }
-            },
-            o = n[e],
-            l = o.yield * o.price * t,
-            r = o.cost * t,
-            i = l - r;
-        document.getElementById('profit-result').style.display = 'block';
-        document.getElementById('profit-result').innerHTML = `<h4 style="color:var(--primary); margin-bottom:10px;">Profit Analysis</h4><p><strong>Area:</strong> ${t} acre(s)</p><p><strong>Expected Yield:</strong> ${o.yield * t} quintals</p><p><strong>Revenue:</strong> ₹${l.toLocaleString()}</p><p><strong>Cost:</strong> ₹${r.toLocaleString()}</p><p style="font-size:1.3rem; color:${i > 0 ? 'var(--success)' : 'var(--danger)'}; margin-top:10px;"><strong>Net Profit: ₹${i.toLocaleString()}</strong></p>`;
+        const cropSelect = document.getElementById('profit-crop');
+        const areaInput = document.getElementById('profit-area');
+        const resultDiv = document.getElementById('profit-result');
+        if(!cropSelect || !areaInput || !resultDiv) return;
+        const e = cropSelect.value;
+        const t = parseFloat(areaInput.value) || 1;
+        const n = {
+            wheat: { yield: 48, price: 2450, cost: 37e3 },
+            rice: { yield: 58, price: 2150, cost: 42e3 },
+            cotton: { yield: 24, price: 7200, cost: 58e3 },
+            sugarcane: { yield: 780, price: 380, cost: 85e3 },
+            potato: { yield: 265, price: 2850, cost: 47e3 }
+        };
+        const o = n[e];
+        if(!o) return;
+        const l = o.yield * o.price * t;
+        const r = o.cost * t;
+        const i = l - r;
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `<h4 style="color:var(--primary); margin-bottom:10px;">Profit Analysis</h4>
+            <p><strong>Area:</strong> ${t} acre(s)</p>
+            <p><strong>Expected Yield:</strong> ${o.yield * t} quintals</p>
+            <p><strong>Revenue:</strong> ₹${l.toLocaleString()}</p>
+            <p><strong>Cost:</strong> ₹${r.toLocaleString()}</p>
+            <p style="font-size:1.3rem; color:${i > 0 ? 'var(--success)' : 'var(--danger)'}; margin-top:10px;">
+            <strong>Net Profit: ₹${i.toLocaleString()}</strong></p>`;
     };
-
-    window.toggleChatbot = () => document.getElementById('chat-window').style.display = document.getElementById('chat-window').style.display === 'flex' ? 'none' : 'flex';
-
+    
+    // ==================== CHATBOT FUNCTIONS ====================
+    window.toggleChatbot = () => {
+        const chatWindow = document.getElementById('chat-window');
+        if(chatWindow) chatWindow.style.display = chatWindow.style.display === 'flex' ? 'none' : 'flex';
+    };
+    
     window.sendMessage = () => {
-        let e = document.getElementById('chat-input'),
-            t = e.value.trim().toLowerCase();
-        if (!t) return;
+        let e = document.getElementById('chat-input');
+        if(!e) return;
+        let t = e.value.trim().toLowerCase();
+        if(!t) return;
         let n = document.getElementById('chat-messages');
-        n.innerHTML += `<div class="message msg-user">${e.value.trim()}</div>`;
+        if(n) n.innerHTML += `<div class="message msg-user">${e.value.trim()}</div>`;
         e.value = '';
         setTimeout(() => {
-            let e = botResponses[currentLanguage] || botResponses.en,
-                o = "";
-            if (t.includes('mandi') || t.includes('मंडी') || t.includes('মন্ডি') || t.includes('మండీ') || t.includes('मंडी') || t.includes('મંડી') || t.includes('price') || t.includes('भाव') || t.includes('দাম') || t.includes('ధర') || t.includes('ભાવ') || t.includes('बेच') || t.includes('বেচ') || t.includes('விற்க') || t.includes('विक्री') || t.includes('વેચ') || t.includes('മണ്ടി') || t.includes('منڈی') || t.includes('ಮಂಡಿ') || t.includes('ମଣ୍ଡି') || t.includes('मण्डी') || t.includes('मंडी') || t.includes('मण्डी'))
-                o = e.mandi;
-            else if (t.includes('weather') || t.includes('mausam') || t.includes('मौसम') || t.includes('আবহাওয়া') || t.includes('వాతావరణం') || t.includes('हवामान') || t.includes('હવામાન') || t.includes('बारिश') || t.includes('বৃষ্টি') || t.includes('వర్షం') || t.includes('पाऊस') || t.includes('વરસાદ') || t.includes('धूप') || t.includes('রোদ') || t.includes('ఎండ') || t.includes('ऊन') || t.includes('കാലാവസ്ഥ') || t.includes('موسم') || t.includes('ಹವಾಮಾನ') || t.includes('ପାଣିପାଗ') || t.includes('वातावरणम्'))
-                o = e.weather;
-            else if (t.includes('lens') || t.includes('crop') || t.includes('क्रॉप') || t.includes('ক্রপ') || t.includes('క్రాప్') || t.includes('पीक') || t.includes('rog') || t.includes('रोग') || t.includes('রোগ') || t.includes('వ్యాధి') || t.includes('बीमारी') || t.includes('disease') || t.includes('फसल') || t.includes('পসল') || t.includes('పంట') || t.includes('પાક') || t.includes('വിള') || t.includes('فصل') || t.includes('ಬೆಳೆ') || t.includes('ଫସଲ') || t.includes('फसलम्'))
-                o = e.lens;
-            else if (t.includes('advisory') || t.includes('salah') || t.includes('सलाह') || t.includes('পরামর্শ') || t.includes('సలహా') || t.includes('सल्ला') || t.includes('guide') || t.includes('गाइड') || t.includes('গাইড') || t.includes('మార్గదర్శకం') || t.includes('માર્ગદર્શિકા') || t.includes('मार्गदर्शन') || t.includes('ഉപദേശം') || t.includes('مشورہ') || t.includes('ಸಲಹೆ') || t.includes('ପରାମର୍ଶ') || t.includes('सलाह'))
-                o = e.advisory;
-            else if (t.includes('about') || t.includes('about us') || t.includes('हमारे बारे') || t.includes('আমাদের সম্পর্কে') || t.includes('మా గురించి') || t.includes('आमच्याबद्दल') || t.includes('અમારા વિશે') || t.includes('म्हारा बारै') || t.includes('contact') || t.includes('संपर्क') || t.includes('যোগাযোগ') || t.includes('సంప్రదింపులు') || t.includes('संपर्क') || t.includes('સંપર્ક') || t.includes('ഞങ്ങളെ കുറിച്ച്') || t.includes('ہمارے بارے') || t.includes('ನಮ್ಮ ಬಗ್ಗೆ') || t.includes('ଆମ ବିଷୟରେ') || t.includes('अस्माकं विषये'))
-                o = e.about;
-            else if (t.includes('analytics') || t.includes('एनालिटिक्स') || t.includes('অ্যানালিটিক্স') || t.includes('అనలిటిక్స్') || t.includes('विश्लेषण') || t.includes('એનાલિટિક્સ') || t.includes('profit') || t.includes('मुनाफा') || t.includes('মুনাফা') || t.includes('లాభం') || t.includes('नफा') || t.includes('નફો') || t.includes('calculator') || t.includes('कैलकुलेटर') || t.includes('ক্যালকুলেটর') || t.includes('కాలిక్యులేటర్') || t.includes('कॅल्क्युलेटर') || t.includes('કેલ્ક્યુલેટર') || t.includes('ലാഭം') || t.includes('منافع') || t.includes('ಲಾಭ') || t.includes('ଲାଭ') || t.includes('लाभम्'))
-                o = e.analytics;
-            else if (t.includes('tip') || t.includes('suggestion') || t.includes('टिप') || t.includes('টিপ') || t.includes('చిట్కా') || t.includes('टीप') || t.includes('સૂચન') || t.includes('সুপারিশ') || t.includes('सुझाव') || t.includes('পরামর্শ') || t.includes('సలహా') || t.includes('ടിപ്പ്') || t.includes('مشورہ') || t.includes('ಸಲಹೆ') || t.includes('ଟିପ୍') || t.includes('सूचना')) {
-                const l = new Date,
-                    r = Math.floor((l - new Date(l.getFullYear(), 0, 0)) / (1e3 * 60 * 60 * 24)) % farmingTips[currentLanguage].length;
+            let e = botResponses[currentLanguage] || botResponses.en;
+            let o = "";
+            if(t.includes('mandi') || t.includes('मंडी') || t.includes('price')) o = e.mandi;
+            else if(t.includes('weather') || t.includes('mausam') || t.includes('मौसम')) o = e.weather;
+            else if(t.includes('lens') || t.includes('crop') || t.includes('क्रॉप')) o = e.lens;
+            else if(t.includes('advisory') || t.includes('salah') || t.includes('सलाह')) o = e.advisory;
+            else if(t.includes('about') || t.includes('about us') || t.includes('हमारे बारे')) o = e.about;
+            else if(t.includes('analytics') || t.includes('एनालिटिक्स')) o = e.analytics;
+            else if(t.includes('tip') || t.includes('suggestion') || t.includes('टिप')) {
+                const l = new Date;
+                const r = Math.floor((l - new Date(l.getFullYear(), 0, 0)) / (1e3 * 60 * 60 * 24)) % farmingTips[currentLanguage].length;
                 o = e.tip + farmingTips[currentLanguage][r];
-            } else if (t.includes('hello') || t.includes('hi') || t.includes('namaste') || t.includes('नमस्ते') || t.includes('নমস্কার') || t.includes('నమస్కారం') || t.includes('नमस्कार') || t.includes('નમસ્તે') || t.includes('खम्मा घणी') || t.includes('നമസ്കാരം') || t.includes('نمستے') || t.includes('ನಮಸ್ಕಾರ') || t.includes('ନମସ୍କାର') || t.includes('नमस्कारः'))
-                o = e.hello;
-            else if (t.includes('time') || t.includes('समय') || t.includes('সময়') || t.includes('సమయం') || t.includes('वेळ') || t.includes('સમય') || t.includes('वखत') || t.includes('സമയം') || t.includes('وقت') || t.includes('ಸಮಯ') || t.includes('ସମୟ') || t.includes('समयः')) {
-                const l = new Date,
-                    r = l.toLocaleTimeString(currentLanguage === 'en' ? 'en-US' : currentLanguage === 'hi' ? 'hi-IN' : currentLanguage === 'bn' ? 'bn-BD' : currentLanguage === 'te' ? 'te-IN' : currentLanguage === 'mr' ? 'mr-IN' : currentLanguage === 'gu' ? 'gu-IN' : currentLanguage === 'ml' ? 'ml-IN' : currentLanguage === 'ur' ? 'ur-IN' : currentLanguage === 'kn' ? 'kn-IN' : currentLanguage === 'or' ? 'or-IN' : 'sa-IN'),
-                    i = l.toLocaleDateString(currentLanguage === 'en' ? 'en-US' : currentLanguage === 'hi' ? 'hi-IN' : currentLanguage === 'bn' ? 'bn-IN' : currentLanguage === 'te' ? 'te-IN' : currentLanguage === 'mr' ? 'mr-IN' : currentLanguage === 'gu' ? 'gu-IN' : currentLanguage === 'ml' ? 'ml-IN' : currentLanguage === 'ur' ? 'ur-IN' : currentLanguage === 'kn' ? 'kn-IN' : currentLanguage === 'or' ? 'or-IN' : 'sa-IN');
-                o = e.time + r + " | " + i;
-            } else
-                o = e.default;
-            n.innerHTML += `<div class="message msg-bot">${o}</div>`;
-            n.scrollTop = n.scrollHeight;
+            } else if(t.includes('hello') || t.includes('hi') || t.includes('namaste') || t.includes('नमस्ते')) o = e.hello;
+            else if(t.includes('time') || t.includes('समय')) {
+                const l = new Date;
+                const r = l.toLocaleTimeString('en-US');
+                o = e.time + r;
+            } else o = e.default;
+            if(n) n.innerHTML += `<div class="message msg-bot">${o}</div>`;
+            if(n) n.scrollTop = n.scrollHeight;
         }, 600);
     };
-
-    window.toggleUserDropdown = () => document.getElementById('user-dropdown').classList.toggle('show');
-
-    window.openProfileModal = () => {
-        document.getElementById('profile-modal').classList.add('show');
-        toggleUserDropdown();
-        document.getElementById('edit-name').value = currentUser.name;
+    
+    // ==================== PROFILE FUNCTIONS ====================
+    window.toggleUserDropdown = () => {
+        const dropdown = document.getElementById('user-dropdown');
+        if(dropdown) dropdown.classList.toggle('show');
     };
-
-    window.closeProfileModal = () => document.getElementById('profile-modal').classList.remove('show');
-
+    
+    window.openProfileModal = () => {
+        const modal = document.getElementById('profile-modal');
+        const editName = document.getElementById('edit-name');
+        if(modal) modal.classList.add('show');
+        toggleUserDropdown();
+        if(editName && currentUser) editName.value = currentUser.name;
+    };
+    
+    window.closeProfileModal = () => {
+        const modal = document.getElementById('profile-modal');
+        if(modal) modal.classList.remove('show');
+    };
+    
     window.saveProfile = () => {
-        let e = document.getElementById('edit-name').value;
-        if (e) {
-            currentUser.name = e;
+        let e = document.getElementById('edit-name');
+        if(e && e.value && currentUser) {
+            currentUser.name = e.value;
             userDatabase[currentUser.email] = currentUser;
             localStorage.setItem('patukrishi_users', JSON.stringify(userDatabase));
             localStorage.setItem('patukrishi_session', JSON.stringify(currentUser));
             loadDashboard();
             closeProfileModal();
-            showNotification('Profile updated');
+            showNotification('Profile updated successfully!', 'success');
         }
     };
-
-    function showNotification(e, t = 'info') {
+    
+    // ==================== HELPER FUNCTIONS ====================
+    function showNotification(msg, type = 'info') {
         let n = document.createElement('div');
-        n.style = `background:var(--card-bg); padding:15px 25px; border-radius:40px; margin-bottom:10px; border-left:6px solid #f9a825; box-shadow:var(--shadow); font-weight:500;`;
-        n.innerText = e;
-        document.getElementById('notification-container').appendChild(n);
+        n.style = `background:var(--card-bg); padding:12px 20px; border-radius:40px; margin-bottom:10px; border-left:4px solid #f9a825; box-shadow:var(--shadow); font-weight:500;`;
+        n.innerText = msg;
+        const container = document.getElementById('notification-container');
+        if(container) container.appendChild(n);
         setTimeout(() => n.remove(), 3e3);
     }
     window.showNotification = showNotification;
-
-    document.getElementById('theme-toggle')?.addEventListener('click', () => {
-        document.body.classList.toggle('dark-theme');
-        let e = document.querySelector('#theme-toggle i');
-        e.classList.toggle('fa-moon');
-        e.classList.toggle('fa-sun');
-    });
-
-    window.onclick = e => {
-        e.target.closest('.user-profile') || document.getElementById('user-dropdown')?.classList.remove('show');
-        const t = document.getElementById('langDropdown');
-        t && !e.target.closest('.lang-select-container') && t.classList.contains('show') && (t.classList.remove('show'), document.getElementById('langHeader').classList.remove('active'));
-    };
-
+    
+    function updateTime() {
+        const e = new Date;
+        const timeElement = document.getElementById('current-time');
+        if(timeElement) timeElement.textContent = e.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    
+    function updateTipOfTheDay() {
+        const e = new Date;
+        const t = Math.floor((e - new Date(e.getFullYear(), 0, 0)) / (1e3 * 60 * 60 * 24)) % farmingTips[currentLanguage].length;
+        const tipElement = document.getElementById('tip-of-the-day');
+        const tipNumberElement = document.getElementById('tip-number');
+        if(tipElement) tipElement.textContent = farmingTips[currentLanguage][t];
+        if(tipNumberElement) tipNumberElement.textContent = `#${String(t + 1).padStart(2, '0')}`;
+    }
+    
     window.switchSection = e => {
         document.querySelectorAll('.nav-item').forEach((t, n) => {
             let o = ['home', 'weather', 'mandi', 'lens', 'advisory', 'analytics', 'about'];
             t.classList.toggle('active', o[n] === e);
         });
         document.querySelectorAll('.content-section').forEach(t => t.classList.remove('active'));
-        document.getElementById(e + '-section').classList.add('active');
+        const section = document.getElementById(e + '-section');
+        if(section) section.classList.add('active');
         window.scrollTo(0, 0);
     };
-
+    
+    // ==================== EVENT LISTENERS ====================
+    window.addEventListener('load', () => {
+        if(typeof AOS !== 'undefined') AOS.init();
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loading-screen');
+            if(loadingScreen) {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                    checkAuth();
+                    updateTime();
+                    setInterval(updateTime, 1e3);
+                    updateTipOfTheDay();
+                    translatePage();
+                    updateLangHeader();
+                }, 500);
+            }
+        }, 2e3);
+    });
+    
+    const themeToggle = document.getElementById('theme-toggle');
+    if(themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            let e = document.querySelector('#theme-toggle i');
+            if(e) {
+                e.classList.toggle('fa-moon');
+                e.classList.toggle('fa-sun');
+            }
+        });
+    }
+    
+    window.onclick = e => {
+        const userDropdown = document.getElementById('user-dropdown');
+        if(userDropdown && !e.target.closest('.user-profile')) userDropdown.classList.remove('show');
+        const langDropdown = document.getElementById('langDropdown');
+        const langHeader = document.getElementById('langHeader');
+        if(langDropdown && langHeader && !e.target.closest('.lang-select-container') && langDropdown.classList.contains('show')) {
+            langDropdown.classList.remove('show');
+            langHeader.classList.remove('active');
+        }
+    };
+    
+    // ==================== DATABASES ====================
     const districtDB = {
         Punjab: ["Amritsar", "Ludhiana", "Jalandhar", "Patiala", "Bathinda", "Firozpur", "Moga"],
         Rajasthan: ["Jaipur", "Jodhpur", "Kota", "Bikaner", "Udaipur", "Ajmer", "Alwar"],
@@ -728,38 +865,17 @@ window.getLocationWeatherData = () => {
         Haryana: ["Hisar", "Rohtak", "Karnal", "Sirsa", "Ambala", "Gurugram"],
         Telangana: ["Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar"],
         "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Kurnool", "Nellore"],
-        Delhi: ["New Delhi", "North Delhi", "South Delhi", "East Delhi", "West Delhi", "Central Delhi"],
-        "Jammu and Kashmir": ["Srinagar", "Jammu", "Anantnag", "Baramulla", "Kupwara", "Pulwama"],
-        Ladakh: ["Leh", "Kargil"],
-        Chandigarh: ["Chandigarh"],
-        Puducherry: ["Puducherry", "Karaikal", "Mahe", "Yanam"],
-        Lakshadweep: ["Kavaratti", "Agatti", "Minicoy"],
-        "Andaman and Nicobar": ["Port Blair", "South Andaman", "Nicobar"],
-        "Dadra and Nagar Haveli and Daman and Diu": ["Daman", "Diu", "Silvassa"]
+        Delhi: ["New Delhi", "North Delhi", "South Delhi", "East Delhi", "West Delhi", "Central Delhi"]
     };
-
+    
     const crops = [
-        { name: 'Wheat', basePrice: 2450 },
-        { name: 'Rice', basePrice: 2150 },
-        { name: 'Tomato', basePrice: 45 },
-        { name: 'Potato', basePrice: 2850 },
-        { name: 'Onion', basePrice: 3900 },
-        { name: 'Cotton', basePrice: 7200 },
-        { name: 'Maize', basePrice: 2100 },
-        { name: 'Sugarcane', basePrice: 380 },
-        { name: 'Soybean', basePrice: 4600 },
-        { name: 'Mustard', basePrice: 5600 },
-        { name: 'Barley', basePrice: 1800 },
-        { name: 'Millet', basePrice: 1950 },
-        { name: 'Groundnut', basePrice: 5500 },
-        { name: 'Pigeonpea', basePrice: 6500 },
-        { name: 'Chickpea', basePrice: 5200 },
-        { name: 'Bajra', basePrice: 2100 },
-        { name: 'Jowar', basePrice: 1950 },
-        { name: 'Sunflower', basePrice: 5800 }
+        { name: 'Wheat', basePrice: 2450 }, { name: 'Rice', basePrice: 2150 }, { name: 'Tomato', basePrice: 45 },
+        { name: 'Potato', basePrice: 2850 }, { name: 'Onion', basePrice: 3900 }, { name: 'Cotton', basePrice: 7200 },
+        { name: 'Maize', basePrice: 2100 }, { name: 'Sugarcane', basePrice: 380 }, { name: 'Soybean', basePrice: 4600 },
+        { name: 'Mustard', basePrice: 5600 }
     ];
-
-const advisoryDB = {
+    
+   const advisoryDB = {
     "Punjab": { 
         Rabi: "🌾 **RABI SEASON (October to March) - PUNJAB**\n\n✅ **MAIN CROPS**:\n• Wheat (Gehu/Kanak) - 100-125 kg/ha seed rate, 120-150 days\n• Mustard (Sarson) - 5-6 kg/ha, sow in October, 120-140 days\n• Barley (Jau) - 110-130 days duration\n• Chickpea (Chana/Bengal Gram) - 110-130 days\n• Green Peas (Matar/Hara Mattar) - 80-100 days\n• Potato (Aloo) - October-November planting, 80-110 days\n• Onion (Pyaz) - October-November nursery, 120-150 days\n• Garlic (Lahsun) - October-November planting, 120-140 days\n• Cauliflower (Phool Gobhi) - 70-90 days\n• Cabbage (Patta Gobhi/Band Gobhi) - 70-90 days\n• Carrot (Gajar) - 90-110 days\n• Radish (Mooli) - 50-60 days\n• Beetroot (Chukandar) - 60-70 days\n• Turnip (Shalgam) - 50-60 days\n• Spinach (Palak) - 40-50 days\n• Coriander (Dhaniya) - 40-50 days\n\n📅 **SOWING TIME**: October 25 to November 15\n💧 **FIRST IRRIGATION**: At crown root initiation (20-25 days after sowing)\n💊 **FERTILIZER**: 120:60:40 NPK kg/ha\n⚠️ **PEST ALERT**: Yellow rust in wheat, aphids in mustard\n💡 **FARMER TIP**: Use zero-till drill for wheat; don't burn paddy straw; apply DAP at sowing", 
         
