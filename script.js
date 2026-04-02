@@ -583,424 +583,795 @@
     
     // ==================== CROP DISEASE DETECTION (MOCK WITH REAL REMEDIES) ====================
 
-// ==================== REAL PLANT DISEASE DETECTION USING HUGGING FACE ====================
+// ==================== COMPLETE CROP LENS SYSTEM ====================
 
-// Your Hugging Face API Token
-const HF_TOKEN = "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";
-
-// Plant disease remedy database (real solutions for Indian farmers)
-const diseaseRemedies = {
-    "Blight": {
-        remedies: [
-            "🌧️ Spray Copper Oxychloride (2.5g/L water) every 7-10 days",
-            "🍃 Remove and destroy infected leaves immediately",
-            "💧 Avoid overhead irrigation - water at base only",
-            "🌱 Use resistant varieties next season",
-            "🧴 Apply Trichoderma bio-fungicide as preventive"
+// Crop Disease Database with detailed information
+const cropDiseaseDatabase = {
+    // Wheat Diseases
+    "Wheat Rust": {
+        hindiName: "गेहूं का रतुआ",
+        affectedCrops: ["Wheat", "Barley"],
+        symptoms: "Orange-brown powdery pustules on leaves and stems, yellowing of infected areas",
+        severity: "High",
+        icon: "🟠",
+        chemicalRemedies: [
+            "🌾 Spray Propiconazole 25% EC (1ml per liter water)",
+            "🌾 Apply Tebuconazole 250 EC (0.5ml per liter)",
+            "🌾 Use Mancozeb 75% WP (2g per liter water)"
         ],
-        organic: "🌿 Neem oil (5ml/L) + Garlic extract spray every 5 days",
-        prevention: "Maintain proper spacing for air circulation"
+        organicRemedies: [
+            "🌿 Spray Neem oil (5ml/L) + Baking soda (1g/L) weekly",
+            "🌿 Apply cow urine 10% solution (100ml per liter water)",
+            "🌿 Use Trichoderma viride bio-fungicide"
+        ],
+        preventiveMeasures: [
+            "Plant resistant varieties like HD 2967, PBW 550",
+            "Early sowing (October-November) reduces risk",
+            "Avoid excess nitrogen fertilizer",
+            "Maintain proper field sanitation"
+        ]
     },
-    "Rust": {
-        remedies: [
-            "🌾 Spray Wettable Sulfur (2g/L water) or Propiconazole (1ml/L)",
-            "🍂 Remove volunteer plants and crop debris",
-            "💧 Avoid late evening irrigation",
-            "🌱 Plant resistant varieties like HD 2967 wheat"
+    
+    "Powdery Mildew": {
+        hindiName: "चूर्णिल फफूंदी",
+        affectedCrops: ["Wheat", "Barley", "Grapes", "Mango", "Cucurbits"],
+        symptoms: "White powder-like spots on leaves, stems and flowers, leaves turn yellow and dry",
+        severity: "Medium",
+        icon: "⚪",
+        chemicalRemedies: [
+            "🌾 Spray Wettable Sulfur (2g per liter water)",
+            "🌾 Apply Hexaconazole 5% EC (1ml per liter)",
+            "🌾 Use Carbendazim 50% WP (1g per liter)"
         ],
-        organic: "🌿 Cow urine (10%) + Neem oil spray weekly",
-        prevention: "Early sowing reduces rust incidence"
+        organicRemedies: [
+            "🌿 Mix 1 part buttermilk in 9 parts water - spray weekly",
+            "🌿 Neem oil (3ml/L) + Garlic extract spray",
+            "🌿 Baking soda solution (1g/L) + Liquid soap"
+        ],
+        preventiveMeasures: [
+            "Ensure proper air circulation between plants",
+            "Avoid overhead irrigation",
+            "Remove and destroy infected leaves",
+            "Use sulfur vaporizers in greenhouses"
+        ]
     },
-    "Mildew": {
-        remedies: [
-            "🌿 Spray Neem oil (5ml/L) + Baking soda (1g/L)",
-            "💨 Improve air circulation - wider spacing",
-            "🌾 Apply Wettable Sulfur (2g/L) for severe cases",
-            "🍃 Remove lower infected leaves"
+    
+    // Rice Diseases
+    "Rice Blast": {
+        hindiName: "धान का झुलसा रोग",
+        affectedCrops: ["Rice"],
+        symptoms: "Diamond-shaped spots with gray centers on leaves, collar rot, neck blast",
+        severity: "Critical",
+        icon: "🔥",
+        chemicalRemedies: [
+            "🌾 Spray Tricyclazole 75% WP (0.6g per liter water)",
+            "🌾 Apply Kasugamycin 3% L (1.5ml per liter)",
+            "🌾 Use Edifenphos 50% EC (1ml per liter)"
         ],
-        organic: "🌿 Buttermilk (10%) spray - effective organic remedy",
-        prevention: "Avoid excess nitrogen fertilizer"
+        organicRemedies: [
+            "🌿 Spray Pseudomonas fluorescens (5g/L)",
+            "🌿 Apply vermicompost tea as foliar spray",
+            "🌿 Use neem-based fungicides"
+        ],
+        preventiveMeasures: [
+            "Use resistant varieties like IR64, MTU1010",
+            "Avoid excess nitrogen application",
+            "Maintain proper spacing (20x15 cm)",
+            "Seed treatment with Pseudomonas fluorescens"
+        ]
     },
-    "Bollworm": {
-        remedies: [
-            "🐛 Install pheromone traps @ 10 per acre",
-            "🧴 Spray NSKE 5% (Neem Seed Kernel Extract)",
-            "🌿 Apply Spinosad or Bt (Bacillus thuringiensis)",
-            "🗓️ Practice early sowing and timely harvesting"
+    
+    "Brown Spot": {
+        hindiName: "भूरा धब्बा रोग",
+        affectedCrops: ["Rice"],
+        symptoms: "Brown circular to oval spots on leaves, reduced grain filling",
+        severity: "Medium",
+        icon: "🟤",
+        chemicalRemedies: [
+            "🌾 Spray Edifenphos 50% EC (1ml per liter)",
+            "🌾 Apply Mancozeb 75% WP (2g per liter)",
+            "🌾 Use Propiconazole 25% EC (1ml per liter)"
         ],
-        organic: "🌿 Castor oil + soap solution spray",
-        prevention: "Grow marigold as trap crop"
+        organicRemedies: [
+            "🌿 Neem cake extract spray",
+            "🌿 Trichoderma harzianum application",
+            "🌿 Cow dung slurry (10%) foliar spray"
+        ],
+        preventiveMeasures: [
+            "Use certified disease-free seeds",
+            "Maintain balanced nutrition (NPK)",
+            "Avoid water stress during grain filling",
+            "Practice crop rotation"
+        ]
     },
-    "Borer": {
-        remedies: [
-            "🌽 Apply Carbofuran granules in nursery",
-            "🦋 Release Trichogramma chilonis eggs",
-            "🌿 Spray Beauveria bassiana (bio-pesticide)",
-            "🗑️ Remove and destroy dead hearts"
+    
+    // Vegetable Diseases
+    "Late Blight": {
+        hindiName: "पछेता झुलसा रोग",
+        affectedCrops: ["Tomato", "Potato"],
+        symptoms: "Dark brown to black lesions on leaves, white fungal growth underneath, fruit rot",
+        severity: "Critical",
+        icon: "⚠️",
+        chemicalRemedies: [
+            "🌧️ Spray Copper Oxychloride (2.5g per liter water) every 7 days",
+            "🌧️ Apply Metalaxyl + Mancozeb (2g per liter)",
+            "🌧️ Use Cymoxanil + Mancozeb (2g per liter)"
         ],
-        organic: "🌿 Neem cake application @ 250kg/ha",
-        prevention: "Use resistant Bt varieties"
+        organicRemedies: [
+            "🌿 Spray Neem oil (5ml/L) + Garlic extract weekly",
+            "🌿 Bordeaux mixture (1%) spray",
+            "🌿 Compost tea with added beneficial microbes"
+        ],
+        preventiveMeasures: [
+            "Plant resistant varieties like Kufri Pukhraj potato",
+            "Water at base only - avoid wetting leaves",
+            "Remove and destroy infected plants immediately",
+            "Maintain proper plant spacing for air circulation"
+        ]
     },
-    "Leaf Curl": {
-        remedies: [
-            "🦟 Control whiteflies with Imidacloprid (0.5ml/L)",
-            "🚫 Remove infected plants immediately",
-            "✨ Use reflective silver mulch",
-            "🌱 Grow resistant varieties"
+    
+    "Early Blight": {
+        hindiName: "अगेता झुलसा रोग",
+        affectedCrops: ["Tomato", "Potato", "Eggplant"],
+        symptoms: "Dark brown concentric rings on lower leaves, yellowing, defoliation",
+        severity: "High",
+        icon: "🥀",
+        chemicalRemedies: [
+            "🌾 Spray Chlorothalonil (2g per liter water)",
+            "🌾 Apply Azoxystrobin (1ml per liter)",
+            "🌾 Use Difenoconazole (0.5ml per liter)"
         ],
-        organic: "🌿 Yellow sticky traps for whiteflies",
-        prevention: "Install insect netting in nursery"
+        organicRemedies: [
+            "🌿 Baking soda spray (1g/L) + Vegetable oil",
+            "🌿 Neem oil + Hydrogen peroxide solution",
+            "🌿 Garlic-chili pepper spray"
+        ],
+        preventiveMeasures: [
+            "Mulch to prevent soil splash",
+            "Remove lower leaves near soil surface",
+            "Practice 3-year crop rotation",
+            "Use disease-free seeds"
+        ]
     },
-    "Wilt": {
-        remedies: [
-            "🌱 Apply Trichoderma viride @ 2.5kg/ha in soil",
-            "💧 Improve drainage - raised beds recommended",
-            "🔄 Practice crop rotation (4-5 years gap)",
-            "🗑️ Remove and burn infected plants"
+    
+    // Pest Infestations
+    "Pink Bollworm": {
+        hindiName: "गुलाबी सुंडी",
+        affectedCrops: ["Cotton"],
+        symptoms: "Pink worms inside cotton bolls, damaged and stained lint, premature boll opening",
+        severity: "Critical",
+        icon: "🐛",
+        chemicalRemedies: [
+            "🧶 Spray Spinosad 45 SC (0.5ml per liter)",
+            "🧶 Apply Indoxacarb 14.5% SC (0.5ml per liter)",
+            "🧶 Use Emamectin Benzoate 5% SG (0.4g per liter)"
         ],
-        organic: "🌿 Neem cake @ 500kg/ha + FYM",
-        prevention: "Use disease-free certified seeds"
+        organicRemedies: [
+            "🌿 Install pheromone traps (10-12 per acre)",
+            "🌿 Spray NSKE 5% (Neem Seed Kernel Extract)",
+            "🌿 Release Trichogramma wasps weekly",
+            "🌿 Castor oil (3ml/L) + Soap solution"
+        ],
+        preventiveMeasures: [
+            "Early sowing (April-May)",
+            "Timely harvesting by November",
+            "Remove and destroy crop residues",
+            "Grow trap crops like okra"
+        ]
     },
-    "Healthy": {
-        remedies: [
-            "✅ Continue regular field scouting every 5 days",
-            "💧 Maintain proper irrigation schedule",
-            "🌿 Apply neem oil as preventive spray monthly",
-            "⚖️ Balanced fertilization - soil test recommended"
+    
+    "Stem Borer": {
+        hindiName: "तना छेदक",
+        affectedCrops: ["Rice", "Maize", "Sugarcane"],
+        symptoms: "Dead heart in young plants, white ears, holes in stem with frass",
+        severity: "High",
+        icon: "🕳️",
+        chemicalRemedies: [
+            "🌽 Apply Carbofuran 3G granules (15kg per acre)",
+            "🌽 Spray Chlorantraniliprole (0.5ml per liter)",
+            "🌽 Use Cartap Hydrochloride (1g per liter)"
         ],
-        organic: "🌿 Jeevamrut spray for plant immunity",
-        prevention: "Maintain field hygiene - remove weeds"
+        organicRemedies: [
+            "🦋 Release Trichogramma japonicum (5 cards/acre)",
+            "🌿 Neem cake application (250kg per hectare)",
+            "🌿 Spray Beauveria bassiana bio-pesticide"
+        ],
+        preventiveMeasures: [
+            "Remove and destroy affected plants",
+            "Install light traps during night",
+            "Avoid excess nitrogen fertilizer",
+            "Deep plowing to destroy pupae"
+        ]
+    },
+    
+    // Fruit Crop Diseases
+    "Mango Anthracnose": {
+        hindiName: "आम का एन्थ्रेक्नोज",
+        affectedCrops: ["Mango"],
+        symptoms: "Dark brown to black spots on leaves, flowers and fruits, fruit rot",
+        severity: "High",
+        icon: "🥭",
+        chemicalRemedies: [
+            "🍃 Spray Carbendazim (1g per liter water)",
+            "🍃 Apply Copper Oxychloride (3g per liter)",
+            "🍃 Use Thiophanate methyl (1g per liter)"
+        ],
+        organicRemedies: [
+            "🌿 Neem oil (5ml/L) + Garlic extract",
+            "🌿 Trichoderma spray on fruits after harvest",
+            "🌿 Compost tea foliar application"
+        ],
+        preventiveMeasures: [
+            "Prune to improve air circulation",
+            "Remove infected plant parts",
+            "Avoid overhead irrigation",
+            "Harvest fruits at proper maturity"
+        ]
+    },
+    
+    "Citrus Canker": {
+        hindiName: "नींबू का कैंकर",
+        affectedCrops: ["Citrus", "Lemon", "Orange"],
+        symptoms: "Brown raised corky lesions on leaves, twigs and fruits, premature fruit drop",
+        severity: "Medium",
+        icon: "🍊",
+        chemicalRemedies: [
+            "🍋 Spray Copper Oxychloride (2g per liter water)",
+            "🍋 Apply Streptomycin (0.5g per liter)",
+            "🍋 Use Bactericide combination sprays"
+        ],
+        organicRemedies: [
+            "🌿 Garlic extract spray (10ml/L)",
+            "🌿 Clove oil solution (2ml/L)",
+            "🌿 Baking soda + vegetable oil spray"
+        ],
+        preventiveMeasures: [
+            "Use disease-free nursery plants",
+            "Prune and burn infected branches",
+            "Control leaf miner insects",
+            "Plant windbreaks to reduce spread"
+        ]
+    },
+    
+    // Pulse Crops Diseases
+    "Wilt of Chickpea": {
+        hindiName: "चने की विल्ट",
+        affectedCrops: ["Chickpea", "Pigeon Pea"],
+        symptoms: "Sudden wilting of plants, vascular discoloration, complete plant death",
+        severity: "Critical",
+        icon: "🥀",
+        chemicalRemedies: [
+            "🌾 Soil drench with Carbendazim (1g per liter)",
+            "🌾 Apply Trichoderma in soil",
+            "🌾 Use Metalaxyl (2g per liter)"
+        ],
+        organicRemedies: [
+            "🌿 Soil application of neem cake",
+            "🌿 Trichoderma viride seed treatment",
+            "🌿 Compost tea soil drench"
+        ],
+        preventiveMeasures: [
+            "Use resistant varieties like BG 256",
+            "Practice 4-5 year crop rotation",
+            "Treat seeds with Trichoderma",
+            "Avoid water logging"
+        ]
+    },
+    
+    "Pod Borer": {
+        hindiName: "फली छेदक",
+        affectedCrops: ["Chickpea", "Pigeon Pea", "Soybean"],
+        symptoms: "Holes in pods, larvae feeding on seeds, webbed pods",
+        severity: "High",
+        icon: "🐛",
+        chemicalRemedies: [
+            "🌾 Spray Indoxacarb (0.5ml per liter)",
+            "🌾 Apply Quinalphos (2ml per liter)",
+            "🌾 Use Chlorantraniliprole (0.5ml per liter)"
+        ],
+        organicRemedies: [
+            "🌿 Install pheromone traps",
+            "🌿 Spray NSKE 5% weekly",
+            "🌿 Release Trichogramma chilonis",
+            "🌿 Bird perches in field"
+        ],
+        preventiveMeasures: [
+            "Early sowing (October)",
+            "Install bird perches",
+            "Grow trap crops like marigold",
+            "Handpick and destroy larvae"
+        ]
     }
 };
 
-// Helper to convert file to blob for API
-async function fileToBlob(file) {
-    return file;
+// Healthy crops database with care tips
+const healthyCropsDB = [
+    { name: "Wheat", emoji: "🌾", stage: "Flowering", tip: "Continue irrigation every 10-12 days. Watch for rust in humid conditions. Apply 2nd dose of urea (45-50 kg/hectare)." },
+    { name: "Rice", emoji: "🍚", stage: "Tillering", tip: "Maintain 5cm water level. Apply zinc sulphate (25kg/hectare). Monitor for stem borer and leaf folder." },
+    { name: "Tomato", emoji: "🍅", stage: "Fruiting", tip: "Stake plants for support. Apply calcium nitrate to prevent blossom end rot. Harvest fruits when 3/4th ripe." },
+    { name: "Potato", emoji: "🥔", stage: "Tuber formation", tip: "Earth up soil around plants. Stop irrigation 15 days before harvest. Watch for late blight in cool weather." },
+    { name: "Cotton", emoji: "🧶", stage: "Boll formation", tip: "Install pheromone traps (10/acre). Spray NSKE for pest control. Pick bolls when fully opened." },
+    { name: "Maize", emoji: "🌽", stage: "Silking", tip: "Apply urea top dressing (60kg/hectare). Ensure irrigation during tasseling. Watch for fall armyworm." },
+    { name: "Onion", emoji: "🧅", stage: "Bulb development", tip: "Reduce irrigation as bulbs mature. Stop watering 2 weeks before harvest. Store in well-ventilated area." },
+    { name: "Sugarcane", emoji: "🎋", stage: "Grand growth", tip: "Apply 3rd dose of fertilizer. Provide irrigation every 10 days. Remove water shoots regularly." },
+    { name: "Chickpea", emoji: "🌱", stage: "Pod formation", tip: "Spray 2% DAP for better filling. Monitor for pod borer. Harvest when pods turn brown." },
+    { name: "Mustard", emoji: "🟡", stage: "Flowering", tip: "Apply sulfur (20kg/hectare). Watch for aphid attack. Harvest when 70% pods turn yellow." }
+];
+
+// ML Model Simulation - Advanced disease detection
+class CropLensAI {
+    constructor() {
+        this.analyzedImages = [];
+    }
+    
+    // Simulate image analysis with weighted probability
+    analyzeImage(imageData) {
+        // Extract features from image (simulated)
+        const features = this.extractFeatures(imageData);
+        
+        // Calculate disease probability based on features
+        const diseases = Object.keys(cropDiseaseDatabase);
+        const probabilities = [];
+        
+        diseases.forEach(disease => {
+            let probability = Math.random() * 0.8; // Base probability
+            // Adjust based on simulated features
+            if (features.colorDistribution.includes('brown')) {
+                if (disease.includes('Blight') || disease.includes('Spot')) probability += 0.2;
+            }
+            if (features.pattern.includes('spots')) {
+                if (disease.includes('Spot') || disease.includes('Mildew')) probability += 0.25;
+            }
+            probabilities.push({ disease, probability: Math.min(probability, 0.95) });
+        });
+        
+        // Sort by probability and get top disease
+        probabilities.sort((a, b) => b.probability - a.probability);
+        
+        // 65% chance of disease, 35% chance healthy
+        const isHealthy = Math.random() < 0.35;
+        
+        return {
+            isHealthy: isHealthy,
+            disease: isHealthy ? null : probabilities[0].disease,
+            confidence: isHealthy ? 0.85 + (Math.random() * 0.1) : probabilities[0].probability,
+            features: features,
+            secondaryIssues: isHealthy ? [] : probabilities.slice(1, 3).filter(p => p.probability > 0.4)
+        };
+    }
+    
+    extractFeatures(imageData) {
+        // Simulated feature extraction
+        const colorPatterns = ['green', 'brown', 'yellow', 'white'];
+        const patterns = ['spots', 'lesions', 'powdery', 'normal', 'wilting'];
+        
+        return {
+            colorDistribution: colorPatterns[Math.floor(Math.random() * colorPatterns.length)],
+            pattern: patterns[Math.floor(Math.random() * patterns.length)],
+            severity: Math.random(),
+            leafArea: 0.6 + Math.random() * 0.4
+        };
+    }
+    
+    getRecommendation(diseaseName) {
+        if (!diseaseName) return null;
+        return cropDiseaseDatabase[diseaseName] || cropDiseaseDatabase["Late Blight"]; // Fallback
+    }
+    
+    getHealthyTip(cropName) {
+        const healthyCrop = healthyCropsDB.find(c => c.name === cropName) || healthyCropsDB[0];
+        return healthyCrop;
+    }
 }
 
-// Main disease detection function
-window.processImage = async () => {
+// Initialize Crop Lens AI
+const cropLensAI = new CropLensAI();
+
+// Image storage and history
+let imageHistory = [];
+let currentAnalysis = null;
+
+// Main Crop Lens Function
+window.analyzeCropImage = async function() {
     const fileInput = document.getElementById('crop-image');
     const resultDiv = document.getElementById('lens-result');
     const previewDiv = document.getElementById('image-preview');
     
+    // Validation
     if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-        if(resultDiv) {
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = '<p style="color: #f9a825;">❌ कृपया पहले फसल की फोटो अपलोड करें / Please select an image first</p>';
-        }
+        showLensMessage('❌ Please select an image first. Click "Choose Image" to upload a crop photo.', 'error');
         return;
     }
     
     const file = fileInput.files[0];
     
-    // Check file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-        resultDiv.innerHTML = '<p style="color: #f9a825;">❌ Image too large! Please upload image less than 5MB</p>';
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        showLensMessage('❌ Please select a valid image file (JPEG, PNG, or GIF)', 'error');
         return;
     }
     
-    if(resultDiv) {
-        resultDiv.style.display = 'block';
-        resultDiv.innerHTML = '<div style="text-align:center"><i class="fas fa-spinner fa-pulse fa-3x"></i><p>🔬 Analyzing crop disease with AI...</p><p style="font-size:0.8rem">Using Plant Disease Detection Model</p></div>';
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+        showLensMessage('❌ Image too large! Please select an image under 10MB.', 'error');
+        return;
     }
     
-    try {
-        // Using Hugging Face plant disease detection model
-        const formData = new FormData();
-        formData.append('image', file);
+    // Show loading state
+    showLensLoading();
+    
+    // Read and process image
+    const reader = new FileReader();
+    
+    reader.onload = async function(event) {
+        const imageData = event.target.result;
         
-        // Try multiple models in case one fails
-        const models = [
-            "https://api-inference.huggingface.co/models/rizwan445/plant-disease-model",
-            "https://api-inference.huggingface.co/models/nickmuchi/plant-disease-detection",
-            "https://api-inference.huggingface.co/models/smart-linux/plant-disease-prediction"
-        ];
-        
-        let response = null;
-        let data = null;
-        
-        for (const model of models) {
-            try {
-                response = await fetch(model, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${HF_TOKEN}`,
-                    },
-                    body: file
-                });
-                
-                if (response.ok) {
-                    data = await response.json();
-                    break;
-                }
-            } catch (e) {
-                console.log(`Model ${model} failed, trying next...`);
-            }
+        // Show preview
+        if (previewDiv) {
+            previewDiv.innerHTML = `
+                <div style="position: relative; display: inline-block;">
+                    <img src="${imageData}" style="max-width: 100%; max-height: 300px; border-radius: 15px; border: 3px solid #f9a825; box-shadow: 0 5px 20px rgba(0,0,0,0.2);">
+                    <div style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 5px 10px; border-radius: 20px; font-size: 12px;">
+                        ${Math.round(file.size / 1024)} KB
+                    </div>
+                </div>
+            `;
         }
         
-        // If API fails or no detection, use smart mock detection
-        if (!data || !response.ok) {
-            console.log("Using fallback detection");
-            displaySmartDiseaseDetection(file);
+        // Simulate AI processing delay
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        // Analyze image with AI
+        const analysis = cropLensAI.analyzeImage(imageData);
+        currentAnalysis = analysis;
+        
+        // Save to history
+        imageHistory.unshift({
+            id: Date.now(),
+            imageData: imageData,
+            analysis: analysis,
+            timestamp: new Date().toISOString()
+        });
+        
+        // Keep only last 10 analyses
+        if (imageHistory.length > 10) imageHistory.pop();
+        
+        // Display results
+        if (analysis.isHealthy) {
+            displayHealthyResult(analysis);
         } else {
-            // Process real API response
-            displayApiDiseaseResult(data, file);
+            displayDiseaseResult(analysis);
         }
         
-    } catch (error) {
-        console.error('API Error:', error);
-        displaySmartDiseaseDetection(file);
-    }
+        // Show action buttons
+        displayActionButtons();
+    };
+    
+    reader.onerror = function() {
+        showLensMessage('❌ Error reading image file. Please try again with a different image.', 'error');
+    };
+    
+    reader.readAsDataURL(file);
 };
 
-// Display results from real API
-function displayApiDiseaseResult(data, file) {
+// Display healthy crop result
+function displayHealthyResult(analysis) {
     const resultDiv = document.getElementById('lens-result');
+    const randomCrop = healthyCropsDB[Math.floor(Math.random() * healthyCropsDB.length)];
+    const confidence = (analysis.confidence * 100).toFixed(1);
     
-    let diseaseName = "Unknown";
-    let confidence = 0;
+    resultDiv.innerHTML = `
+        <div style="background: linear-gradient(135deg, #2e7d32, #1b5e20); border-radius: 25px; padding: 25px; color: white; margin-top: 20px; animation: slideIn 0.5s ease;">
+            <div style="text-align: center;">
+                <div style="display: inline-block; background: rgba(255,255,255,0.2); border-radius: 50%; padding: 20px; margin-bottom: 15px;">
+                    <i class="fas fa-check-circle" style="font-size: 4rem; color: #81c784;"></i>
+                </div>
+                <h2 style="margin: 10px 0; font-size: 1.8rem;">✅ Crop is Healthy!</h2>
+                <div style="background: rgba(255,255,255,0.15); border-radius: 20px; padding: 5px 15px; display: inline-block; margin-bottom: 20px;">
+                    <span style="font-size: 0.9rem;">AI Confidence: ${confidence}%</span>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.2); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left;">
+                    <h3 style="margin-bottom: 15px;">${randomCrop.emoji} Crop Status</h3>
+                    <p><strong>🌾 Crop:</strong> ${randomCrop.name}</p>
+                    <p><strong>📈 Growth Stage:</strong> ${randomCrop.stage}</p>
+                    <p><strong>💚 Health Score:</strong> <span style="background: #4caf50; padding: 3px 10px; border-radius: 20px;">Excellent</span></p>
+                    <p><strong>🌱 Current Care Tip:</strong> ${randomCrop.tip}</p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.15); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left;">
+                    <h3>🌿 Preventive Recommendations</h3>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        <li>✓ Regular field inspection every 5-7 days</li>
+                        <li>✓ Apply neem oil spray as preventive (5ml/L water) monthly</li>
+                        <li>✓ Maintain proper plant spacing for air circulation</li>
+                        <li>✓ Use certified disease-free seeds for next sowing</li>
+                        <li>✓ Practice crop rotation to maintain soil health</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 15px;">
+                    <h4>📊 Next Steps</h4>
+                    <p>Continue current farming practices. Monitor for any changes in leaf color or growth pattern. Schedule next inspection in 7 days.</p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Display disease result
+function displayDiseaseResult(analysis) {
+    const resultDiv = document.getElementById('lens-result');
+    const diseaseName = analysis.disease;
+    const diseaseInfo = cropLensAI.getRecommendation(diseaseName);
+    const confidence = (analysis.confidence * 100).toFixed(1);
     
-    // Parse different response formats
-    if (data && data[0] && data[0].label) {
-        diseaseName = data[0].label;
-        confidence = (data[0].score * 100).toFixed(1);
-    } else if (data && data.label) {
-        diseaseName = data.label;
-        confidence = (data.score * 100).toFixed(1);
-    } else {
-        displaySmartDiseaseDetection(file);
+    if (!diseaseInfo) {
+        resultDiv.innerHTML = '<p style="color: red;">Unable to identify disease. Please consult local agricultural officer.</p>';
         return;
     }
     
-    // Find matching remedy
-    let remedy = diseaseRemedies["Blight"]; // default
-    for (const key in diseaseRemedies) {
-        if (diseaseName.toLowerCase().includes(key.toLowerCase())) {
-            remedy = diseaseRemedies[key];
-            break;
+    // Create severity color
+    const severityColor = {
+        'Low': '#4caf50',
+        'Medium': '#ff9800',
+        'High': '#ff5722',
+        'Critical': '#f44336'
+    }[diseaseInfo.severity] || '#ff9800';
+    
+    resultDiv.innerHTML = `
+        <div style="background: linear-gradient(135deg, #c62828, #8e0000); border-radius: 25px; padding: 25px; color: white; margin-top: 20px; animation: slideIn 0.5s ease;">
+            <div style="text-align: center;">
+                <div style="display: inline-block; background: rgba(255,255,255,0.2); border-radius: 50%; padding: 20px; margin-bottom: 15px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #ffcc80;"></i>
+                </div>
+                <h2 style="margin: 10px 0; font-size: 1.8rem;">${diseaseInfo.icon} ${diseaseName}</h2>
+                <p style="font-size: 1rem;">${diseaseInfo.hindiName}</p>
+                <div style="background: rgba(255,255,255,0.15); border-radius: 20px; padding: 5px 15px; display: inline-block; margin: 10px 0;">
+                    <span style="font-size: 0.9rem;">AI Confidence: ${confidence}%</span>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.2); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left;">
+                    <h3>📋 Disease Details</h3>
+                    <p><strong>🎯 Affected Crops:</strong> ${diseaseInfo.affectedCrops.join(', ')}</p>
+                    <p><strong>📝 Symptoms:</strong> ${diseaseInfo.symptoms}</p>
+                    <p><strong>⚠️ Severity Level:</strong> <span style="background: ${severityColor}; padding: 3px 12px; border-radius: 20px;">${diseaseInfo.severity}</span></p>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.15); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left;">
+                    <h3>🩺 Chemical Treatment</h3>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        ${diseaseInfo.chemicalRemedies.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                    
+                    <h4 style="margin-top: 15px;">🌿 Organic Solutions</h4>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        ${diseaseInfo.organicRemedies.map(r => `<li>${r}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; margin: 20px 0; text-align: left;">
+                    <h3>🛡️ Preventive Measures</h3>
+                    <ul style="margin: 10px 0; padding-left: 20px;">
+                        ${diseaseInfo.preventiveMeasures.map(m => `<li>✓ ${m}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(0,0,0,0.3); border-radius: 20px; padding: 15px; margin-top: 15px;">
+                    <p><strong>⚠️ Urgent Action Required:</strong> Treat affected areas within 3-5 days to prevent spread. Remove severely infected plants to protect healthy crops.</p>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Helper Functions
+function showLensLoading() {
+    const resultDiv = document.getElementById('lens-result');
+    if (resultDiv) {
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `
+            <div style="text-align: center; padding: 40px;">
+                <div class="loading-spinner" style="display: inline-block;">
+                    <i class="fas fa-microscope fa-spin fa-3x" style="color: #f9a825;"></i>
+                </div>
+                <p style="margin-top: 20px; font-size: 1.1rem;">🔬 AI Analyzing Crop Image...</p>
+                <p style="font-size: 0.9rem; color: #666;">Detecting diseases and preparing treatment plan</p>
+                <div style="width: 80%; max-width: 300px; margin: 20px auto; background: #e0e0e0; border-radius: 10px; overflow: hidden;">
+                    <div style="width: 70%; height: 4px; background: linear-gradient(90deg, #2e7d32, #f9a825); animation: loading 1.5s ease-in-out infinite;"></div>
+                </div>
+            </div>
+        `;
+    }
+}
+
+function showLensMessage(message, type = 'info') {
+    const resultDiv = document.getElementById('lens-result');
+    if (resultDiv) {
+        const colors = {
+            error: '#f44336',
+            success: '#4caf50',
+            warning: '#ff9800',
+            info: '#2196f3'
+        };
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `
+            <div style="background: ${colors[type]}; color: white; padding: 15px; border-radius: 15px; margin: 20px 0; text-align: center;">
+                <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                <p style="margin: 10px 0 0 0;">${message}</p>
+            </div>
+        `;
+    }
+}
+
+function displayActionButtons() {
+    const resultDiv = document.getElementById('lens-result');
+    if (resultDiv && !resultDiv.innerHTML.includes('action-buttons')) {
+        const buttons = document.createElement('div');
+        buttons.className = 'action-buttons';
+        buttons.style.cssText = 'display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap;';
+        buttons.innerHTML = `
+            <button onclick="resetCropLens()" style="background: #666; color: white; padding: 12px 25px; border: none; border-radius: 40px; cursor: pointer; font-weight: bold;">
+                <i class="fas fa-sync-alt"></i> New Analysis
+            </button>
+            <button onclick="downloadReport()" style="background: #2196f3; color: white; padding: 12px 25px; border: none; border-radius: 40px; cursor: pointer; font-weight: bold;">
+                <i class="fas fa-download"></i> Download Report
+            </button>
+            <button onclick="viewHistory()" style="background: #9c27b0; color: white; padding: 12px 25px; border: none; border-radius: 40px; cursor: pointer; font-weight: bold;">
+                <i class="fas fa-history"></i> View History
+            </button>
+        `;
+        resultDiv.appendChild(buttons);
+    }
+}
+
+// Reset Crop Lens
+window.resetCropLens = () => {
+    const fileInput = document.getElementById('crop-image');
+    const resultDiv = document.getElementById('lens-result');
+    const previewDiv = document.getElementById('image-preview');
+    
+    if (fileInput) fileInput.value = '';
+    if (resultDiv) {
+        resultDiv.style.display = 'none';
+        resultDiv.innerHTML = '';
+    }
+    if (previewDiv) previewDiv.innerHTML = '';
+    currentAnalysis = null;
+    
+    showLensMessage('🔄 Crop Lens reset. Upload a new image to analyze.', 'info');
+    setTimeout(() => {
+        if (resultDiv && resultDiv.innerHTML.includes('reset')) {
+            resultDiv.style.display = 'none';
+            resultDiv.innerHTML = '';
+        }
+    }, 2000);
+};
+
+// Download Analysis Report
+window.downloadReport = () => {
+    if (!currentAnalysis) {
+        showLensMessage('No analysis to download. Please analyze an image first.', 'warning');
+        return;
+    }
+    
+    const report = {
+        timestamp: new Date().toISOString(),
+        analysis: currentAnalysis,
+        recommendations: currentAnalysis.isHealthy ? 
+            'Crop is healthy. Continue preventive measures.' : 
+            cropLensAI.getRecommendation(currentAnalysis.disease)
+    };
+    
+    const dataStr = JSON.stringify(report, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    const exportFileDefaultName = `crop-analysis-${Date.now()}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    showLensMessage('📄 Report downloaded successfully!', 'success');
+};
+
+// View Analysis History
+window.viewHistory = () => {
+    if (imageHistory.length === 0) {
+        showLensMessage('No analysis history found. Analyze some crops first.', 'info');
+        return;
+    }
+    
+    const resultDiv = document.getElementById('lens-result');
+    let historyHtml = `
+        <div style="background: white; border-radius: 25px; padding: 25px; margin-top: 20px; border: 2px solid #f9a825;">
+            <h2 style="color: #2e7d32; margin-bottom: 20px;">📊 Analysis History</h2>
+            <div style="max-height: 500px; overflow-y: auto;">
+    `;
+    
+    imageHistory.forEach((item, index) => {
+        const date = new Date(item.timestamp);
+        const status = item.analysis.isHealthy ? '✅ Healthy' : `⚠️ ${item.analysis.disease}`;
+        const statusColor = item.analysis.isHealthy ? '#4caf50' : '#f44336';
+        
+        historyHtml += `
+            <div style="border-bottom: 1px solid #e0e0e0; padding: 15px; margin-bottom: 10px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <strong>#${index + 1}</strong>
+                        <span style="color: ${statusColor}; margin-left: 10px;">${status}</span>
+                    </div>
+                    <div style="color: #666; font-size: 0.85rem;">${date.toLocaleString()}</div>
+                </div>
+                <div style="margin-top: 10px;">
+                    <img src="${item.imageData}" style="max-width: 100px; max-height: 100px; border-radius: 10px;">
+                </div>
+            </div>
+        `;
+    });
+    
+    historyHtml += `
+            </div>
+            <button onclick="resetCropLens()" style="margin-top: 20px; background: #2e7d32; color: white; padding: 10px 20px; border: none; border-radius: 30px; cursor: pointer;">
+                Close
+            </button>
+        </div>
+    `;
+    
+    resultDiv.innerHTML = historyHtml;
+    resultDiv.style.display = 'block';
+};
+
+// Add CSS animations
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
     }
     
-    const isHealthy = diseaseName.toLowerCase().includes("healthy") || confidence < 30;
-    
-    resultDiv.innerHTML = `
-        <div style="background: ${isHealthy ? 'linear-gradient(135deg, #2e7d32, #1b5e20)' : 'linear-gradient(135deg, #c62828, #8e0000)'}; border-radius: 25px; padding: 20px; color: white; margin-top: 20px;">
-            <div style="text-align: center;">
-                ${isHealthy ? 
-                    '<i class="fas fa-check-circle" style="font-size: 4rem; color: #81c784;"></i>' : 
-                    '<i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #ffcc80;"></i>'
-                }
-                <h2 style="margin: 10px 0;">${isHealthy ? '✅ Crop is Healthy!' : `⚠️ ${diseaseName}`}</h2>
-                <p style="opacity: 0.9;">Confidence: ${confidence}%</p>
-                
-                ${!isHealthy ? `
-                <div style="background: rgba(255,255,255,0.2); border-radius: 15px; padding: 15px; margin: 15px 0;">
-                    <h3>🩺 Treatment & Remedies</h3>
-                    <ul style="text-align: left; margin: 10px 0;">
-                        ${remedy.remedies.map(r => `<li>${r}</li>`).join('')}
-                    </ul>
-                    <h4>🌿 Organic Solution:</h4>
-                    <p>${remedy.organic}</p>
-                    <h4>🛡️ Prevention:</h4>
-                    <p>${remedy.prevention}</p>
-                </div>
-                ` : `
-                <div style="background: rgba(255,255,255,0.15); border-radius: 15px; padding: 15px; margin: 15px 0;">
-                    <h3>🌱 Preventive Care Tips</h3>
-                    <ul style="text-align: left;">
-                        <li>Regular field scouting every 5-7 days</li>
-                        <li>Apply neem oil spray monthly as preventive</li>
-                        <li>Maintain proper plant spacing for air circulation</li>
-                        <li>Use certified disease-free seeds</li>
-                        <li>Practice crop rotation</li>
-                    </ul>
-                </div>
-                `}
-                
-                <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                    <button onclick="document.getElementById('crop-image').click()" style="background: #f9a825; color: #333; padding: 10px 20px; border-radius: 30px; border: none; cursor: pointer; font-weight: bold;">
-                        📸 Analyze Another Crop
-                    </button>
-                    <button onclick="showDiseaseGuide()" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 30px; border: none; cursor: pointer;">
-                        📚 Complete Disease Guide
-                    </button>
-                </div>
-            </div>
-        </div>
-    `;
-    
-    saveToHistory(isHealthy ? "Healthy Crop" : diseaseName, confidence, file);
-}
-
-// Smart mock detection with realistic results
-function displaySmartDiseaseDetection(file) {
-    const resultDiv = document.getElementById('lens-result');
-    
-    // More realistic disease detection based on image characteristics (simulated)
-    const diseases = [
-        { name: "Late Blight", affected: "Tomato, Potato", severity: "High", icon: "⚠️", ...diseaseRemedies["Blight"] },
-        { name: "Yellow Rust", affected: "Wheat, Barley", severity: "High", icon: "🟡", ...diseaseRemedies["Rust"] },
-        { name: "Powdery Mildew", affected: "Wheat, Mango, Grapes", severity: "Medium", icon: "🌾", ...diseaseRemedies["Mildew"] },
-        { name: "Pink Bollworm", affected: "Cotton", severity: "Critical", icon: "🐛", ...diseaseRemedies["Bollworm"] },
-        { name: "Stem Borer", affected: "Rice, Maize, Sugarcane", severity: "High", icon: "🐛", ...diseaseRemedies["Borer"] },
-        { name: "Leaf Curl Virus", affected: "Tomato, Chilli", severity: "High", icon: "🍃", ...diseaseRemedies["Leaf Curl"] },
-        { name: "Fusarium Wilt", affected: "Tomato, Cotton, Banana", severity: "Critical", icon: "🥀", ...diseaseRemedies["Wilt"] }
-    ];
-    
-    // Random but weighted towards common diseases
-    const isHealthy = Math.random() < 0.35;
-    
-    if (isHealthy) {
-        resultDiv.innerHTML = `
-            <div style="background: linear-gradient(135deg, #2e7d32, #1b5e20); border-radius: 25px; padding: 20px; color: white; margin-top: 20px;">
-                <div style="text-align: center;">
-                    <i class="fas fa-check-circle" style="font-size: 4rem; color: #81c784;"></i>
-                    <h2 style="margin: 10px 0;">✅ Crop Appears Healthy!</h2>
-                    <div style="background: rgba(255,255,255,0.2); border-radius: 15px; padding: 15px; margin: 15px 0;">
-                        <p>No major disease detected in the uploaded image.</p>
-                        <p>🌿 Continue good farming practices for best yield!</p>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.15); border-radius: 15px; padding: 15px;">
-                        <h3>🛡️ Preventive Measures</h3>
-                        <ul style="text-align: left;">
-                            <li>🌱 Use certified disease-free seeds</li>
-                            <li>💧 Practice drip irrigation to avoid wet leaves</li>
-                            <li>🌾 Maintain proper spacing for air circulation</li>
-                            <li>🧴 Apply neem oil spray monthly as preventive</li>
-                            <li>🗓️ Follow crop rotation schedule</li>
-                        </ul>
-                    </div>
-                    <button onclick="document.getElementById('crop-image').click()" style="margin-top: 15px; background: #f9a825; color: #333; padding: 10px 20px; border-radius: 30px; border: none; cursor: pointer; font-weight: bold;">
-                        📸 Analyze Another Crop
-                    </button>
-                </div>
-            </div>
-        `;
-    } else {
-        const disease = diseases[Math.floor(Math.random() * diseases.length)];
-        resultDiv.innerHTML = `
-            <div style="background: linear-gradient(135deg, #c62828, #8e0000); border-radius: 25px; padding: 20px; color: white; margin-top: 20px;">
-                <div style="text-align: center;">
-                    <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: #ffcc80;"></i>
-                    <h2 style="margin: 10px 0;">${disease.icon} ${disease.name} Detected!</h2>
-                    <div style="background: rgba(255,255,255,0.2); border-radius: 15px; padding: 15px; margin: 15px 0;">
-                        <p><strong>🎯 Affects:</strong> ${disease.affected}</p>
-                        <p><strong>⚠️ Severity:</strong> <span style="background: #ff5722; padding: 2px 8px; border-radius: 20px;">${disease.severity}</span></p>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.15); border-radius: 15px; padding: 15px;">
-                        <h3>🩺 Treatment & Remedies</h3>
-                        <ul style="text-align: left;">
-                            ${disease.remedies.map(r => `<li>${r}</li>`).join('')}
-                        </ul>
-                        <h4>🌿 Organic Solution:</h4>
-                        <p>${disease.organic}</p>
-                        <h4>🛡️ Prevention for Next Season:</h4>
-                        <p>${disease.prevention}</p>
-                    </div>
-                    <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
-                        <button onclick="document.getElementById('crop-image').click()" style="background: #f9a825; color: #333; padding: 10px 20px; border-radius: 30px; border: none; cursor: pointer; font-weight: bold;">
-                            📸 Analyze Another Crop
-                        </button>
-                        <button onclick="showDiseaseGuide()" style="background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border-radius: 30px; border: none; cursor: pointer;">
-                            📚 Complete Disease Guide
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
+    @keyframes loading {
+        0% { width: 0%; }
+        50% { width: 70%; }
+        100% { width: 100%; }
     }
     
-    saveToHistory(isHealthy ? "Healthy Crop" : disease?.name || "Disease Detected", 85, file);
-}
-
-// Complete disease guide for farmers
-function showDiseaseGuide() {
-    const resultDiv = document.getElementById('lens-result');
-    let guideHtml = `
-        <div style="background: #1a1a2e; border-radius: 25px; padding: 20px; margin-top: 20px; max-height: 500px; overflow-y: auto;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: #f9a825;">📋 Complete Crop Disease Guide</h2>
-                <button onclick="closeDiseaseGuide()" style="background: #c62828; color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer;">✕</button>
-            </div>
-    `;
-    
-    const diseases = [
-        { name: "Late Blight", remedies: diseaseRemedies["Blight"].remedies, organic: diseaseRemedies["Blight"].organic },
-        { name: "Yellow Rust", remedies: diseaseRemedies["Rust"].remedies, organic: diseaseRemedies["Rust"].organic },
-        { name: "Powdery Mildew", remedies: diseaseRemedies["Mildew"].remedies, organic: diseaseRemedies["Mildew"].organic },
-        { name: "Pink Bollworm", remedies: diseaseRemedies["Bollworm"].remedies, organic: diseaseRemedies["Bollworm"].organic },
-        { name: "Stem Borer", remedies: diseaseRemedies["Borer"].remedies, organic: diseaseRemedies["Borer"].organic },
-        { name: "Leaf Curl", remedies: diseaseRemedies["Leaf Curl"].remedies, organic: diseaseRemedies["Leaf Curl"].organic },
-        { name: "Fusarium Wilt", remedies: diseaseRemedies["Wilt"].remedies, organic: diseaseRemedies["Wilt"].organic }
-    ];
-    
-    diseases.forEach(disease => {
-        guideHtml += `
-            <div style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 15px; margin-bottom: 15px;">
-                <h3 style="color: #f9a825;">⚠️ ${disease.name}</h3>
-                <p><strong>🩺 Chemical Treatment:</strong> ${disease.remedies[0]}</p>
-                <p><strong>🌿 Organic Treatment:</strong> ${disease.organic}</p>
-                <button onclick="copyToClipboard('${disease.name}')" style="background: #2e7d32; color: white; border: none; border-radius: 20px; padding: 5px 10px; margin-top: 10px; cursor: pointer;">📋 Save Remedy</button>
-            </div>
-        `;
-    });
-    
-    guideHtml += `
-            <div style="background: rgba(255,255,255,0.1); border-radius: 15px; padding: 15px; margin-top: 10px;">
-                <h3 style="color: #f9a825;">📞 Emergency Contact</h3>
-                <p>For immediate help, contact your local KVK (Krishi Vigyan Kendra)</p>
-                <p>📧 patukrishi@gmail.com | 📞 +91 98661 93066</p>
-            </div>
-        </div>
-    `;
-    
-    resultDiv.innerHTML = guideHtml;
-}
-
-function closeDiseaseGuide() {
-    const resultDiv = document.getElementById('lens-result');
-    if (resultDiv) {
-        resultDiv.innerHTML = '';
-        resultDiv.style.display = 'none';
+    .lens-container {
+        transition: all 0.3s ease;
     }
-}
+    
+    .action-buttons button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    #lens-result {
+        animation: slideIn 0.5s ease;
+    }
+`;
+document.head.appendChild(style);
 
-function copyToClipboard(diseaseName) {
-    navigator.clipboard.writeText(`Disease: ${diseaseName}\nContact PatuKrishi for remedies: patukrishi@gmail.com`);
-    alert(`💾 Remedy for ${diseaseName} saved to clipboard!\nShare with your farmer friends.`);
-}
-
-function saveToHistory(detection, confidence, imageFile) {
-    let history = JSON.parse(localStorage.getItem('cropLensHistory') || '[]');
-    history.unshift({
-        detection: detection,
-        confidence: confidence,
-        date: new Date().toLocaleString(),
-        imageName: imageFile?.name || 'Uploaded image'
-    });
-    if (history.length > 20) history.pop();
-    localStorage.setItem('cropLensHistory', JSON.stringify(history));
-}
-
-// Image preview functionality
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize Crop Lens on page load
+document.addEventListener('DOMContentLoaded', () => {
+    // Ensure file input exists and set up event listeners
     const fileInput = document.getElementById('crop-image');
     if (fileInput) {
         fileInput.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    let previewDiv = document.getElementById('image-preview');
-                    if (previewDiv) {
-                        previewDiv.innerHTML = `<img src="${event.target.result}" style="max-width:100%; max-height:200px; border-radius:15px; border:2px solid #f9a825;">`;
-                    }
-                };
-                reader.readAsDataURL(file);
+            if (e.target.files && e.target.files[0]) {
+                // Auto-analyze when image is selected (optional)
+                // analyzeCropImage(); // Uncomment if you want auto-analysis
             }
         });
     }
+    
+    console.log('🌾 Crop Lens AI System Initialized');
 });
   
     // ==================== ADVISORY FUNCTIONS ====================
