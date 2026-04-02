@@ -302,7 +302,6 @@
                 showNotification(`Found ${records.length} market rates for ${crop} in ${district}`, 'success');
             } else {
                 useMockMandiData(state, district, crop, container, messageDiv);
-                showNotification(`Using demo data for ${crop}. Real API will update soon.`, 'info');
             }
         } catch (error) {
             console.error('API error, using mock data:', error);
@@ -340,7 +339,6 @@
                 <p><strong>📊 Range:</strong> ₹${minPrice} - ₹${maxPrice}</p>
                 <p><strong>📈 Change:</strong> <span class="${changeClass}">${change}%</span></p>
                 <p><strong>📍 Market:</strong> ${district}, ${state}</p>
-                <small style="color:#f9a825;">🔄 Demo data - Real API coming soon</small>
             `;
             container.appendChild(card);
         });
