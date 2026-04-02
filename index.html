@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -142,7 +143,37 @@
 
         <section id="mandi-section" class="content-section"><h2 class="agri-border"><i class="fas fa-rupee-sign"></i> <span data-translate="mandi-title">Mandi Prices · Kai Bhav</span></h2><div class="card"><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:25px"><select id="mandiStateSelect" class="nice-select" onchange="updateDistrictDropdown()"></select><select id="mandiDistrictSelect" class="nice-select"></select><select id="mandiCropSelect" class="nice-select"></select><button class="btn-3d" onclick="fetchMandiPrices()"><span data-translate="show-prices">Show Prices</span></button></div><div id="mandi-multiple-list" style="margin-bottom:20px"></div><div id="mandi-cards-container" class="mandi-card-grid"></div></div></section>
 
-        <section id="lens-section" class="content-section"><h2 class="agri-border"><i class="fas fa-camera"></i> <span data-translate="lens-title">Crop Lens · Rog Ki Pehchan</span></h2><div class="lens-container" style="background:#2d3e2d;padding:30px;border-radius:32px"><div class="upload-area" onclick="document.getElementById('fileUpload').click()" style="border:2px dashed #f9a825;padding:30px;border-radius:28px;text-align:center;cursor:pointer"><i class="fas fa-cloud-upload-alt fa-3x"></i><h3 data-translate="upload-title">Upload Crop Image</h3><p data-translate="upload-desc">Mock disease detection</p><input type="file" id="fileUpload" hidden onchange="processImage()"></div><div id="lens-result" style="display:none;margin-top:25px"></div></div></section>
+<div id="lens-section" class="content-section">
+    <div class="section-header">
+        <h2><i class="fas fa-camera"></i> 🌾 Crop Lens - AI Disease Detection</h2>
+        <p>Upload a photo of your crop to detect diseases and get instant treatment recommendations</p>
+    </div>
+    
+    <div class="lens-container" style="background: var(--card-bg); border-radius: 32px; padding: 30px; text-align: center; box-shadow: var(--shadow);">
+        <div class="upload-area" style="border: 2px dashed var(--border); border-radius: 20px; padding: 30px; margin-bottom: 20px;">
+            <i class="fas fa-cloud-upload-alt" style="font-size: 4rem; color: #f9a825;"></i>
+            <p style="margin: 15px 0; font-size: 1.1rem;">Click below to select a crop image</p>
+            <p style="font-size: 0.85rem; color: #666;">Supports: JPG, PNG, GIF (Max 10MB)</p>
+            
+            <input type="file" id="crop-image" accept="image/*" style="display: none;">
+            
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                <button onclick="document.getElementById('crop-image').click()" style="background: linear-gradient(135deg, #2e7d32, #1b5e20); color: white; padding: 12px 30px; border: none; border-radius: 40px; cursor: pointer; font-weight: bold; font-size: 1rem;">
+                    📸 Choose Image
+                </button>
+                <button onclick="analyzeCropImage()" style="background: #f9a825; color: #333; padding: 12px 30px; border: none; border-radius: 40px; cursor: pointer; font-weight: bold; font-size: 1rem;">
+                    🔍 Analyze Crop
+                </button>
+                <button onclick="resetCropLens()" style="background: #666; color: white; padding: 12px 30px; border: none; border-radius: 40px; cursor: pointer; font-weight: bold; font-size: 1rem;">
+                    🔄 Reset
+                </button>
+            </div>
+        </div>
+        
+        <div id="image-preview" style="margin: 20px 0;"></div>
+        <div id="lens-result" style="margin-top: 20px;"></div>
+    </div>
+</div>
 
         <section id="advisory-section" class="content-section"><h2 class="agri-border"><i class="fas fa-calendar-alt"></i> <span data-translate="advisory-title">Crop Advisory · Pura Guide</span></h2><div class="card"><div style="display:flex;gap:12px;margin-bottom:20px"><button class="btn-3d" id="generalModeBtn" onclick="setAdvisoryMode('general')" style="flex:1">🌾 <span data-translate="state-season">State/UT + Season</span></button><button class="btn-3d" id="specificModeBtn" onclick="setAdvisoryMode('specific')" style="flex:1;background:#f9a825">🌱 <span data-translate="specific-crop">Specific Crop (3-Step)</span></button></div><div id="generalAdvisoryInputs"><div style="display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px"><select id="advisoryStateSelect" class="nice-select" style="flex:1"></select><select id="advisorySeasonSelect" class="nice-select" style="flex:1"><option value="Rabi">Rabi (Winter)</option><option value="Kharif">Kharif (Monsoon)</option><option value="Zaid">Zaid (Summer)</option></select><button class="btn-3d" onclick="showGeneralAdvisory()"><span data-translate="get-advice">Get Advice</span></button></div><div id="generalAdvisoryContent" style="padding:20px;background:var(--bg);border-radius:32px;line-height:1.8"></div></div><div id="specificAdvisoryInputs" style="display:none"><div style="display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px"><select id="specificCropSelect" class="nice-select" style="flex:2"></select><button class="btn-3d" onclick="showSpecificAdvisory()"><span data-translate="get-guide">Get 3-Step Guide</span></button></div><div id="specificAdvisoryContent" style="padding:20px;background:var(--bg);border-radius:32px;line-height:1.8"></div></div></div></section>
 
