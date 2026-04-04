@@ -2900,5 +2900,5 @@ window.renderAllSchemes = renderAllSchemes;
 if(sectionId === 'videos') {
     // Show videos section, hide others
 }
-
-};
+  
+})();
