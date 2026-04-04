@@ -2900,5 +2900,38 @@ window.renderAllSchemes = renderAllSchemes;
 if(sectionId === 'videos') {
     // Show videos section, hide others
 }
-  
+
+    // YOUR EXISTING JS FILE (where you handle signup/login)
+import { signUp, login } from './patukrishi-auth.js'
+
+// When user clicks sign up button
+async function handleSignUp() {
+    const email = document.getElementById('email').value  // or however you get email
+    const password = document.getElementById('password').value
+    
+    const result = await signUp(email, password)
+    console.log(result.message)
+    
+    if (result.success) {
+        alert('Check your email for verification link!')
+    } else {
+        alert('Error: ' + result.message)
+    }
+}
+
+// When user clicks login button
+async function handleLogin() {
+    const email = document.getElementById('email').value
+    const password = document.getElementById('password').value
+    
+    const result = await login(email, password)
+    console.log(result.message)
+    
+    if (result.success) {
+        alert('Welcome to PatuKrishi!')
+        // Redirect to dashboard or whatever you want
+    } else {
+        alert('Error: ' + result.message)
+    }
+}
 })();
