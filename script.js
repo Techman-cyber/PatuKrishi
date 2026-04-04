@@ -2901,37 +2901,56 @@ if(sectionId === 'videos') {
     // Show videos section, hide others
 }
 
-    // YOUR EXISTING JS FILE (where you handle signup/login)
-import { signUp, login } from './patukrishi-auth.js'
+// ADD THIS AT THE TOP OF YOUR JS FILE (with other imports)
+import { signUpWithSupabase, loginWithSupabase } from './patukrishi-auth.js'
 
-// When user clicks sign up button
-async function handleSignUp() {
-    const email = document.getElementById('email').value  // or however you get email
-    const password = document.getElementById('password').value
+// ADD THIS NEW LOGIN FUNCTION
+window.handleLogin = async (e) => {
+    e.preventDefault();
+    let email = document.getElementById('login-email').value,
+        password = document.getElementById('login-password').value;
     
-    const result = await signUp(email, password)
-    console.log(result.message)
+    // Try Supabase login
+    const result = await loginWithSupabase(email, password);
     
     if (result.success) {
-        alert('Check your email for verification link!')
+        // Also save to localStorage for compatibility
+        currentUser = { name: email.split('@')[0], email: email };
+        localStorage.setItem('patukrishi_session', JSON.stringify(currentUser));
+        document.getElementById('auth-container').style.display = 'none';
+        loadDashboard();
+        showNotification(result.message, 'success');
     } else {
-        alert('Error: ' + result.message)
+        document.getElementById('login-error').innerText = result.message;
     }
-}
+};
 
-// When user clicks login button
-async function handleLogin() {
-    const email = document.getElementById('email').value
-    const password = document.getElementById('password').value
+// ADD THIS NEW SIGNUP FUNCTION
+window.handleSignup = async (e) => {
+    e.preventDefault();
+    let name = document.getElementById('signup-name').value,
+        email = document.getElementById('signup-email').value,
+        password = document.getElementById('signup-password').value;
     
-    const result = await login(email, password)
-    console.log(result.message)
+    if (!name || !email || !password) return;
+    
+    // Sign up with Supabase (sends verification email)
+    const result = await signUpWithSupabase(email, password);
     
     if (result.success) {
-        alert('Welcome to PatuKrishi!')
-        // Redirect to dashboard or whatever you want
+        // Save name to localStorage for later
+        let tempUser = { name: name, email: email, verified: false };
+        userDatabase[email] = tempUser;
+        localStorage.setItem('patukrishi_users', JSON.stringify(userDatabase));
+        
+        showNotification(result.message, 'success');
+        
+        // Clear form and switch to login tab
+        document.getElementById('signup-name').value = '';
+        document.getElementById('signup-email').value = '';
+        document.getElementById('signup-password').value = '';
+        switchAuthTab('login');
     } else {
-        alert('Error: ' + result.message)
+        document.getElementById('signup-error').innerText = result.message;
     }
-}
-})();
+};
