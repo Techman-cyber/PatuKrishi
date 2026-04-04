@@ -176,24 +176,24 @@
 
         <section id="advisory-section" class="content-section"><h2 class="agri-border"><i class="fas fa-calendar-alt"></i> <span data-translate="advisory-title">Crop Advisory · Pura Guide</span></h2><div class="card"><div style="display:flex;gap:12px;margin-bottom:20px"><button class="btn-3d" id="generalModeBtn" onclick="setAdvisoryMode('general')" style="flex:1">🌾 <span data-translate="state-season">State/UT + Season</span></button><button class="btn-3d" id="specificModeBtn" onclick="setAdvisoryMode('specific')" style="flex:1;background:#f9a825">🌱 <span data-translate="specific-crop">Specific Crop (3-Step)</span></button></div><div id="generalAdvisoryInputs"><div style="display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px"><select id="advisoryStateSelect" class="nice-select" style="flex:1"></select><select id="advisorySeasonSelect" class="nice-select" style="flex:1"><option value="Rabi">Rabi (Winter)</option><option value="Kharif">Kharif (Monsoon)</option><option value="Zaid">Zaid (Summer)</option></select><button class="btn-3d" onclick="showGeneralAdvisory()"><span data-translate="get-advice">Get Advice</span></button></div><div id="generalAdvisoryContent" style="padding:20px;background:var(--bg);border-radius:32px;line-height:1.8"></div></div><div id="specificAdvisoryInputs" style="display:none"><div style="display:flex;gap:15px;flex-wrap:wrap;margin-bottom:20px"><select id="specificCropSelect" class="nice-select" style="flex:2"></select><button class="btn-3d" onclick="showSpecificAdvisory()"><span data-translate="get-guide">Get 3-Step Guide</span></button></div><div id="specificAdvisoryContent" style="padding:20px;background:var(--bg);border-radius:32px;line-height:1.8"></div></div></div></section>
 
-<!-- GOVERNMENT SCHEMES SECTION - 50+ SCHEMES (Starting #36) -->
+<!-- GOVERNMENT SCHEMES SECTION - 100 SCHEMES (Starting #36) -->
 <section id="schemes-section" class="content-section">
     <h2 class="agri-border">
         <i class="fas fa-file-alt"></i> Government Schemes for Farmers
-        <span style="font-size: 0.8rem; background: #2e7d32; color: white; padding: 4px 12px; border-radius: 30px; margin-left: 10px;">85 Active Schemes</span>
+        <span style="font-size: 0.8rem; background: #2e7d32; color: white; padding: 4px 12px; border-radius: 30px; margin-left: 10px;">100 Active Schemes</span>
     </h2>
     
     <!-- Stats Bar -->
     <div class="schemes-stats-bar">
         <div class="stat-item"><i class="fas fa-rupee-sign"></i><span>₹1.5 Lakh Cr+</span><small>Total Budget</small></div>
         <div class="stat-item"><i class="fas fa-users"></i><span>15 Cr+</span><small>Farmers Benefited</small></div>
-        <div class="stat-item"><i class="fas fa-building"></i><span>14</span><small>Categories</small></div>
+        <div class="stat-item"><i class="fas fa-building"></i><span>13</span><small>Categories</small></div>
         <div class="stat-item"><i class="fas fa-calendar-alt"></i><span>2026-27</span><small>Updated</small></div>
     </div>
     
     <!-- Category Filter -->
     <div class="schemes-category-strip" id="schemeCategoryStrip">
-        <button class="cat-filter-btn active" onclick="filterSchemesByCategory('all')">📌 All (85)</button>
+        <button class="cat-filter-btn active" onclick="filterSchemesByCategory('all')">📌 All (100)</button>
         <button class="cat-filter-btn" onclick="filterSchemesByCategory('income')">💰 Income</button>
         <button class="cat-filter-btn" onclick="filterSchemesByCategory('insurance')">🛡️ Insurance</button>
         <button class="cat-filter-btn" onclick="filterSchemesByCategory('credit')">💳 Credit</button>
