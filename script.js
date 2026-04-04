@@ -2896,4 +2896,9 @@ window.showSchemeDetails = showSchemeDetails;
 window.closeSchemeModal = closeSchemeModal;
 window.filterSchemesByCategory = filterSchemesByCategory;
 window.renderAllSchemes = renderAllSchemes;
+  // In your switchSection function, add:
+if(sectionId === 'videos') {
+    // Show videos section, hide others
+}
+  
 })();
