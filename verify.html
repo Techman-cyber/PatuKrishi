@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Verified - PatuKrishi</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 100px; background: linear-gradient(135deg, #f0f7e8, #d4e6c3); }
+        .success { color: #2e7d32; font-size: 28px; }
+        .error { color: #c62828; font-size: 28px; }
+        .card { background: white; padding: 40px; border-radius: 25px; max-width: 500px; margin: auto; }
+        button { background: #2e7d32; color: white; padding: 12px 30px; border: none; border-radius: 30px; cursor: pointer; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div id="message">Verifying your email...</div>
+    </div>
+
+    <script type="module">
+        import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+        
+        const supabaseUrl = 'https://vcmsdjyhjsezwklunidw.supabase.co'
+        const supabaseKey = 'sb_publishable_Dz_JmUbfRGXYzejzEqq9zg_FO72pKBb'
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        
+        const urlParams = new URLSearchParams(window.location.hash.substring(1))
+        const accessToken = urlParams.get('access_token')
+        
+        const messageDiv = document.getElementById('message')
+        
+        if (accessToken) {
+            const { data, error } = await supabase.auth.setSession({
+                access_token: accessToken,
+                refresh_token: ''
+            })
+            
+            if (error) {
+                messageDiv.innerHTML = `<h2 class="error">❌ Verification Failed</h2><p>${error.message}</p><button onclick="window.location.href='index.html'">Back to Home</button>`
+            } else {
+                messageDiv.innerHTML = `<h2 class="success">✅ Email Verified Successfully!</h2><p>Your PatuKrishi account is now active.</p><button onclick="window.location.href='index.html'">Go to Login</button>`
+            }
+        } else {
+            messageDiv.innerHTML = `<h2 class="error">❌ Invalid Link</h2><button onclick="window.location.href='index.html'">Back to Home</button>`
+        }
+    </script>
+</body>
+</html>
