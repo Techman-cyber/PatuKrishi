@@ -1,4 +1,5 @@
 
+
 (function(){
     // ==================== SWIPER INITIALIZATION ====================
     const swiper = new Swiper('.mySwiper', {
@@ -2032,7 +2033,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // =====================================================
 
 const govtSchemesDB = [
-    // ========== INCOME SUPPORT SCHEMES (1-6) ==========
+    // ========== INCOME SUPPORT SCHEMES (10 schemes) ==========
     {
         id: 1, name: "PM-KISAN", fullName: "Pradhan Mantri Kisan Samman Nidhi", category: "income",
         icon: "fa-rupee-sign", amount: "₹6,000/year", benefits: ["Direct income support of ₹6,000 per year", "₹2,000 every 4 months", "DBT to bank account", "Covers all small and marginal farmers"],
@@ -2064,695 +2065,650 @@ const govtSchemesDB = [
         icon: "fa-hand-holding-heart", amount: "₹25,000/year", benefits: ["Financial assistance for farmers", "Landless agricultural laborers", "Vulnerable tribal groups", "Sharecroppers support"],
         eligibility: ["Farmers in Odisha", "Landless laborers", "Small & marginal farmers", "Sharecroppers"], documents: ["Aadhaar", "Bank Account", "Residence proof", "Land records"], helpline: "1800-345-6770", website: "https://kalia.odisha.gov.in"
     },
-    
-    // ========== CREDIT & LOAN SCHEMES (7-12) ==========
     {
-        id: 7, name: "KCC", fullName: "Kisan Credit Card Scheme", category: "credit",
+        id: 7, name: "RKVY", fullName: "Rashtriya Krishi Vikas Yojana", category: "income",
+        icon: "fa-building", amount: "State-specific", benefits: ["Funding for state agriculture projects", "Infrastructure development", "Agri-entrepreneurship", "Value chain"],
+        eligibility: ["State governments", "FPOs", "Agricultural universities", "Research institutions"], documents: ["Project proposal", "State approval", "Implementation plan"], helpline: "011-23382654", website: "https://rkvy.nic.in"
+    },
+    {
+        id: 8, name: "National Seed Subsidy", fullName: "National Seed Subsidy Scheme", category: "income",
+        icon: "fa-seedling", amount: "50% subsidy on seeds", benefits: ["High-yielding variety seeds", "50% subsidy for small farmers", "Certified seeds", "Improved varieties"],
+        eligibility: ["All farmers", "Priority to small & marginal", "FPOs"], documents: ["Land records", "Aadhaar", "Seed bill", "Bank account"], helpline: "1800-180-1551", website: "https://seednet.gov.in"
+    },
+    {
+        id: 9, name: "Fertilizer Subsidy", fullName: "Nutrient Based Subsidy (NBS) Scheme", category: "income",
+        icon: "fa-flask", amount: "Varies by nutrient", benefits: ["Subsidy on P&K fertilizers", "Reduces farmer cost", "Balanced nutrition", "Soil health improvement"],
+        eligibility: ["All farmers", "Through authorized dealers"], documents: ["Dealer bill", "Aadhaar (for DBT)", "Land records"], helpline: "1800-180-1551", website: "https://fert.nic.in"
+    },
+    {
+        id: 10, name: "Women Farmer Scheme", fullName: "Mahila Kisan Sashaktikaran Yojana", category: "income",
+        icon: "fa-female", amount: "₹50,000/year", benefits: ["Women farmer empowerment", "Skill training", "Input subsidy", "Market access"],
+        eligibility: ["Women farmers", "Women SHGs", "Female-headed households"], documents: ["Aadhaar", "Land records", "Bank account", "SHG certificate"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    
+    // ========== CREDIT & LOAN SCHEMES (10 schemes) ==========
+    {
+        id: 11, name: "KCC", fullName: "Kisan Credit Card Scheme", category: "credit",
         icon: "fa-credit-card", amount: "Up to ₹3 lakh", benefits: ["Revolving credit facility", "Interest: 7% (4% with prompt payment)", "Collateral-free up to ₹1.6 lakh", "Covers allied activities"],
         eligibility: ["All farmers", "Sharecroppers", "Tenant farmers", "Self-help groups"], documents: ["Land records", "Aadhaar", "Photographs", "Crop details"], helpline: "1800-180-1111", website: "https://nabard.org"
     },
     {
-        id: 8, name: "Modified Interest Subvention Scheme", fullName: "Interest Subvention for Short-term Crop Loans", category: "credit",
+        id: 12, name: "Modified Interest Subvention Scheme", fullName: "Interest Subvention for Short-term Crop Loans", category: "credit",
         icon: "fa-percent", amount: "2% Interest Subvention", benefits: ["2% interest subvention on crop loans", "3% additional for prompt repayment", "Effective rate: 4% per annum", "Loans up to ₹3 lakh"],
         eligibility: ["All farmers taking crop loans", "KCC holders", "Cooperative society members"], documents: ["KCC", "Loan application", "Land records"], helpline: "1800-180-1111", website: "https://nabard.org"
     },
     {
-        id: 9, name: "NABARD Warehouse Infrastructure Fund", fullName: "Warehouse Infrastructure Fund", category: "credit",
+        id: 13, name: "NABARD Warehouse Infrastructure Fund", fullName: "Warehouse Infrastructure Fund", category: "credit",
         icon: "fa-warehouse", amount: "₹50 crore per project", benefits: ["Loan for warehouse construction", "Subsidy up to 25%", "Post-harvest infrastructure", "Reduces crop wastage"],
         eligibility: ["FPOs", "Cooperatives", "Agri-entrepreneurs", "State agencies"], documents: ["Project report", "Land documents", "Registration proof"], helpline: "022-26539800", website: "https://nabard.org"
     },
     {
-        id: 10, name: "Dairy Entrepreneurship Development Scheme", fullName: "Dairy Entrepreneurship Scheme", category: "credit",
+        id: 14, name: "Dairy Entrepreneurship Development Scheme", fullName: "Dairy Entrepreneurship Scheme", category: "credit",
         icon: "fa-tractor", amount: "Up to ₹5 lakh subsidy", benefits: ["Subsidy for dairy units", "25% for general, 33% for SC/ST", "Loan for cows/buffaloes", "Milk processing equipment"],
         eligibility: ["Individual farmers", "Self-help groups", "Dairy cooperatives"], documents: ["Land documents", "Aadhaar", "Bank account", "Project report"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
     {
-        id: 11, name: "Poultry Venture Capital Fund", fullName: "Poultry Venture Capital Fund", category: "credit",
+        id: 15, name: "Poultry Venture Capital Fund", fullName: "Poultry Venture Capital Fund", category: "credit",
         icon: "fa-dove", amount: "Up to ₹3 lakh subsidy", benefits: ["Subsidy for poultry farming", "33% for SC/ST farmers", "Loan for broiler/layer units", "Hatchery support"],
         eligibility: ["Individual farmers", "FPOs", "Self-help groups"], documents: ["Land documents", "Aadhaar", "Bank account", "Experience certificate"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
     {
-        id: 12, name: "Goat/Sheep Development Scheme", fullName: "Goat and Sheep Development", category: "credit",
+        id: 16, name: "Goat/Sheep Development Scheme", fullName: "Goat and Sheep Development", category: "credit",
         icon: "fa-paw", amount: "50% subsidy", benefits: ["Subsidy for goat/sheep farming", "50% subsidy up to ₹50,000", "Breed improvement support", "Veterinary care"],
         eligibility: ["Small farmers", "Landless laborers", "Tribal farmers", "Women farmers"], documents: ["Aadhaar", "Bank account", "Village panchayat certificate"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
-    
-    // ========== CROP INSURANCE SCHEMES (13-18) ==========
     {
-        id: 13, name: "PMFBY", fullName: "Pradhan Mantri Fasal Bima Yojana", category: "insurance",
+        id: 17, name: "Agri Infrastructure Fund", fullName: "Agriculture Infrastructure Fund", category: "credit",
+        icon: "fa-warehouse", amount: "Up to ₹2 crore loan", benefits: ["Loan for farm-gate infrastructure", "3% interest subvention", "3-year moratorium", "Covers warehouses, cold storage"],
+        eligibility: ["FPOs", "Cooperatives", "Individual farmers", "Agri-entrepreneurs"], documents: ["Project report", "Land documents", "Aadhaar", "Bank account"], helpline: "1800-180-1111", website: "https://nabard.org"
+    },
+    {
+        id: 18, name: "Animal Husbandry Infrastructure Fund", fullName: "AHIDF - Dairy & Poultry Loan", category: "credit",
+        icon: "fa-paw", amount: "Up to ₹100 crore", benefits: ["Loan for dairy & poultry infrastructure", "3% interest subvention", "Loan guarantee available", "Covers milk processing, hatcheries"],
+        eligibility: ["Individual entrepreneurs", "FPOs", "Private companies", "Cooperatives"], documents: ["DPR", "Business registration", "Land documents", "Bank account"], helpline: "011-23385788", website: "https://dahd.nic.in"
+    },
+    {
+        id: 19, name: "Fisheries Infrastructure Fund", fullName: "FIDF - Aquaculture Loan", category: "credit",
+        icon: "fa-fish", amount: "Up to ₹50 lakh", benefits: ["Loan for fish farming infrastructure", "4% interest subvention", "Covers hatcheries, feed mills", "Cold chain for fish"],
+        eligibility: ["Fish farmers", "FPOs", "Cooperatives", "SHGs"], documents: ["Water body lease", "Project report", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://dof.gov.in"
+    },
+    {
+        id: 20, name: "Food Processing Fund", fullName: "Food Processing Loan Scheme", category: "credit",
+        icon: "fa-industry", amount: "Up to ₹10 crore", benefits: ["Loan for food processing units", "35% capital subsidy", "Interest subvention 5%", "Covers fruits, vegetables, grains"],
+        eligibility: ["Food processors", "FPOs", "Cooperatives", "Agri-preneurs"], documents: ["DPR", "Land documents", "FSSAI license", "Bank account"], helpline: "1800-180-1551", website: "https://mofpi.nic.in"
+    },
+    
+    // ========== CROP INSURANCE SCHEMES (10 schemes) ==========
+    {
+        id: 21, name: "PMFBY", fullName: "Pradhan Mantri Fasal Bima Yojana", category: "insurance",
         icon: "fa-shield-alt", amount: "Low premium: 1.5-5%", benefits: ["Crop insurance at low premium", "1.5% for Rabi, 2% for Kharif", "Claim in 21 days", "Covers pre to post harvest"],
         eligibility: ["All farmers", "Loanee mandatory", "Non-loanee voluntary", "Sharecroppers"], documents: ["Land records", "Crop declaration", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://pmfby.gov.in"
     },
     {
-        id: 14, name: "Restructured Weather Based Crop Insurance", fullName: "RWBCIS", category: "insurance",
+        id: 22, name: "Restructured Weather Based Crop Insurance", fullName: "RWBCIS", category: "insurance",
         icon: "fa-cloud-sun-rain", amount: "Premium 1.5-8%", benefits: ["Weather index based insurance", "Covers rainfall deficit/excess", "Temperature and humidity coverage", "Quick claim settlement"],
         eligibility: ["Farmers in notified areas", "Crops sensitive to weather", "All farmer categories"], documents: ["Land records", "Weather data", "Aadhaar"], helpline: "1800-180-1551", website: "https://pmfby.gov.in"
     },
     {
-        id: 15, name: "Coconut Palm Insurance", fullName: "Coconut Palm Insurance Scheme", category: "insurance",
+        id: 23, name: "Coconut Palm Insurance", fullName: "Coconut Palm Insurance Scheme", category: "insurance",
         icon: "fa-tree", amount: "Premium: ₹100-500/tree", benefits: ["Insurance for coconut trees", "Covers pest and disease", "Natural calamity coverage", "Up to 5 years coverage"],
         eligibility: ["Coconut farmers", "Minimum 5 trees", "All states"], documents: ["Land records", "Tree count", "Aadhaar"], helpline: "0484-2378785", website: "https://coconutboard.gov.in"
     },
     {
-        id: 16, name: "Rubber Group Insurance", fullName: "Rubber Insurance Scheme", category: "insurance",
+        id: 24, name: "Rubber Group Insurance", fullName: "Rubber Insurance Scheme", category: "insurance",
         icon: "fa-tree", amount: "₹30,000/hectare", benefits: ["Insurance for rubber trees", "Natural disaster coverage", "Disease and pest cover", "Yield loss compensation"],
         eligibility: ["Rubber growers", "Minimum 0.5 hectare", "Registered with Rubber Board"], documents: ["Land records", "Rubber Board registration", "Aadhaar"], helpline: "0481-2353123", website: "https://rubberboard.org.in"
     },
     {
-        id: 17, name: "Coffee Insurance", fullName: "Coffee Crop Insurance", category: "insurance",
+        id: 25, name: "Coffee Insurance", fullName: "Coffee Crop Insurance", category: "insurance",
         icon: "fa-mug-hot", amount: "Premium 3.5%", benefits: ["Insurance for coffee plantations", "Covers Arabica and Robusta", "Yield loss coverage", "Price fluctuation cover"],
         eligibility: ["Coffee growers", "Registered with Coffee Board", "Minimum 0.5 acre"], documents: ["Land records", "Coffee Board registration"], helpline: "080-26711111", website: "https://coffeeboard.gov.in"
     },
     {
-        id: 18, name: "Tea Insurance", fullName: "Tea Crop Insurance", category: "insurance",
+        id: 26, name: "Tea Insurance", fullName: "Tea Crop Insurance", category: "insurance",
         icon: "fa-leaf", amount: "Premium 2.5%", benefits: ["Insurance for tea gardens", "Covers green leaf yield", "Drought and flood cover", "Pest and disease coverage"],
         eligibility: ["Tea growers", "Registered with Tea Board", "All states"], documents: ["Land records", "Tea Board registration"], helpline: "033-23531234", website: "https://teaboard.gov.in"
     },
-    
-    // ========== IRRIGATION SCHEMES (19-24) ==========
     {
-        id: 19, name: "PMKSY", fullName: "Pradhan Mantri Krishi Sinchayee Yojana", category: "irrigation",
+        id: 27, name: "Unified Package Insurance Scheme", fullName: "UPIS - Crop Plus Insurance", category: "insurance",
+        icon: "fa-shield-alt", amount: "Premium: 2-8%", benefits: ["Combined crop + assets insurance", "Covers house, tractor, livestock", "Single premium for all", "Quick claim settlement"],
+        eligibility: ["All farmers", "Loanee farmers mandatory", "Non-loanee voluntary"], documents: ["Land records", "Asset list", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://pmfby.gov.in"
+    },
+    {
+        id: 28, name: "Palm Oil Insurance", fullName: "Oil Palm Insurance Scheme", category: "insurance",
+        icon: "fa-tree", amount: "Premium: 2.5%", benefits: ["Insurance for oil palm plantations", "Covers yield loss", "Pest and disease coverage", "5-year policy option"],
+        eligibility: ["Oil palm growers", "Registered with NMEO-OP", "Minimum 1 hectare"], documents: ["Land records", "Plantation registration", "Aadhaar"], helpline: "1800-180-1551", website: "https://nmeo-op.gov.in"
+    },
+    {
+        id: 29, name: "Cardamom Insurance", fullName: "Cardamom Crop Insurance", category: "insurance",
+        icon: "fa-leaf", amount: "Premium: 3%", benefits: ["Insurance for cardamom plantations", "Covers yield loss due to weather", "Pest and disease coverage", "Quick claim settlement"],
+        eligibility: ["Cardamom growers", "Registered with Spices Board", "Minimum 0.5 acre"], documents: ["Land records", "Spices Board registration", "Aadhaar"], helpline: "0484-2333333", website: "https://indianspices.com"
+    },
+    {
+        id: 30, name: "Livestock Insurance", fullName: "National Livestock Insurance Scheme", category: "insurance",
+        icon: "fa-paw", amount: "Premium: 4-6%", benefits: ["Insurance for cattle, buffalo, sheep, goat", "Death due to accident/disease", "Subsidized premium for BPL", "Quick claim settlement"],
+        eligibility: ["All livestock owners", "Dairy farmers", "BPL families priority"], documents: ["Animal identification", "Veterinary certificate", "Aadhaar", "Bank account"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
+    },
+    
+    // ========== IRRIGATION SCHEMES (10 schemes) ==========
+    {
+        id: 31, name: "PMKSY", fullName: "Pradhan Mantri Krishi Sinchayee Yojana", category: "irrigation",
         icon: "fa-tint", amount: "55-75% Subsidy", benefits: ["Drip/sprinkler subsidy", "55% for general, 75% for SC/ST", "Farm pond support", "Per Drop More Crop"],
         eligibility: ["All farmers", "FPOs", "Water user associations"], documents: ["Land records", "Aadhaar", "Bank account", "Vendor quotation"], helpline: "011-23381092", website: "https://pmksy.gov.in"
     },
     {
-        id: 20, name: "Micro Irrigation Fund", fullName: "Micro Irrigation Fund (NABARD)", category: "irrigation",
+        id: 32, name: "Micro Irrigation Fund", fullName: "Micro Irrigation Fund (NABARD)", category: "irrigation",
         icon: "fa-water", amount: "₹5,000 crore fund", benefits: ["Additional subsidy for micro-irrigation", "Convergence with PMKSY", "State government loans", "Priority to water-scarce areas"],
         eligibility: ["State governments", "Water user associations", "FPOs"], documents: ["Project proposal", "State approval"], helpline: "022-26539800", website: "https://nabard.org"
     },
     {
-        id: 21, name: "Har Khet Ko Pani", fullName: "Har Khet Ko Pani (PMKSY Component)", category: "irrigation",
+        id: 33, name: "Har Khet Ko Pani", fullName: "Har Khet Ko Pani (PMKSY Component)", category: "irrigation",
         icon: "fa-water", amount: "Complete coverage", benefits: ["Irrigation access to every farm", "Command area development", "Water harvesting structures", "Renovation of water bodies"],
         eligibility: ["All farmers", "Priority to rainfed areas"], documents: ["Land records", "Water source details"], helpline: "011-23381092", website: "https://pmksy.gov.in"
     },
     {
-        id: 22, name: "Watershed Development Component", fullName: "Watershed Development (PMKSY)", category: "irrigation",
+        id: 34, name: "Watershed Development Component", fullName: "Watershed Development (PMKSY)", category: "irrigation",
         icon: "fa-mountain", amount: "₹12,000/hectare", benefits: ["Watershed management", "Soil and water conservation", "Rainwater harvesting", "Check dam construction"],
         eligibility: ["Farmers in watershed areas", "Village communities"], documents: ["Village resolution", "Land records"], helpline: "011-23381092", website: "https://pmksy.gov.in"
     },
     {
-        id: 23, name: "Accelerated Irrigation Benefit Programme", fullName: "AIBP", category: "irrigation",
+        id: 35, name: "Accelerated Irrigation Benefit Programme", fullName: "AIBP", category: "irrigation",
         icon: "fa-dam", amount: "90:10 funding", benefits: ["Major irrigation projects", "Central:State funding 90:10", "Command area development", "Water distribution systems"],
         eligibility: ["State governments", "Irrigation departments"], documents: ["Project DPR", "State approval"], helpline: "011-23381092", website: "https://mowr.gov.in"
     },
     {
-        id: 24, name: "Rooftop Rainwater Harvesting", fullName: "Rooftop Rainwater Harvesting for Farms", category: "irrigation",
+        id: 36, name: "Rooftop Rainwater Harvesting", fullName: "Rooftop Rainwater Harvesting for Farms", category: "irrigation",
         icon: "fa-home", amount: "50% subsidy up to ₹25,000", benefits: ["Rainwater harvesting structure", "Storage tank subsidy", "Groundwater recharge", "Reduces borewell dependency"],
         eligibility: ["All farmers", "Farm houses", "Animal shelters"], documents: ["Building plan", "Land records", "Quotation"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
-    
-    // ========== FARM MACHINERY SCHEMES (25-30) ==========
     {
-        id: 25, name: "SMAM", fullName: "Subsidy on Agricultural Machinery", category: "machinery",
+        id: 37, name: "Well Recharge Scheme", fullName: "Farm Pond & Well Recharge Scheme", category: "irrigation",
+        icon: "fa-tint", amount: "50% subsidy up to ₹50,000", benefits: ["Farm pond construction", "Well recharge structures", "Rainwater harvesting", "Groundwater level improvement"],
+        eligibility: ["All farmers", "Areas with declining water table"], documents: ["Land records", "Well ownership proof", "Aadhaar"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 38, name: "Sprinkler Subsidy Scheme", fullName: "Sprinkler Irrigation Subsidy", category: "irrigation",
+        icon: "fa-tint", amount: "70% subsidy up to ₹15,000/acre", benefits: ["Portable sprinkler sets", "Water saving up to 40%", "Suitable for all crops", "Low operating cost"],
+        eligibility: ["Small & marginal farmers", "FPOs", "Water-scarce areas priority"], documents: ["Land records", "Aadhaar", "Quotation", "Bank account"], helpline: "1800-180-1551", website: "https://pmksy.gov.in"
+    },
+    {
+        id: 39, name: "Drip Irrigation Subsidy", fullName: "Drip Irrigation Promotion Scheme", category: "irrigation",
+        icon: "fa-tint", amount: "60-80% subsidy", benefits: ["Drip irrigation systems", "Water saving up to 60%", "Higher yield", "Fertigation compatible"],
+        eligibility: ["All farmers", "Horticulture farmers priority", "FPOs"], documents: ["Land records", "Crop details", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://pmksy.gov.in"
+    },
+    {
+        id: 40, name: "Pipeline Extension Scheme", fullName: "Field Channel & Pipeline Extension", category: "irrigation",
+        icon: "fa-water", amount: "50% subsidy up to ₹2 lakh", benefits: ["PVC pipeline from source to field", "Reduces water loss", "Saves time and labor", "Covers up to 5 acres"],
+        eligibility: ["All farmers", "Water user associations", "FPOs"], documents: ["Land records", "Water source proof", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    
+    // ========== FARM MACHINERY SCHEMES (10 schemes) ==========
+    {
+        id: 41, name: "SMAM", fullName: "Subsidy on Agricultural Machinery", category: "machinery",
         icon: "fa-tractor", amount: "40-50% subsidy", benefits: ["50% for SC/ST (up to ₹40,000)", "40% for general farmers", "Tractor, rotavator subsidy", "Drone subsidy 50% up to ₹5 lakh"],
         eligibility: ["Individual farmers", "FPOs", "Custom Hiring Centers", "SHGs"], documents: ["Land records", "Aadhaar", "Quotation", "Invoice"], helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
     },
     {
-        id: 26, name: "Custom Hiring Centre Scheme", fullName: "Farm Machinery Bank", category: "machinery",
+        id: 42, name: "Custom Hiring Centre Scheme", fullName: "Farm Machinery Bank", category: "machinery",
         icon: "fa-handshake", amount: "40% subsidy up to ₹40 lakh", benefits: ["Establish machinery rental centers", "40% subsidy for equipment", "Benefit small farmers", "Reduces individual investment"],
         eligibility: ["FPOs", "Cooperatives", "SHGs", "Young entrepreneurs"], documents: ["Business plan", "Registration certificate", "Land for center"], helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
     },
     {
-        id: 27, name: "Drone Didi Scheme", fullName: "Drone for Fertilizer/Pesticide Spraying", category: "machinery",
+        id: 43, name: "Drone Didi Scheme", fullName: "Drone for Fertilizer/Pesticide Spraying", category: "machinery",
         icon: "fa-drone", amount: "80% subsidy up to ₹8 lakh", benefits: ["Drone for women SHGs", "80% subsidy for purchase", "Training included", "Spraying service income"],
         eligibility: ["Women SHGs", "FPOs with women members"], documents: ["SHG registration", "Women members list"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 28, name: "Post Harvest Equipment Subsidy", fullName: "Post Harvest Management Equipment", category: "machinery",
+        id: 44, name: "Post Harvest Equipment Subsidy", fullName: "Post Harvest Management Equipment", category: "machinery",
         icon: "fa-box", amount: "35% subsidy up to ₹10 lakh", benefits: ["Threshers, dryers, graders", "Storage equipment", "Packaging machinery", "Processing units"],
         eligibility: ["Individual farmers", "FPOs", "Agri-preneurs"], documents: ["Project report", "Quotation", "Land documents"], helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
     },
     {
-        id: 29, name: "Solar Dryer Subsidy", fullName: "Solar Dryer for Farmers", category: "machinery",
+        id: 45, name: "Solar Dryer Subsidy", fullName: "Solar Dryer for Farmers", category: "machinery",
         icon: "fa-sun", amount: "50% subsidy up to ₹50,000", benefits: ["Solar dryer for fruits/vegetables", "Reduces post-harvest loss", "Quality preservation", "Value addition"],
         eligibility: ["Small farmers", "FPOs", "Women farmers"], documents: ["Land records", "Aadhaar"], helpline: "1800-180-1551", website: "https://mnre.gov.in"
     },
     {
-        id: 30, name: "Cold Chain Subsidy", fullName: "Cold Storage and Cold Chain", category: "machinery",
+        id: 46, name: "Cold Chain Subsidy", fullName: "Cold Storage and Cold Chain", category: "machinery",
         icon: "fa-snowflake", amount: "35% subsidy up to ₹50 lakh", benefits: ["Cold storage construction", "Reefer vehicles", "Packaging equipment", "Reduces wastage"],
         eligibility: ["FPOs", "Cooperatives", "Individual entrepreneurs"], documents: ["Project report", "Land documents", "Business plan"], helpline: "011-23381092", website: "https://mofpi.nic.in"
     },
-    
-    // ========== SOIL HEALTH SCHEMES (31-35) ==========
     {
-        id: 31, name: "Soil Health Card", fullName: "Soil Health Card Scheme", category: "soil",
+        id: 47, name: "Tractor Subsidy Scheme", fullName: "Small Tractor Subsidy for Marginal Farmers", category: "machinery",
+        icon: "fa-tractor", amount: "40% subsidy up to ₹60,000", benefits: ["Subsidy for 20-35 HP tractors", "Priority to SC/ST farmers", "Custom hiring option", "Reduces farming cost"],
+        eligibility: ["Small & marginal farmers", "SC/ST farmers", "Women farmers"], documents: ["Land records", "Aadhaar", "Quotation", "Bank account"], helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
+    },
+    {
+        id: 48, name: "Power Tiller Subsidy", fullName: "Power Tiller Subsidy Scheme", category: "machinery",
+        icon: "fa-tractor", amount: "50% subsidy up to ₹25,000", benefits: ["Subsidy for power tillers", "Suitable for small farms", "Reduces labor dependency", "Low maintenance cost"],
+        eligibility: ["Small farmers", "Hill region farmers", "FPOs"], documents: ["Land records", "Aadhaar", "Quotation", "Bank account"], helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
+    },
+    {
+        id: 49, name: "Reaper/Harvester Subsidy", fullName: "Combine Harvester Subsidy Scheme", category: "machinery",
+        icon: "fa-tractor", amount: "40% subsidy up to ₹2 lakh", benefits: ["Subsidy for reapers/harvesters", "Reduces harvesting time", "Minimizes crop loss", "Custom hiring viable"],
+        eligibility: ["FPOs", "Cooperatives", "SHGs", "Large farmers"], documents: ["Land records", "Business plan", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
+    },
+    {
+        id: 50, name: "Paddy Transplanter Subsidy", fullName: "Mechanical Paddy Transplanter Subsidy", category: "machinery",
+        icon: "fa-tractor", amount: "50% subsidy up to ₹40,000", benefits: ["Subsidy for paddy transplanters", "Saves labor cost", "Uniform planting", "Higher yield"],
+        eligibility: ["Paddy farmers", "FPOs", "SHGs", "Custom hiring centers"], documents: ["Land records", "Aadhaar", "Quotation", "Bank account"], helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
+    },
+    
+    // ========== SOIL HEALTH SCHEMES (10 schemes) ==========
+    {
+        id: 51, name: "Soil Health Card", fullName: "Soil Health Card Scheme", category: "soil",
         icon: "fa-leaf", amount: "Free Service", benefits: ["Free soil testing every 2 years", "12 parameters analyzed", "Crop-specific recommendations", "Reduces fertilizer cost 10-15%"],
         eligibility: ["All farmers", "Priority to small farmers"], documents: ["Land records", "Farmer ID"], helpline: "1800-180-1551", website: "https://soilhealth.dac.gov.in"
     },
     {
-        id: 32, name: "Soil Testing Labs Establishment", fullName: "Mobile Soil Testing Labs", category: "soil",
+        id: 52, name: "Soil Testing Labs Establishment", fullName: "Mobile Soil Testing Labs", category: "soil",
         icon: "fa-flask", amount: "₹25 lakh per lab", benefits: ["Mobile soil testing vans", "Free doorstep service", "Results in 7 days", "Cover remote villages"],
         eligibility: ["State governments", "KVKs", "Agricultural universities"], documents: ["Proposal", "Infrastructure details"], helpline: "1800-180-1551", website: "https://soilhealth.dac.gov.in"
     },
     {
-        id: 33, name: "Soil Health Management", fullName: "Soil Health Management (SHM)", category: "soil",
+        id: 53, name: "Soil Health Management", fullName: "Soil Health Management (SHM)", category: "soil",
         icon: "fa-chart-line", amount: "₹2,000/hectare", benefits: ["Soil amendment subsidy", "Lime/gypsum application", "Micro-nutrient supply", "Bio-fertilizer promotion"],
         eligibility: ["All farmers", "Soil health card holders"], documents: ["Soil health card", "Land records"], helpline: "1800-180-1551", website: "https://nmsa.dac.gov.in"
     },
     {
-        id: 34, name: "Micro-nutrient Scheme", fullName: "Micro-nutrient Deficiency Correction", category: "soil",
+        id: 54, name: "Micro-nutrient Scheme", fullName: "Micro-nutrient Deficiency Correction", category: "soil",
         icon: "fa-capsules", amount: "50% subsidy up to ₹1,000/acre", benefits: ["Zinc, boron, iron supply", "Deficiency correction", "Quality seed subsidy", "Yield improvement"],
         eligibility: ["Farmers with micro-nutrient deficiency", "Soil test report required"], documents: ["Soil health card", "Land records"], helpline: "1800-180-1551", website: "https://nmsa.dac.gov.in"
     },
     {
-        id: 35, name: "Lime and Gypsum Subsidy", fullName: "Soil Acidity/Alkalinity Correction", category: "soil",
+        id: 55, name: "Lime and Gypsum Subsidy", fullName: "Soil Acidity/Alkalinity Correction", category: "soil",
         icon: "fa-balance-scale", amount: "50% subsidy", benefits: ["Lime for acidic soil", "Gypsum for alkaline soil", "Improves soil pH", "Increases nutrient availability"],
         eligibility: ["Farmers with problematic soil", "Soil test required"], documents: ["Soil test report", "Land records"], helpline: "1800-180-1551", website: "https://nmsa.dac.gov.in"
     },
     {
-        id: 36, name: "PKVY", fullName: "Paramparagat Krishi Vikas Yojana", category: "organic",
-        icon: "fa-recycle", amount: "₹31,500/hectare", 
-        benefits: ["₹15,000 for organic inputs", "₹10,000 for certification", "₹6,500 for training", "3-year support"],
-        eligibility: ["Farmer clusters (50+ farmers)", "FPOs", "SHGs", "Minimum 50 acres"],
-        documents: ["Cluster registration", "Farmer list", "Land details", "Soil test report"],
-        helpline: "011-23381092", website: "https://pgsindia-ncof.gov.in"
+        id: 56, name: "Organic Soil Enhancer Scheme", fullName: "Organic Matter Enrichment Scheme", category: "soil",
+        icon: "fa-recycle", amount: "₹5,000/hectare", benefits: ["Green manure subsidy", "Compost promotion", "Crop residue management", "Soil organic carbon improvement"],
+        eligibility: ["All farmers", "Organic farming clusters"], documents: ["Land records", "Soil health card", "Aadhaar"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 37, name: "MOVCDNER", fullName: "Mission Organic Value Chain Development for NE Region", category: "organic",
-        icon: "fa-chart-line", amount: "₹75,000/hectare", 
-        benefits: ["Organic farming in North-East states", "FPO formation support", "Market linkage", "Processing infrastructure"],
-        eligibility: ["Farmers in North-East states", "FPOs", "Organic clusters", "Tribal farmers"],
-        documents: ["Land records", "FPO registration", "Farmer ID", "Bank account"],
-        helpline: "011-23381092", website: "https://agricoop.nic.in"
+        id: 57, name: "Biofertilizer Distribution", fullName: "Free Biofertilizer Distribution", category: "soil",
+        icon: "fa-flask", amount: "Free up to 5 kg/acre", benefits: ["Free Rhizobium, PSB, Azotobacter", "Reduces chemical fertilizer use", "Improves soil biology", "Available at KVKs"],
+        eligibility: ["All farmers", "Priority to small & marginal"], documents: ["Land records", "Soil health card", "Aadhaar"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 38, name: "Vermicompost Subsidy", fullName: "Vermicompost Production Unit Scheme", category: "organic",
-        icon: "fa-worm", amount: "50% subsidy up to ₹50,000", 
-        benefits: ["Vermicompost unit establishment", "Earthworm supply", "Training provided", "Organic fertilizer production"],
-        eligibility: ["Individual farmers", "SHGs", "FPOs", "Women farmers"],
-        documents: ["Land documents", "Project proposal", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+        id: 58, name: "Vermicompost Subsidy", fullName: "Vermicompost Production Unit", category: "soil",
+        icon: "fa-worm", amount: "50% subsidy up to ₹25,000", benefits: ["Vermicompost unit establishment", "Earthworm supply", "Organic manure production", "Waste recycling"],
+        eligibility: ["Individual farmers", "SHGs", "Women farmers"], documents: ["Land records", "Project proposal", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 39, name: "Bio-fertilizer Subsidy", fullName: "Bio-fertilizer Production Unit Scheme", category: "organic",
-        icon: "fa-flask", amount: "40% subsidy up to ₹2 lakh", 
-        benefits: ["Rhizobium, PSB production", "Azotobacter, VAM supply", "Quality control lab", "Farmer training"],
-        eligibility: ["SHGs", "FPOs", "Young entrepreneurs", "Agri-graduates"],
-        documents: ["Business plan", "Technical qualification", "Land lease", "Bank account"],
-        helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+        id: 59, name: "Soil Conservation Scheme", fullName: "Soil Erosion Prevention Scheme", category: "soil",
+        icon: "fa-mountain", amount: "75% subsidy", benefits: ["Contour bunding", "Terrace farming support", "Gully plugging", "Strip cropping promotion"],
+        eligibility: ["Farmers in hilly areas", "Erosion-prone regions"], documents: ["Land records", "Soil erosion proof", "Aadhaar"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 40, name: "ZBNF", fullName: "Zero Budget Natural Farming Scheme", category: "organic",
-        icon: "fa-leaf", amount: "₹15,000/hectare", 
-        benefits: ["Natural farming promotion", "Cow-based farming", "Bio-pesticide training", "Mulching support"],
-        eligibility: ["All farmers", "Preference to rainfed areas", "Small & marginal farmers"],
-        documents: ["Land records", "Training certificate", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+        id: 60, name: "Land Development Scheme", fullName: "Land Leveling & Development", category: "soil",
+        icon: "fa-draw-polygon", amount: "50% subsidy up to ₹10,000/acre", benefits: ["Laser land leveling subsidy", "Land shaping", "Drainage improvement", "Water use efficiency"],
+        eligibility: ["All farmers", "FPOs", "Water-scarce areas priority"], documents: ["Land records", "Aadhaar", "Quotation", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     
-    // ========== HORTICULTURE SCHEMES (41-48) ==========
+    // ========== ORGANIC FARMING SCHEMES (10 schemes) ==========
     {
-        id: 41, name: "MIDH", fullName: "Mission for Integrated Development of Horticulture", category: "horticulture",
-        icon: "fa-apple-alt", amount: "50-75% subsidy", 
-        benefits: ["Fruit, vegetable plantation", "Nursery development", "Post-harvest management", "Packaging subsidy"],
-        eligibility: ["All farmers", "FPOs", "Nursery owners", "Women farmers"],
-        documents: ["Land records", "Project proposal", "Aadhaar", "Bank account"],
-        helpline: "011-23381092", website: "https://midh.gov.in"
+        id: 61, name: "PKVY", fullName: "Paramparagat Krishi Vikas Yojana", category: "organic",
+        icon: "fa-recycle", amount: "₹31,500/hectare", benefits: ["₹15,000 for organic inputs", "₹10,000 for certification", "₹6,500 for training", "3-year support"],
+        eligibility: ["Farmer clusters (50+ farmers)", "FPOs", "SHGs", "Minimum 50 acres"], documents: ["Cluster registration", "Farmer list", "Land details", "Soil test report"], helpline: "011-23381092", website: "https://pgsindia-ncof.gov.in"
     },
     {
-        id: 42, name: "Coconut Promotion Scheme", fullName: "Coconut Development Scheme (Budget 2026-27)", category: "horticulture",
-        icon: "fa-tree", amount: "₹50,000/hectare", 
-        benefits: ["70% subsidy for small farmers", "High-yielding saplings", "Old tree replacement", "Value addition support"],
-        eligibility: ["Coconut farmers in Kerala, TN, Karnataka, AP", "FPOs", "Small farmers"],
-        documents: ["Land records", "Tree count", "Aadhaar", "Bank account"],
-        helpline: "0484-2378785", website: "https://coconutboard.gov.in"
+        id: 62, name: "MOVCDNER", fullName: "Mission Organic Value Chain Development for NE Region", category: "organic",
+        icon: "fa-chart-line", amount: "₹75,000/hectare", benefits: ["Organic farming in North-East states", "FPO formation support", "Market linkage", "Processing infrastructure"],
+        eligibility: ["Farmers in North-East states", "FPOs", "Organic clusters", "Tribal farmers"], documents: ["Land records", "FPO registration", "Farmer ID", "Bank account"], helpline: "011-23381092", website: "https://agricoop.nic.in"
     },
     {
-        id: 43, name: "Cashew Mission", fullName: "Programme for Cashew & Cocoa", category: "horticulture",
-        icon: "fa-seedling", amount: "₹25,000/hectare", 
-        benefits: ["Cashew plantation subsidy", "Cocoa cultivation support", "Processing unit subsidy", "Export promotion"],
-        eligibility: ["Farmers in coastal states", "FPOs", "Processing units", "SHGs"],
-        documents: ["Land records", "Project report", "Aadhaar", "Bank account"],
-        helpline: "0824-2431461", website: "https://cashewboard.gov.in"
+        id: 63, name: "Vermicompost Subsidy", fullName: "Vermicompost Production Unit Scheme", category: "organic",
+        icon: "fa-worm", amount: "50% subsidy up to ₹50,000", benefits: ["Vermicompost unit establishment", "Earthworm supply", "Training provided", "Organic fertilizer production"],
+        eligibility: ["Individual farmers", "SHGs", "FPOs", "Women farmers"], documents: ["Land documents", "Project proposal", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 44, name: "National Bamboo Mission", fullName: "Bamboo Development Scheme", category: "horticulture",
-        icon: "fa-tree", amount: "₹30,000/hectare", 
-        benefits: ["Bamboo plantation subsidy", "Nursery development", "Value addition units", "Handicraft support"],
-        eligibility: ["Farmers in NE states", "FPOs", "Tribal farmers", "SHGs"],
-        documents: ["Land records", "Bamboo area details", "Aadhaar", "Bank account"],
-        helpline: "011-23381092", website: "https://nbm.nic.in"
+        id: 64, name: "Bio-fertilizer Subsidy", fullName: "Bio-fertilizer Production Unit Scheme", category: "organic",
+        icon: "fa-flask", amount: "40% subsidy up to ₹2 lakh", benefits: ["Rhizobium, PSB production", "Azotobacter, VAM supply", "Quality control lab", "Farmer training"],
+        eligibility: ["SHGs", "FPOs", "Young entrepreneurs", "Agri-graduates"], documents: ["Business plan", "Technical qualification", "Land lease", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 45, name: "Spice Park Scheme", fullName: "Spice Development & Processing", category: "horticulture",
-        icon: "fa-pepper-hot", amount: "40% subsidy", 
-        benefits: ["Spice processing units", "Value addition equipment", "Quality testing lab", "Export facilitation"],
-        eligibility: ["Spice growers", "FPOs", "Spice processors", "SHGs"],
-        documents: ["Land records", "Spice Board registration", "Project report", "Bank account"],
-        helpline: "0484-2333333", website: "https://indianspices.com"
+        id: 65, name: "ZBNF", fullName: "Zero Budget Natural Farming Scheme", category: "organic",
+        icon: "fa-leaf", amount: "₹15,000/hectare", benefits: ["Natural farming promotion", "Cow-based farming", "Bio-pesticide training", "Mulching support"],
+        eligibility: ["All farmers", "Preference to rainfed areas", "Small & marginal farmers"], documents: ["Land records", "Training certificate", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 46, name: "Mango Development", fullName: "Mango Plantation & Processing", category: "horticulture",
-        icon: "fa-apple-alt", amount: "₹40,000/hectare", 
-        benefits: ["High-yielding mango saplings", "Processing unit support", "Cold storage subsidy", "Export promotion"],
-        eligibility: ["Mango growers", "FPOs", "Processing units"],
-        documents: ["Land records", "Variety details", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+        id: 66, name: "Organic Certification Subsidy", fullName: "PGS-India Certification Support", category: "organic",
+        icon: "fa-certificate", amount: "100% subsidy up to ₹10,000", benefits: ["Free organic certification", "Group certification for clusters", "Quality assurance", "Market access"],
+        eligibility: ["Farmer clusters", "FPOs", "Organic farmers groups"], documents: ["Cluster registration", "Farmer list", "Land records"], helpline: "1800-180-1551", website: "https://pgsindia-ncof.gov.in"
     },
     {
-        id: 47, name: "Banana Development", fullName: "Banana Plantation & Value Addition", category: "horticulture",
-        icon: "fa-apple-alt", amount: "₹35,000/hectare", 
-        benefits: ["Tissue culture plants subsidy", "Drip irrigation support", "Processing units", "Market linkage"],
-        eligibility: ["Banana growers", "FPOs", "SHGs"],
-        documents: ["Land records", "Variety details", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+        id: 67, name: "Manure Management Scheme", fullName: "Animal Manure Management Scheme", category: "organic",
+        icon: "fa-paw", amount: "50% subsidy up to ₹30,000", benefits: ["Compost pit construction", "Manure processing", "Biogas unit subsidy", "Farmyard manure promotion"],
+        eligibility: ["Livestock farmers", "Dairy farmers", "SHGs"], documents: ["Land records", "Animal count proof", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 48, name: "Floriculture Mission", fullName: "National Floriculture Mission", category: "horticulture",
-        icon: "fa-flower", amount: "50% subsidy up to ₹5 lakh", 
-        benefits: ["Flower cultivation support", "Greenhouse subsidy", "Export quality flowers", "Cold chain support"],
-        eligibility: ["Flower growers", "FPOs", "Women farmers", "SHGs"],
-        documents: ["Land records", "Greenhouse proposal", "Aadhaar", "Bank account"],
-        helpline: "011-23381092", website: "https://agricoop.nic.in"
+        id: 68, name: "Green Manure Scheme", fullName: "Green Manure Seed Subsidy", category: "organic",
+        icon: "fa-seedling", amount: "50% subsidy on seeds", benefits: ["Sunhemp, dhaincha seeds", "Improves soil fertility", "Weed suppression", "Reduces fertilizer need"],
+        eligibility: ["All farmers", "Organic farmers priority"], documents: ["Land records", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 69, name: "Jaivik Kheti Scheme", fullName: "State Organic Farming Promotion", category: "organic",
+        icon: "fa-recycle", amount: "₹20,000/hectare", benefits: ["Organic input subsidy", "Training and demonstration", "Market linkage support", "PGS certification"],
+        eligibility: ["All farmers", "Organic clusters", "SHGs"], documents: ["Land records", "Training certificate", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 70, name: "Bio-pesticide Scheme", fullName: "Bio-pesticide Promotion Scheme", category: "organic",
+        icon: "fa-bug", amount: "50% subsidy up to ₹2,000/acre", benefits: ["Neem-based pesticides", "Trichoderma supply", "Pseudomonas culture", "IPM training"],
+        eligibility: ["All farmers", "Organic farmers", "FPOs"], documents: ["Land records", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://ppqs.gov.in"
     },
     
-    // ========== DIGITAL FARMING SCHEMES (49-56) ==========
+    // ========== HORTICULTURE SCHEMES (10 schemes) ==========
     {
-        id: 49, name: "Bharat-VISTAAR", fullName: "Virtual Integrated System for Agricultural Resources", category: "digital",
-        icon: "fa-microchip", amount: "Free AI Service", 
-        benefits: ["AI-powered farm advisory", "22+ Indian languages", "Crop recommendations", "Pest alerts", "Market prices"],
-        eligibility: ["All farmers", "FPOs", "Extension officers", "KVKs"],
-        documents: ["Aadhaar", "Mobile number", "Land records (optional)"],
-        helpline: "TBD June 2026", website: "https://agristack.gov.in"
+        id: 71, name: "MIDH", fullName: "Mission for Integrated Development of Horticulture", category: "horticulture",
+        icon: "fa-apple-alt", amount: "50-75% subsidy", benefits: ["Fruit, vegetable plantation", "Nursery development", "Post-harvest management", "Packaging subsidy"],
+        eligibility: ["All farmers", "FPOs", "Nursery owners", "Women farmers"], documents: ["Land records", "Project proposal", "Aadhaar", "Bank account"], helpline: "011-23381092", website: "https://midh.gov.in"
     },
     {
-        id: 50, name: "AgriStack", fullName: "National AgriStack Digital Platform", category: "digital",
-        icon: "fa-database", amount: "Free Digital ID", 
-        benefits: ["Unique Farmer ID", "Digital land records", "Crop sowing data", "Direct benefit transfer integration"],
-        eligibility: ["All farmers", "Priority for scheme beneficiaries", "Small & marginal farmers"],
-        documents: ["Aadhaar", "Land records", "Bank account", "Mobile number"],
-        helpline: "1800-180-1551", website: "https://agristack.gov.in"
+        id: 72, name: "Coconut Promotion Scheme", fullName: "Coconut Development Scheme", category: "horticulture",
+        icon: "fa-tree", amount: "₹50,000/hectare", benefits: ["70% subsidy for small farmers", "High-yielding saplings", "Old tree replacement", "Value addition support"],
+        eligibility: ["Coconut farmers in Kerala, TN, Karnataka, AP", "FPOs", "Small farmers"], documents: ["Land records", "Tree count", "Aadhaar", "Bank account"], helpline: "0484-2378785", website: "https://coconutboard.gov.in"
     },
     {
-        id: 51, name: "e-NAM", fullName: "National Agriculture Market", category: "digital",
-        icon: "fa-chart-line", amount: "Free Trading Platform", 
-        benefits: ["Online mandi trading", "Real-time price discovery", "1000+ mandis connected", "Direct payment to farmer"],
-        eligibility: ["All farmers", "Traders", "FPOs", "Commission agents"],
-        documents: ["Aadhaar", "Bank account", "Trading license", "Mobile number"],
-        helpline: "1800-180-1551", website: "https://enam.gov.in"
+        id: 73, name: "Cashew Mission", fullName: "Programme for Cashew & Cocoa", category: "horticulture",
+        icon: "fa-seedling", amount: "₹25,000/hectare", benefits: ["Cashew plantation subsidy", "Cocoa cultivation support", "Processing unit subsidy", "Export promotion"],
+        eligibility: ["Farmers in coastal states", "FPOs", "Processing units", "SHGs"], documents: ["Land records", "Project report", "Aadhaar", "Bank account"], helpline: "0824-2431461", website: "https://cashewboard.gov.in"
     },
     {
-        id: 52, name: "Kisan Suvidha App", fullName: "Kisan Suvidha Mobile Application", category: "digital",
-        icon: "fa-mobile-alt", amount: "Free App", 
-        benefits: ["Weather updates", "Mandi prices", "Pest alerts", "Dealer information", "Plant protection"],
-        eligibility: ["All farmers", "Free download from Play Store", "No registration required"],
-        documents: ["Mobile number", "Android phone"],
-        helpline: "1800-180-1551", website: "https://play.google.com/store/apps/details?id=com.agricoop.kisansuvidha"
+        id: 74, name: "National Bamboo Mission", fullName: "Bamboo Development Scheme", category: "horticulture",
+        icon: "fa-tree", amount: "₹30,000/hectare", benefits: ["Bamboo plantation subsidy", "Nursery development", "Value addition units", "Handicraft support"],
+        eligibility: ["Farmers in NE states", "FPOs", "Tribal farmers", "SHGs"], documents: ["Land records", "Bamboo area details", "Aadhaar", "Bank account"], helpline: "011-23381092", website: "https://nbm.nic.in"
     },
     {
-        id: 53, name: "Pusa Krishi App", fullName: "ICAR-Pusa Krishi Mobile App", category: "digital",
-        icon: "fa-apple-alt", amount: "Free", 
-        benefits: ["Crop varieties database", "Package of practices", "Disease diagnosis", "Expert consultation"],
-        eligibility: ["All farmers", "Free download", "Hindi & English available"],
-        documents: ["None required"],
-        helpline: "011-25843337", website: "https://iari.res.in"
+        id: 75, name: "Spice Park Scheme", fullName: "Spice Development & Processing", category: "horticulture",
+        icon: "fa-pepper-hot", amount: "40% subsidy", benefits: ["Spice processing units", "Value addition equipment", "Quality testing lab", "Export facilitation"],
+        eligibility: ["Spice growers", "FPOs", "Spice processors", "SHGs"], documents: ["Land records", "Spice Board registration", "Project report", "Bank account"], helpline: "0484-2333333", website: "https://indianspices.com"
     },
     {
-        id: 54, name: "Kisan Call Centre", fullName: "Kisan Call Centre 1551", category: "digital",
-        icon: "fa-phone-alt", amount: "Toll Free", 
-        benefits: ["24x7 farming queries", "Expert advice", "Multilingual support", "Scheme information"],
-        eligibility: ["All farmers", "Toll free number: 1551", "Call from any phone"],
-        documents: ["None required"],
-        helpline: "1551", website: "https://agricoop.nic.in"
+        id: 76, name: "Mango Development", fullName: "Mango Plantation & Processing", category: "horticulture",
+        icon: "fa-apple-alt", amount: "₹40,000/hectare", benefits: ["High-yielding mango saplings", "Processing unit support", "Cold storage subsidy", "Export promotion"],
+        eligibility: ["Mango growers", "FPOs", "Processing units"], documents: ["Land records", "Variety details", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 55, name: "mKisan Portal", fullName: "mKisan SMS Portal for Farmers", category: "digital",
-        icon: "fa-envelope", amount: "Free SMS Service", 
-        benefits: ["Free SMS alerts", "Weather forecasts", "Market prices", "Plant protection advisories"],
-        eligibility: ["All farmers", "Mobile number registration required", "Any mobile network"],
-        documents: ["Mobile number", "Farmer registration"],
-        helpline: "1800-180-1551", website: "https://mkisan.gov.in"
+        id: 77, name: "Banana Development", fullName: "Banana Plantation & Value Addition", category: "horticulture",
+        icon: "fa-apple-alt", amount: "₹35,000/hectare", benefits: ["Tissue culture plants subsidy", "Drip irrigation support", "Processing units", "Market linkage"],
+        eligibility: ["Banana growers", "FPOs", "SHGs"], documents: ["Land records", "Variety details", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 56, name: "CHC Farm Machinery App", fullName: "Custom Hiring Centre Mobile App", category: "digital",
-        icon: "fa-tractor", amount: "Free Service", 
-        benefits: ["Find nearby farm machinery", "Book equipment online", "Rental rates comparison", "Farmer reviews"],
-        eligibility: ["All farmers", "FPOs", "Custom Hiring Centers"],
-        documents: ["Mobile number", "Location access"],
-        helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
+        id: 78, name: "Floriculture Mission", fullName: "National Floriculture Mission", category: "horticulture",
+        icon: "fa-flower", amount: "50% subsidy up to ₹5 lakh", benefits: ["Flower cultivation support", "Greenhouse subsidy", "Export quality flowers", "Cold chain support"],
+        eligibility: ["Flower growers", "FPOs", "Women farmers", "SHGs"], documents: ["Land records", "Greenhouse proposal", "Aadhaar", "Bank account"], helpline: "011-23381092", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 79, name: "Mushroom Cultivation Scheme", fullName: "National Mushroom Mission", category: "horticulture",
+        icon: "fa-cube", amount: "50% subsidy up to ₹1 lakh", benefits: ["Mushroom spawn subsidy", "Growing room construction", "Training and technology", "Marketing support"],
+        eligibility: ["All farmers", "SHGs", "Women farmers", "Rural youth"], documents: ["Land records", "Aadhaar", "Bank account", "Training certificate"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 80, name: "Vegetable Initiative", fullName: "Vegetable Cluster Development Scheme", category: "horticulture",
+        icon: "fa-carrot", amount: "₹20,000/hectare", benefits: ["Vegetable seed subsidy", "Protected cultivation", "Market linkage", "Post-harvest management"],
+        eligibility: ["Vegetable farmers", "FPOs", "SHGs", "Women farmers"], documents: ["Land records", "Crop plan", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://midh.gov.in"
     },
     
-    // ========== SOLAR ENERGY SCHEMES (57-61) ==========
+    // ========== DIGITAL FARMING SCHEMES (10 schemes) ==========
     {
-        id: 57, name: "PM-KUSUM", fullName: "Pradhan Mantri Kisan Urja Suraksha evam Utthan Mahabhiyan", category: "solar",
-        icon: "fa-solar-panel", amount: "60% Subsidy", 
-        benefits: ["60% subsidy for solar pumps (up to 7.5 HP)", "Solar panel on barren land", "Sell excess power to grid", "Reduce electricity costs"],
-        eligibility: ["Farmers with agricultural land", "Individual farmers", "Water user associations", "FPOs"],
-        documents: ["Land records", "Electricity connection proof", "Aadhaar", "Bank account"],
-        helpline: "011-24360707", website: "https://mnre.gov.in"
+        id: 81, name: "Bharat-VISTAAR", fullName: "Virtual Integrated System for Agricultural Resources", category: "digital",
+        icon: "fa-microchip", amount: "Free AI Service", benefits: ["AI-powered farm advisory", "22+ Indian languages", "Crop recommendations", "Pest alerts", "Market prices"],
+        eligibility: ["All farmers", "FPOs", "Extension officers", "KVKs"], documents: ["Aadhaar", "Mobile number", "Land records (optional)"], helpline: "1800-180-1551", website: "https://agristack.gov.in"
     },
     {
-        id: 58, name: "Solar Charkha Mission", fullName: "Solar Charkha Clusters", category: "solar",
-        icon: "fa-sun", amount: "₹4.5 lakh subsidy", 
-        benefits: ["Solar charkha units", "Women empowerment", "Khadi production", "Rural employment"],
-        eligibility: ["SHGs", "Women farmers", "Rural artisans", "Khadi institutions"],
-        documents: ["SHG registration", "Project proposal", "Bank account"],
-        helpline: "011-23381092", website: "https://kviconline.gov.in"
+        id: 82, name: "AgriStack", fullName: "National AgriStack Digital Platform", category: "digital",
+        icon: "fa-database", amount: "Free Digital ID", benefits: ["Unique Farmer ID", "Digital land records", "Crop sowing data", "Direct benefit transfer integration"],
+        eligibility: ["All farmers", "Priority for scheme beneficiaries", "Small & marginal farmers"], documents: ["Aadhaar", "Land records", "Bank account", "Mobile number"], helpline: "1800-180-1551", website: "https://agristack.gov.in"
     },
     {
-        id: 59, name: "Solar Cold Storage", fullName: "Solar Powered Cold Storage Scheme", category: "solar",
-        icon: "fa-snowflake", amount: "50% subsidy up to ₹10 lakh", 
-        benefits: ["Solar cold storage for farmers", "Reduces post-harvest loss", "Off-grid operation", "Fruits & vegetables preservation"],
-        eligibility: ["FPOs", "Farmer cooperatives", "SHGs", "Individual farmers"],
-        documents: ["Land records", "Project report", "Aadhaar", "Bank account"],
-        helpline: "011-24360707", website: "https://mnre.gov.in"
+        id: 83, name: "e-NAM", fullName: "National Agriculture Market", category: "digital",
+        icon: "fa-chart-line", amount: "Free Trading Platform", benefits: ["Online mandi trading", "Real-time price discovery", "1000+ mandis connected", "Direct payment to farmer"],
+        eligibility: ["All farmers", "Traders", "FPOs", "Commission agents"], documents: ["Aadhaar", "Bank account", "Trading license", "Mobile number"], helpline: "1800-180-1551", website: "https://enam.gov.in"
     },
     {
-        id: 60, name: "Solar Drying Units", fullName: "Solar Dryer for Agricultural Produce", category: "solar",
-        icon: "fa-sun", amount: "40% subsidy up to ₹2 lakh", 
-        benefits: ["Solar dryer for grains/fruits", "Quality preservation", "Value addition", "Reduces dependence on sun drying"],
-        eligibility: ["All farmers", "FPOs", "SHGs", "Women farmers"],
-        documents: ["Land records", "Quotation", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://mnre.gov.in"
+        id: 84, name: "Kisan Suvidha App", fullName: "Kisan Suvidha Mobile Application", category: "digital",
+        icon: "fa-mobile-alt", amount: "Free App", benefits: ["Weather updates", "Mandi prices", "Pest alerts", "Dealer information", "Plant protection"],
+        eligibility: ["All farmers", "Free download from Play Store", "No registration required"], documents: ["Mobile number", "Android phone"], helpline: "1800-180-1551", website: "https://play.google.com/store/apps/details?id=com.agricoop.kisansuvidha"
     },
     {
-        id: 61, name: "Solar Fencing", fullName: "Solar Fencing for Crop Protection", category: "solar",
-        icon: "fa-shield-alt", amount: "50% subsidy up to ₹50,000", 
-        benefits: ["Solar fencing for farms", "Wild animal protection", "Low maintenance", "No electricity bill"],
-        eligibility: ["Farmers in wildlife-prone areas", "Orchard owners", "All farmers"],
-        documents: ["Land records", "Location proof", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://mnre.gov.in"
-    },
-    
-    // ========== ANIMAL HUSBANDRY SCHEMES (62-68) ==========
-    {
-        id: 62, name: "AHIDF", fullName: "Animal Husbandry Infrastructure Development Fund", category: "animal",
-        icon: "fa-paw", amount: "Up to ₹100 crore loan", 
-        benefits: ["Credit-linked subsidy for dairy, poultry", "3% interest subvention", "Loan up to ₹100 crore", "Loan guarantee for MSMEs"],
-        eligibility: ["Individual entrepreneurs", "FPOs", "Private companies", "Cooperatives"],
-        documents: ["Detailed Project Report", "Business registration", "Land documents", "Bank account"],
-        helpline: "011-23385788", website: "https://dahd.nic.in"
+        id: 85, name: "Pusa Krishi App", fullName: "ICAR-Pusa Krishi Mobile App", category: "digital",
+        icon: "fa-apple-alt", amount: "Free", benefits: ["Crop varieties database", "Package of practices", "Disease diagnosis", "Expert consultation"],
+        eligibility: ["All farmers", "Free download", "Hindi & English available"], documents: ["None required"], helpline: "011-25843337", website: "https://iari.res.in"
     },
     {
-        id: 63, name: "Dairy Entrepreneurship Scheme", fullName: "Dairy Entrepreneurship Development Scheme", category: "animal",
-        icon: "fa-tractor", amount: "25-33% subsidy", 
-        benefits: ["Subsidy for dairy units", "25% for general, 33% for SC/ST", "Loan for cows/buffaloes", "Milk processing equipment"],
-        eligibility: ["Individual farmers", "SHGs", "Dairy cooperatives", "Landless farmers"],
-        documents: ["Land documents", "Aadhaar", "Bank account", "Project report"],
-        helpline: "1800-180-1111", website: "https://dahd.nic.in"
+        id: 86, name: "Kisan Call Centre", fullName: "Kisan Call Centre 1551", category: "digital",
+        icon: "fa-phone-alt", amount: "Toll Free", benefits: ["24x7 farming queries", "Expert advice", "Multilingual support", "Scheme information"],
+        eligibility: ["All farmers", "Toll free number: 1551", "Call from any phone"], documents: ["None required"], helpline: "1551", website: "https://agricoop.nic.in"
     },
     {
-        id: 64, name: "Poultry Venture Capital", fullName: "Poultry Venture Capital Fund", category: "animal",
-        icon: "fa-dove", amount: "33% subsidy up to ₹3 lakh", 
-        benefits: ["Subsidy for poultry farming", "33% for SC/ST farmers", "Loan for broiler/layer units", "Hatchery support"],
-        eligibility: ["Individual farmers", "FPOs", "SHGs", "Young entrepreneurs"],
-        documents: ["Land documents", "Aadhaar", "Bank account", "Experience certificate"],
-        helpline: "1800-180-1111", website: "https://dahd.nic.in"
+        id: 87, name: "mKisan Portal", fullName: "mKisan SMS Portal for Farmers", category: "digital",
+        icon: "fa-envelope", amount: "Free SMS Service", benefits: ["Free SMS alerts", "Weather forecasts", "Market prices", "Plant protection advisories"],
+        eligibility: ["All farmers", "Mobile number registration required", "Any mobile network"], documents: ["Mobile number", "Farmer registration"], helpline: "1800-180-1551", website: "https://mkisan.gov.in"
     },
     {
-        id: 65, name: "Goat Development Scheme", fullName: "Goat and Sheep Development Scheme", category: "animal",
-        icon: "fa-paw", amount: "50% subsidy up to ₹50,000", 
-        benefits: ["Subsidy for goat/sheep farming", "Breed improvement support", "Veterinary care", "Marketing support"],
-        eligibility: ["Small farmers", "Landless laborers", "Tribal farmers", "Women farmers"],
-        documents: ["Aadhaar", "Bank account", "Village panchayat certificate", "Land records"],
-        helpline: "1800-180-1111", website: "https://dahd.nic.in"
+        id: 88, name: "CHC Farm Machinery App", fullName: "Custom Hiring Centre Mobile App", category: "digital",
+        icon: "fa-tractor", amount: "Free Service", benefits: ["Find nearby farm machinery", "Book equipment online", "Rental rates comparison", "Farmer reviews"],
+        eligibility: ["All farmers", "FPOs", "Custom Hiring Centers"], documents: ["Mobile number", "Location access"], helpline: "1800-180-1551", website: "https://agrimachinery.nic.in"
     },
     {
-        id: 66, name: "Pig Development Scheme", fullName: "Pig Development and Breeding Scheme", category: "animal",
-        icon: "fa-paw", amount: "40% subsidy up to ₹40,000", 
-        benefits: ["Pig farming subsidy", "Breed improvement", "Veterinary support", "Market linkage"],
-        eligibility: ["Small farmers", "Tribal farmers", "SHGs", "Rural youth"],
-        documents: ["Aadhaar", "Bank account", "Land records", "Training certificate"],
-        helpline: "1800-180-1111", website: "https://dahd.nic.in"
+        id: 89, name: "National Pest Surveillance System", fullName: "NPSS - Digital Pest Monitoring", category: "digital",
+        icon: "fa-bug", amount: "Free Service", benefits: ["AI-based pest detection", "Early warning system", "Crop-specific alerts", "Remedial recommendations"],
+        eligibility: ["All farmers", "Free mobile app", "No registration required"], documents: ["Mobile number", "Crop photos (for diagnosis)"], helpline: "1800-180-1551", website: "https://ppqs.gov.in"
     },
     {
-        id: 67, name: "Fodder Development Scheme", fullName: "National Fodder Development Scheme", category: "animal",
-        icon: "fa-leaf", amount: "₹10,000/hectare", 
-        benefits: ["Fodder seed subsidy", "Hydroponic fodder units", "Silage making support", "Fodder storage"],
-        eligibility: ["All farmers", "Dairy farmers", "FPOs", "SHGs"],
-        documents: ["Land records", "Animal count proof", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1111", website: "https://dahd.nic.in"
-    },
-    {
-        id: 68, name: "NADIS", fullName: "National Animal Disease Insurance Scheme", category: "animal",
-        icon: "fa-shield-alt", amount: "Premium: ₹50-200/animal", 
-        benefits: ["Livestock insurance", "Covers cattle, buffalo, sheep, goat", "Disease and accident coverage", "Quick claim settlement"],
-        eligibility: ["All livestock owners", "Dairy farmers", "Sheep/goat farmers"],
-        documents: ["Animal identification", "Veterinary certificate", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1111", website: "https://dahd.nic.in"
+        id: 90, name: "Agri-Udaan", fullName: "Agri-Startup Incubation Scheme", category: "digital",
+        icon: "fa-rocket", amount: "₹25 lakh grant", benefits: ["Startup funding for agri-tech", "Mentorship", "Incubation support", "Investor connect"],
+        eligibility: ["Agri-tech startups", "Young entrepreneurs (18-35)", "Rural innovators"], documents: ["Business plan", "Startup registration", "Team details", "Innovation proof"], helpline: "1800-180-1551", website: "https://startupindia.gov.in"
     },
     
-    // ========== DISASTER MANAGEMENT SCHEMES (69-73) ==========
+    // ========== SOLAR ENERGY SCHEMES (10 schemes) ==========
     {
-        id: 69, name: "SDRF for Agriculture", fullName: "State Disaster Response Fund - Agriculture", category: "disaster",
-        icon: "fa-cloud-rain", amount: "₹20,000/hectare", 
-        benefits: ["Crop loss compensation", "Natural calamity support", "Flood, drought, cyclone", "Quick disbursal"],
-        eligibility: ["Farmers in notified disaster areas", "All farmers", "Crop loss >50%"],
-        documents: ["Land records", "Crop loss certificate", "Aadhaar", "Bank account"],
-        helpline: "1070", website: "https://ndma.gov.in"
+        id: 91, name: "PM-KUSUM", fullName: "Pradhan Mantri Kisan Urja Suraksha evam Utthan Mahabhiyan", category: "solar",
+        icon: "fa-solar-panel", amount: "60% Subsidy", benefits: ["60% subsidy for solar pumps (up to 7.5 HP)", "Solar panel on barren land", "Sell excess power to grid", "Reduce electricity costs"],
+        eligibility: ["Farmers with agricultural land", "Individual farmers", "Water user associations", "FPOs"], documents: ["Land records", "Electricity connection proof", "Aadhaar", "Bank account"], helpline: "011-24360707", website: "https://mnre.gov.in"
     },
     {
-        id: 70, name: "NDRF Agriculture Relief", fullName: "National Disaster Response Force - Agriculture", category: "disaster",
-        icon: "fa-tornado", amount: "₹25,000/hectare", 
-        benefits: ["National level disaster relief", "Cyclone, flood, hailstorm", "Landslide coverage", "Pest outbreak"],
-        eligibility: ["Farmers in severely affected areas", "All categories"],
-        documents: ["Disaster notification", "Land records", "Crop loss certificate", "Aadhaar"],
-        helpline: "1070", website: "https://ndma.gov.in"
+        id: 92, name: "Solar Charkha Mission", fullName: "Solar Charkha Clusters", category: "solar",
+        icon: "fa-sun", amount: "₹4.5 lakh subsidy", benefits: ["Solar charkha units", "Women empowerment", "Khadi production", "Rural employment"],
+        eligibility: ["SHGs", "Women farmers", "Rural artisans", "Khadi institutions"], documents: ["SHG registration", "Project proposal", "Bank account"], helpline: "011-23381092", website: "https://kviconline.gov.in"
     },
     {
-        id: 71, name: "Hailstorm Insurance", fullName: "Hailstorm Crop Insurance", category: "disaster",
-        icon: "fa-cloud-hail", amount: "Premium: 2-5%", 
-        benefits: ["Special coverage for hailstorm", "Individual farm assessment", "Quick claims", "Covers all crops"],
-        eligibility: ["Farmers in hailstorm prone areas", "All farmers optional"],
-        documents: ["Land records", "Weather data", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://pmfby.gov.in"
+        id: 93, name: "Solar Cold Storage", fullName: "Solar Powered Cold Storage Scheme", category: "solar",
+        icon: "fa-snowflake", amount: "50% subsidy up to ₹10 lakh", benefits: ["Solar cold storage for farmers", "Reduces post-harvest loss", "Off-grid operation", "Fruits & vegetables preservation"],
+        eligibility: ["FPOs", "Farmer cooperatives", "SHGs", "Individual farmers"], documents: ["Land records", "Project report", "Aadhaar", "Bank account"], helpline: "011-24360707", website: "https://mnre.gov.in"
     },
     {
-        id: 72, name: "Drought Relief Package", fullName: "National Drought Relief Package", category: "disaster",
-        icon: "fa-sun", amount: "₹15,000/hectare", 
-        benefits: ["Drought affected farmers", "Input subsidy", "Fodder supply", "Drinking water support"],
-        eligibility: ["Farmers in drought declared areas", "Small & marginal priority"],
-        documents: ["Land records", "Drought declaration", "Crop loss proof", "Aadhaar"],
-        helpline: "1070", website: "https://agricoop.nic.in"
+        id: 94, name: "Solar Drying Units", fullName: "Solar Dryer for Agricultural Produce", category: "solar",
+        icon: "fa-sun", amount: "40% subsidy up to ₹2 lakh", benefits: ["Solar dryer for grains/fruits", "Quality preservation", "Value addition", "Reduces dependence on sun drying"],
+        eligibility: ["All farmers", "FPOs", "SHGs", "Women farmers"], documents: ["Land records", "Quotation", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://mnre.gov.in"
     },
     {
-        id: 73, name: "Flood Relief Package", fullName: "National Flood Relief for Agriculture", category: "disaster",
-        icon: "fa-water", amount: "₹18,000/hectare", 
-        benefits: ["Flood affected farmers", "Crop loss compensation", "Seed subsidy for replanting", "Input support"],
-        eligibility: ["Farmers in flood affected areas", "All categories"],
-        documents: ["Land records", "Flood damage report", "Aadhaar", "Bank account"],
-        helpline: "1070", website: "https://agricoop.nic.in"
-    },
-    
-    // ========== MARKET & TRADING SCHEMES (74-78) ==========
-    {
-        id: 74, name: "e-NAM Plus", fullName: "e-NAM Enhanced Platform", category: "market",
-        icon: "fa-chart-line", amount: "Free Trading", 
-        benefits: ["Online mandi trading", "Quality assaying", "Warehouse receipt system", "Direct payment"],
-        eligibility: ["All farmers", "Traders", "FPOs", "Commission agents"],
-        documents: ["Aadhaar", "Bank account", "Mobile number", "Trading registration"],
-        helpline: "1800-180-1551", website: "https://enam.gov.in"
+        id: 95, name: "Solar Fencing", fullName: "Solar Fencing for Crop Protection", category: "solar",
+        icon: "fa-shield-alt", amount: "50% subsidy up to ₹50,000", benefits: ["Solar fencing for farms", "Wild animal protection", "Low maintenance", "No electricity bill"],
+        eligibility: ["Farmers in wildlife-prone areas", "Orchard owners", "All farmers"], documents: ["Land records", "Location proof", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://mnre.gov.in"
     },
     {
-        id: 75, name: "FPO Trading Scheme", fullName: "Farmer Producer Organization Trading Support", category: "market",
-        icon: "fa-handshake", amount: "₹15 lakh support", 
-        benefits: ["FPO market linkage", "Brand development", "Packaging support", "Direct buyer connect"],
-        eligibility: ["Registered FPOs", "Producer companies", "Farmer cooperatives"],
-        documents: ["FPO registration", "Member list", "Bank account", "Business plan"],
-        helpline: "1800-180-1551", website: "https://sfacindia.com"
+        id: 96, name: "Solar Water Pump Scheme", fullName: "Off-grid Solar Water Pumping", category: "solar",
+        icon: "fa-tint", amount: "75% subsidy up to ₹1.5 lakh", benefits: ["Solar submersible pumps", "No diesel/electricity cost", "Works in remote areas", "5-year warranty"],
+        eligibility: ["Small & marginal farmers", "Areas without grid connection"], documents: ["Land records", "Water source proof", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://mnre.gov.in"
     },
     {
-        id: 76, name: "Warehouse Receipt System", fullName: "Negotiable Warehouse Receipt Scheme", category: "market",
-        icon: "fa-warehouse", amount: "Loan against warehouse receipt", 
-        benefits: ["Store produce in warehouse", "Get loan against receipt", "Sell when price high", "Quality preservation"],
-        eligibility: ["All farmers", "FPOs", "Traders", "Cooperatives"],
-        documents: ["Warehouse receipt", "Aadhaar", "Bank account", "Crop details"],
-        helpline: "1800-180-1551", website: "https://wdra.gov.in"
+        id: 97, name: "Solar Greenhouse Scheme", fullName: "Solar Powered Protected Cultivation", category: "solar",
+        icon: "fa-sun", amount: "60% subsidy up to ₹5 lakh", benefits: ["Solar fans and cooling", "Temperature control", "Extended growing season", "Higher yield"],
+        eligibility: ["Horticulture farmers", "FPOs", "SHGs"], documents: ["Land records", "Greenhouse plan", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://mnre.gov.in"
     },
     {
-        id: 77, name: "Transport Subsidy", fullName: "Agricultural Produce Transport Subsidy", category: "market",
-        icon: "fa-truck", amount: "50% transport subsidy", 
-        benefits: ["Transport cost subsidy", "NE states priority", "Perishable commodities", "Mandi access"],
-        eligibility: ["Farmers in remote areas", "NE states", "Hilly regions", "Tribal areas"],
-        documents: ["Transport bill", "Mandi entry proof", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+        id: 98, name: "Solar Packs for Drones", fullName: "Solar Charging for Agri-Drones", category: "solar",
+        icon: "fa-drone", amount: "40% subsidy up to ₹50,000", benefits: ["Solar charging station", "Off-grid drone operation", "Sustainable farming", "Reduces diesel use"],
+        eligibility: ["FPOs", "Drone Didi beneficiaries", "SHGs"], documents: ["Drone purchase proof", "Land records", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://mnre.gov.in"
     },
     {
-        id: 78, name: "Price Support Scheme", fullName: "Market Intervention Scheme (MIS)", category: "market",
-        icon: "fa-chart-line", amount: "MSP price support", 
-        benefits: ["Price support for perishables", "Government procurement", "Loss compensation", "Farmer income protection"],
-        eligibility: ["Farmers growing notified perishable crops", "All states"],
-        documents: ["Crop declaration", "Land records", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+        id: 99, name: "Solar Agriculture Feeders", fullName: "Solarization of Agri Feeders", category: "solar",
+        icon: "fa-plug", amount: "90% grant", benefits: ["Solar power for irrigation feeders", "Reliable daytime power", "Reduces grid dependency", "Lower electricity bills"],
+        eligibility: ["State governments", "DISCOMs", "Water user associations"], documents: ["Project proposal", "Feeder details"], helpline: "011-24360707", website: "https://mnre.gov.in"
+    },
+    {
+        id: 100, name: "Rooftop Solar for Farm Houses", fullName: "Rooftop Solar Subsidy for Farmers", category: "solar",
+        icon: "fa-home", amount: "40% subsidy up to ₹78,000", benefits: ["Grid-connected rooftop solar", "Reduce electricity bills", "Sell excess to grid", "For pump set or home use"],
+        eligibility: ["All farmers", "Farm house owners", "FPOs"], documents: ["Electricity bill", "Rooftop ownership proof", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://mnre.gov.in"
     },
     
-    // ========== ADDITIONAL SCHEMES (79-85) ==========
+    // ========== ANIMAL HUSBANDRY SCHEMES (10 schemes) ==========
     {
-        id: 79, name: "RKVY", fullName: "Rashtriya Krishi Vikas Yojana", category: "income",
-        icon: "fa-building", amount: "State-specific", 
-        benefits: ["Funding for state agriculture projects", "Infrastructure development", "Agri-entrepreneurship", "Value chain"],
-        eligibility: ["State governments", "FPOs", "Agricultural universities", "Research institutions"],
-        documents: ["Project proposal", "State approval", "Implementation plan"],
-        helpline: "011-23382654", website: "https://rkvy.nic.in"
+        id: 101, name: "AHIDF", fullName: "Animal Husbandry Infrastructure Development Fund", category: "animal",
+        icon: "fa-paw", amount: "Up to ₹100 crore loan", benefits: ["Credit-linked subsidy for dairy, poultry", "3% interest subvention", "Loan up to ₹100 crore", "Loan guarantee for MSMEs"],
+        eligibility: ["Individual entrepreneurs", "FPOs", "Private companies", "Cooperatives"], documents: ["Detailed Project Report", "Business registration", "Land documents", "Bank account"], helpline: "011-23385788", website: "https://dahd.nic.in"
     },
     {
-        id: 80, name: "National Seed Subsidy", fullName: "National Seed Subsidy Scheme", category: "income",
-        icon: "fa-seedling", amount: "50% subsidy on seeds", 
-        benefits: ["High-yielding variety seeds", "50% subsidy for small farmers", "Certified seeds", "Improved varieties"],
-        eligibility: ["All farmers", "Priority to small & marginal", "FPOs"],
-        documents: ["Land records", "Aadhaar", "Seed bill", "Bank account"],
-        helpline: "1800-180-1551", website: "https://seednet.gov.in"
+        id: 102, name: "Dairy Entrepreneurship Scheme", fullName: "Dairy Entrepreneurship Development Scheme", category: "animal",
+        icon: "fa-tractor", amount: "25-33% subsidy", benefits: ["Subsidy for dairy units", "25% for general, 33% for SC/ST", "Loan for cows/buffaloes", "Milk processing equipment"],
+        eligibility: ["Individual farmers", "SHGs", "Dairy cooperatives", "Landless farmers"], documents: ["Land documents", "Aadhaar", "Bank account", "Project report"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
     {
-        id: 81, name: "Fertilizer Subsidy", fullName: "Nutrient Based Subsidy (NBS) Scheme", category: "income",
-        icon: "fa-flask", amount: "Varies by nutrient", 
-        benefits: ["Subsidy on P&K fertilizers", "Reduces farmer cost", "Balanced nutrition", "Soil health improvement"],
-        eligibility: ["All farmers", "Through authorized dealers"],
-        documents: ["Dealer bill", "Aadhaar (for DBT)", "Land records"],
-        helpline: "1800-180-1551", website: "https://fert.nic.in"
+        id: 103, name: "Poultry Venture Capital", fullName: "Poultry Venture Capital Fund", category: "animal",
+        icon: "fa-dove", amount: "33% subsidy up to ₹3 lakh", benefits: ["Subsidy for poultry farming", "33% for SC/ST farmers", "Loan for broiler/layer units", "Hatchery support"],
+        eligibility: ["Individual farmers", "FPOs", "SHGs", "Young entrepreneurs"], documents: ["Land documents", "Aadhaar", "Bank account", "Experience certificate"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
     {
-        id: 82, name: "Pesticide Subsidy", fullName: "Crop Protection Chemical Subsidy", category: "income",
-        icon: "fa-biohazard", amount: "25-50% subsidy", 
-        benefits: ["Subsidized pesticides", "Integrated pest management", "Bio-pesticides support", "Farmer training"],
-        eligibility: ["All farmers", "Small farmers priority", "FPOs"],
-        documents: ["Land records", "Aadhaar", "Pest identification", "Bank account"],
-        helpline: "1800-180-1551", website: "https://ppqs.gov.in"
+        id: 104, name: "Goat Development Scheme", fullName: "Goat and Sheep Development Scheme", category: "animal",
+        icon: "fa-paw", amount: "50% subsidy up to ₹50,000", benefits: ["Subsidy for goat/sheep farming", "Breed improvement support", "Veterinary care", "Marketing support"],
+        eligibility: ["Small farmers", "Landless laborers", "Tribal farmers", "Women farmers"], documents: ["Aadhaar", "Bank account", "Village panchayat certificate", "Land records"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
     {
-        id: 83, name: "Young Farmer Scheme", fullName: "Agri-Entrepreneurship for Youth", category: "income",
-        icon: "fa-user-graduate", amount: "₹5 lakh startup loan", 
-        benefits: ["Startup loan for agri-business", "Skill training", "Mentorship support", "Market linkage"],
-        eligibility: ["Youth aged 18-35", "Agri-graduates", "Rural youth", "SHGs"],
-        documents: ["Educational certificate", "Business plan", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://agripreneur.gov.in"
+        id: 105, name: "Pig Development Scheme", fullName: "Pig Development and Breeding Scheme", category: "animal",
+        icon: "fa-paw", amount: "40% subsidy up to ₹40,000", benefits: ["Pig farming subsidy", "Breed improvement", "Veterinary support", "Market linkage"],
+        eligibility: ["Small farmers", "Tribal farmers", "SHGs", "Rural youth"], documents: ["Aadhaar", "Bank account", "Land records", "Training certificate"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
     {
-        id: 84, name: "Women Farmer Scheme", fullName: "Mahila Kisan Sashaktikaran Yojana", category: "income",
-        icon: "fa-female", amount: "₹50,000/year", 
-        benefits: ["Women farmer empowerment", "Skill training", "Input subsidy", "Market access"],
-        eligibility: ["Women farmers", "Women SHGs", "Female-headed households"],
-        documents: ["Aadhaar", "Land records (husband name ok)", "Bank account", "SHG certificate"],
-        helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+        id: 106, name: "Fodder Development Scheme", fullName: "National Fodder Development Scheme", category: "animal",
+        icon: "fa-leaf", amount: "₹10,000/hectare", benefits: ["Fodder seed subsidy", "Hydroponic fodder units", "Silage making support", "Fodder storage"],
+        eligibility: ["All farmers", "Dairy farmers", "FPOs", "SHGs"], documents: ["Land records", "Animal count proof", "Aadhaar", "Bank account"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
     {
-        id: 85, name: "Tribal Farmer Scheme", fullName: "Tribal Sub-Plan for Agriculture", category: "income",
-        icon: "fa-tribal", amount: "₹40,000/hectare", 
-        benefits: ["Special package for tribal farmers", "Input subsidy", "Tool kit support", "Marketing assistance"],
-        eligibility: ["ST farmers", "Tribal areas", "Jhum cultivation areas", "Forest dwellers"],
-        documents: ["Caste certificate", "Land records", "Aadhaar", "Bank account"],
-        helpline: "1800-180-1551", website: "https://tribal.nic.in"
+        id: 107, name: "NADIS", fullName: "National Animal Disease Insurance Scheme", category: "animal",
+        icon: "fa-shield-alt", amount: "Premium: ₹50-200/animal", benefits: ["Livestock insurance", "Covers cattle, buffalo, sheep, goat", "Disease and accident coverage", "Quick claim settlement"],
+        eligibility: ["All livestock owners", "Dairy farmers", "Sheep/goat farmers"], documents: ["Animal identification", "Veterinary certificate", "Aadhaar", "Bank account"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
     },
-{
-    id: 86, name: "National Beekeeping & Honey Mission", fullName: "NBHM - Honey Mission", category: "animal",
-    icon: "fa-bug", amount: "₹10,000/beneficiary", 
-    benefits: ["Subsidy for beekeeping equipment", "Honey processing units", "Training and demonstration", "Marketing support for honey"],
-    eligibility: ["Individual farmers", "SHGs", "FPOs", "Tribal farmers"],
-    documents: ["Land records (for apiary)", "Aadhaar", "Bank account", "Training certificate (preferred)"],
-    helpline: "1800-180-1551", website: "https://dahd.nic.in"
-},
-{
-    id: 87, name: "National Livestock Mission", fullName: "NLM - Livestock Development", category: "animal",
-    icon: "fa-paw", amount: "50% subsidy up to ₹2 lakh", 
-    benefits: ["Breed improvement of cattle, buffalo, sheep, goat", "Fodder development", "Risk management", "Entrepreneurship development"],
-    eligibility: ["All livestock farmers", "FPOs", "Cooperatives", "SHGs"],
-    documents: ["Livestock count proof", "Land records (for fodder)", "Aadhaar", "Bank account"],
-    helpline: "1800-180-1111", website: "https://dahd.nic.in"
-},
-{
-    id: 88, name: "Blue Revolution - Fisheries", fullName: "Pradhan Mantri Matsya Sampada Yojana (PMMSY)", category: "animal",
-    icon: "fa-fish", amount: "40-60% subsidy", 
-    benefits: ["Fish farming subsidy", "Hatchery development", "Cold chain for fish", "Processing units", "Export promotion"],
-    eligibility: ["Fishermen", "Fish farmers", "FPOs", "Cooperatives", "Women SHGs"],
-    documents: ["Water body ownership/lease", "Aadhaar", "Bank account", "Project report"],
-    helpline: "1800-180-1551", website: "https://dof.gov.in"
-},
-{
-    id: 89, name: "Seaweed Cultivation Scheme", fullName: "Seaweed Farming Promotion", category: "animal",
-    icon: "fa-water", amount: "50% subsidy up to ₹5 lakh", 
-    benefits: ["Seaweed farming support", "Processing infrastructure", "Market linkage", "Export assistance"],
-    eligibility: ["Coastal farmers", "FPOs", "SHGs", "Fishermen cooperatives"],
-    documents: ["Coastal area lease", "Aadhaar", "Bank account", "Environmental clearance"],
-    helpline: "1800-180-1551", website: "https://dof.gov.in"
-},
-{
-    id: 90, name: "Mushroom Cultivation Scheme", fullName: "National Mushroom Mission", category: "horticulture",
-    icon: "fa-cube", amount: "50% subsidy up to ₹1 lakh", 
-    benefits: ["Mushroom spawn subsidy", "Growing room construction", "Training and technology", "Marketing support"],
-    eligibility: ["All farmers", "SHGs", "Women farmers", "Rural youth"],
-    documents: ["Land records", "Aadhaar", "Bank account", "Training certificate"],
-    helpline: "1800-180-1551", website: "https://agricoop.nic.in"
-},
-{
-    id: 91, name: "Agroforestry Scheme", fullName: "Sub-Mission on Agroforestry (SMAF)", category: "horticulture",
-    icon: "fa-tree", amount: "₹50,000/hectare", 
-    benefits: ["Tree plantation on farmland", "Timber and fuelwood", "Carbon credits", "Soil conservation"],
-    eligibility: ["All farmers", "FPOs", "Forest fringe dwellers", "Tribal farmers"],
-    documents: ["Land records", "Aadhaar", "Bank account", "Tree planting plan"],
-    helpline: "1800-180-1551", website: "https://agricoop.nic.in"
-},
-{
-    id: 92, name: "Medicinal Plants Scheme", fullName: "National Mission on Medicinal Plants", category: "horticulture",
-    icon: "fa-leaf", amount: "75% subsidy", 
-    benefits: ["Cultivation of medicinal plants", "Processing units", "Quality testing", "Market linkage"],
-    eligibility: ["Farmers in identified zones", "FPOs", "SHGs", "Tribal farmers"],
-    documents: ["Land records", "Aadhaar", "Bank account", "Cultivation agreement"],
-    helpline: "1800-180-1551", website: "https://nmpb.nic.in"
-},
-{
-    id: 93, name: "National Turmeric Board Scheme", fullName: "Turmeric Development & Promotion", category: "horticulture",
-    icon: "fa-seedling", amount: "₹30,000/hectare", 
-    benefits: ["High-yielding turmeric varieties", "Processing units", "Value addition", "Export promotion"],
-    eligibility: ["Turmeric farmers in Telangana, Maharashtra, Karnataka, Tamil Nadu", "FPOs"],
-    documents: ["Land records", "Aadhaar", "Bank account", "Turmeric cultivation area proof"],
-    helpline: "1800-180-1551", website: "https://turmericboard.gov.in"
-},
-{
-    id: 94, name: "National Ginger Board Scheme", fullName: "Ginger Development Mission", category: "horticulture",
-    icon: "fa-seedling", amount: "₹25,000/hectare", 
-    benefits: ["Disease-free ginger seeds", "Post-harvest management", "Processing units", "Market support"],
-    eligibility: ["Ginger farmers in NE states, Kerala, Karnataka", "FPOs", "SHGs"],
-    documents: ["Land records", "Aadhaar", "Bank account", "Ginger cultivation plan"],
-    helpline: "1800-180-1551", website: "https://agricoop.nic.in"
-},
-{
-    id: 95, name: "Kisan Rail Subsidy", fullName: "Kisan Rail Freight Subsidy Scheme", category: "market",
-    icon: "fa-train", amount: "50% freight subsidy", 
-    benefits: ["Subsidized transport of perishables", "Faster market access", "Reduces wastage", "Nationwide reach"],
-    eligibility: ["All farmers", "FPOs", "Cooperatives", "Traders (on behalf of farmers)"],
-    documents: ["Railway booking receipt", "Farmer declaration", "Aadhaar", "Bank account"],
-    helpline: "1800-180-1551", website: "https://indianrailways.gov.in"
-},
-{
-    id: 96, name: "Agri-Udaan", fullName: "Agri-Startup Incubation Scheme", category: "digital",
-    icon: "fa-rocket", amount: "₹25 lakh grant", 
-    benefits: ["Startup funding for agri-tech", "Mentorship", "Incubation support", "Investor connect"],
-    eligibility: ["Agri-tech startups", "Young entrepreneurs (18-35)", "Rural innovators"],
-    documents: ["Business plan", "Startup registration", "Team details", "Innovation proof"],
-    helpline: "1800-180-1551", website: "https://startupindia.gov.in"
-},
-{
-    id: 97, name: "National Pest Surveillance System", fullName: "NPSS - Digital Pest Monitoring", category: "digital",
-    icon: "fa-bug", amount: "Free Service", 
-    benefits: ["AI-based pest detection", "Early warning system", "Crop-specific alerts", "Remedial recommendations"],
-    eligibility: ["All farmers", "Free mobile app", "No registration required"],
-    documents: ["Mobile number", "Crop photos (for diagnosis)"],
-    helpline: "1800-180-1551", website: "https://ppqs.gov.in"
-},
-{
-    id: 98, name: "Farmer Producer Organization (FPO) Scheme", fullName: "Formation & Promotion of FPOs", category: "market",
-    icon: "fa-handshake", amount: "₹15 lakh per FPO", 
-    benefits: ["Financial support for FPO formation", "Handholding for 5 years", "Equity grant up to ₹15 lakh", "Credit guarantee"],
-    eligibility: ["Groups of 300+ farmers", "SHGs", "Cooperatives", "Farmer clusters"],
-    documents: ["Farmer list (300+)", "Land details", "Business plan", "Bank account"],
-    helpline: "1800-180-1551", website: "https://sfacindia.com"
-},
-{
-    id: 99, name: "Agricultural Marketing Infrastructure (AMI)", fullName: "AMI - Rural Godown Scheme", category: "market",
-    icon: "fa-warehouse", amount: "25% subsidy up to ₹25 lakh", 
-    benefits: ["Construction of rural godowns", "Warehouse for farmers", "Loan against stored produce", "Reduces distress sale"],
-    eligibility: ["Individual farmers", "FPOs", "Cooperatives", "SHGs"],
-    documents: ["Land documents", "Project report", "Aadhaar", "Bank account"],
-    helpline: "1800-180-1551", website: "https://agricoop.nic.in"
-},
-{
-    id: 100, name: "Kisan Sampada Yojana", fullName: "PMKS - Kisan Sampada Scheme", category: "market",
-    icon: "fa-industry", amount: "35% subsidy up to ₹10 crore", 
-    benefits: ["Food processing units", "Mega food parks", "Cold chain infrastructure", "Value addition"],
-    eligibility: ["Food processors", "FPOs", "Cooperatives", "Agri-entrepreneurs"],
-    documents: ["Detailed Project Report", "Land documents", "Company registration", "Bank account"],
-    helpline: "1800-180-1551", website: "https://mofpi.nic.in"
-}
+    {
+        id: 108, name: "National Beekeeping & Honey Mission", fullName: "NBHM - Honey Mission", category: "animal",
+        icon: "fa-bug", amount: "₹10,000/beneficiary", benefits: ["Subsidy for beekeeping equipment", "Honey processing units", "Training and demonstration", "Marketing support for honey"],
+        eligibility: ["Individual farmers", "SHGs", "FPOs", "Tribal farmers"], documents: ["Land records (for apiary)", "Aadhaar", "Bank account", "Training certificate (preferred)"], helpline: "1800-180-1551", website: "https://dahd.nic.in"
+    },
+    {
+        id: 109, name: "Blue Revolution - Fisheries", fullName: "Pradhan Mantri Matsya Sampada Yojana (PMMSY)", category: "animal",
+        icon: "fa-fish", amount: "40-60% subsidy", benefits: ["Fish farming subsidy", "Hatchery development", "Cold chain for fish", "Processing units", "Export promotion"],
+        eligibility: ["Fishermen", "Fish farmers", "FPOs", "Cooperatives", "Women SHGs"], documents: ["Water body ownership/lease", "Aadhaar", "Bank account", "Project report"], helpline: "1800-180-1551", website: "https://dof.gov.in"
+    },
+    {
+        id: 110, name: "National Livestock Mission", fullName: "NLM - Livestock Development", category: "animal",
+        icon: "fa-paw", amount: "50% subsidy up to ₹2 lakh", benefits: ["Breed improvement of cattle, buffalo, sheep, goat", "Fodder development", "Risk management", "Entrepreneurship development"],
+        eligibility: ["All livestock farmers", "FPOs", "Cooperatives", "SHGs"], documents: ["Livestock count proof", "Land records (for fodder)", "Aadhaar", "Bank account"], helpline: "1800-180-1111", website: "https://dahd.nic.in"
+    },
+    
+    // ========== DISASTER MANAGEMENT SCHEMES (10 schemes) ==========
+    {
+        id: 111, name: "SDRF for Agriculture", fullName: "State Disaster Response Fund - Agriculture", category: "disaster",
+        icon: "fa-cloud-rain", amount: "₹20,000/hectare", benefits: ["Crop loss compensation", "Natural calamity support", "Flood, drought, cyclone", "Quick disbursal"],
+        eligibility: ["Farmers in notified disaster areas", "All farmers", "Crop loss >50%"], documents: ["Land records", "Crop loss certificate", "Aadhaar", "Bank account"], helpline: "1070", website: "https://ndma.gov.in"
+    },
+    {
+        id: 112, name: "NDRF Agriculture Relief", fullName: "National Disaster Response Force - Agriculture", category: "disaster",
+        icon: "fa-tornado", amount: "₹25,000/hectare", benefits: ["National level disaster relief", "Cyclone, flood, hailstorm", "Landslide coverage", "Pest outbreak"],
+        eligibility: ["Farmers in severely affected areas", "All categories"], documents: ["Disaster notification", "Land records", "Crop loss certificate", "Aadhaar"], helpline: "1070", website: "https://ndma.gov.in"
+    },
+    {
+        id: 113, name: "Hailstorm Insurance", fullName: "Hailstorm Crop Insurance", category: "disaster",
+        icon: "fa-cloud-hail", amount: "Premium: 2-5%", benefits: ["Special coverage for hailstorm", "Individual farm assessment", "Quick claims", "Covers all crops"],
+        eligibility: ["Farmers in hailstorm prone areas", "All farmers optional"], documents: ["Land records", "Weather data", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://pmfby.gov.in"
+    },
+    {
+        id: 114, name: "Drought Relief Package", fullName: "National Drought Relief Package", category: "disaster",
+        icon: "fa-sun", amount: "₹15,000/hectare", benefits: ["Drought affected farmers", "Input subsidy", "Fodder supply", "Drinking water support"],
+        eligibility: ["Farmers in drought declared areas", "Small & marginal priority"], documents: ["Land records", "Drought declaration", "Crop loss proof", "Aadhaar"], helpline: "1070", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 115, name: "Flood Relief Package", fullName: "National Flood Relief for Agriculture", category: "disaster",
+        icon: "fa-water", amount: "₹18,000/hectare", benefits: ["Flood affected farmers", "Crop loss compensation", "Seed subsidy for replanting", "Input support"],
+        eligibility: ["Farmers in flood affected areas", "All categories"], documents: ["Land records", "Flood damage report", "Aadhaar", "Bank account"], helpline: "1070", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 116, name: "Cyclone Relief Scheme", fullName: "Cyclone Affected Agriculture Relief", category: "disaster",
+        icon: "fa-wind", amount: "₹22,000/hectare", benefits: ["Cyclone damage compensation", "Orchard loss coverage", "Livestock loss support", "Input subsidy"],
+        eligibility: ["Farmers in coastal areas", "Cyclone affected zones"], documents: ["Land records", "Cyclone damage report", "Aadhaar", "Bank account"], helpline: "1070", website: "https://ndma.gov.in"
+    },
+    {
+        id: 117, name: "Pest Outbreak Relief", fullName: "Locust/Pest Attack Relief Scheme", category: "disaster",
+        icon: "fa-bug", amount: "₹10,000/hectare", benefits: ["Compensation for pest damage", "Free pesticide supply", "Crop loss coverage", "Quick response team"],
+        eligibility: ["Farmers in pest affected areas", "Locust attack zones"], documents: ["Land records", "Pest attack certificate", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 118, name: "Landslide Relief", fullName: "Landslide Agriculture Relief", category: "disaster",
+        icon: "fa-mountain", amount: "₹30,000/hectare", benefits: ["Landslide damage compensation", "Land restoration support", "Terrace repair subsidy", "Input support"],
+        eligibility: ["Farmers in hilly areas", "Landslide affected zones"], documents: ["Land records", "Landslide damage report", "Aadhaar", "Bank account"], helpline: "1070", website: "https://ndma.gov.in"
+    },
+    {
+        id: 119, name: "Lightning Strike Relief", fullName: "Lightning Strike Compensation", category: "disaster",
+        icon: "fa-bolt", amount: "₹5 lakh/farmer", benefits: ["Compensation for farmer death", "Medical expense coverage", "Dependent family support", "Quick disbursal"],
+        eligibility: ["Farmers affected by lightning", "Family of deceased farmers"], documents: ["Death certificate", "Police report", "Aadhaar", "Bank account"], helpline: "1070", website: "https://ndma.gov.in"
+    },
+    {
+        id: 120, name: "Cold Wave Relief", fullName: "Cold Wave Crop Protection Scheme", category: "disaster",
+        icon: "fa-temperature-low", amount: "₹8,000/hectare", benefits: ["Frost damage compensation", "Smoke generator subsidy", "Crop cover support", "Input assistance"],
+        eligibility: ["Farmers in cold wave zones", "Vegetable & fruit growers"], documents: ["Land records", "Temperature data", "Crop damage proof", "Aadhaar"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    
+    // ========== MARKET & TRADING SCHEMES (10 schemes) ==========
+    {
+        id: 121, name: "e-NAM Plus", fullName: "e-NAM Enhanced Platform", category: "market",
+        icon: "fa-chart-line", amount: "Free Trading", benefits: ["Online mandi trading", "Quality assaying", "Warehouse receipt system", "Direct payment"],
+        eligibility: ["All farmers", "Traders", "FPOs", "Commission agents"], documents: ["Aadhaar", "Bank account", "Mobile number", "Trading registration"], helpline: "1800-180-1551", website: "https://enam.gov.in"
+    },
+    {
+        id: 122, name: "FPO Trading Scheme", fullName: "Farmer Producer Organization Trading Support", category: "market",
+        icon: "fa-handshake", amount: "₹15 lakh support", benefits: ["FPO market linkage", "Brand development", "Packaging support", "Direct buyer connect"],
+        eligibility: ["Registered FPOs", "Producer companies", "Farmer cooperatives"], documents: ["FPO registration", "Member list", "Bank account", "Business plan"], helpline: "1800-180-1551", website: "https://sfacindia.com"
+    },
+    {
+        id: 123, name: "Warehouse Receipt System", fullName: "Negotiable Warehouse Receipt Scheme", category: "market",
+        icon: "fa-warehouse", amount: "Loan against warehouse receipt", benefits: ["Store produce in warehouse", "Get loan against receipt", "Sell when price high", "Quality preservation"],
+        eligibility: ["All farmers", "FPOs", "Traders", "Cooperatives"], documents: ["Warehouse receipt", "Aadhaar", "Bank account", "Crop details"], helpline: "1800-180-1551", website: "https://wdra.gov.in"
+    },
+    {
+        id: 124, name: "Transport Subsidy", fullName: "Agricultural Produce Transport Subsidy", category: "market",
+        icon: "fa-truck", amount: "50% transport subsidy", benefits: ["Transport cost subsidy", "NE states priority", "Perishable commodities", "Mandi access"],
+        eligibility: ["Farmers in remote areas", "NE states", "Hilly regions", "Tribal areas"], documents: ["Transport bill", "Mandi entry proof", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 125, name: "Price Support Scheme", fullName: "Market Intervention Scheme (MIS)", category: "market",
+        icon: "fa-chart-line", amount: "MSP price support", benefits: ["Price support for perishables", "Government procurement", "Loss compensation", "Farmer income protection"],
+        eligibility: ["Farmers growing notified perishable crops", "All states"], documents: ["Crop declaration", "Land records", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 126, name: "Kisan Rail Subsidy", fullName: "Kisan Rail Freight Subsidy Scheme", category: "market",
+        icon: "fa-train", amount: "50% freight subsidy", benefits: ["Subsidized transport of perishables", "Faster market access", "Reduces wastage", "Nationwide reach"],
+        eligibility: ["All farmers", "FPOs", "Cooperatives", "Traders (on behalf of farmers)"], documents: ["Railway booking receipt", "Farmer declaration", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://indianrailways.gov.in"
+    },
+    {
+        id: 127, name: "Farmer Producer Organization (FPO) Scheme", fullName: "Formation & Promotion of FPOs", category: "market",
+        icon: "fa-handshake", amount: "₹15 lakh per FPO", benefits: ["Financial support for FPO formation", "Handholding for 5 years", "Equity grant up to ₹15 lakh", "Credit guarantee"],
+        eligibility: ["Groups of 300+ farmers", "SHGs", "Cooperatives", "Farmer clusters"], documents: ["Farmer list (300+)", "Land details", "Business plan", "Bank account"], helpline: "1800-180-1551", website: "https://sfacindia.com"
+    },
+    {
+        id: 128, name: "Agricultural Marketing Infrastructure (AMI)", fullName: "AMI - Rural Godown Scheme", category: "market",
+        icon: "fa-warehouse", amount: "25% subsidy up to ₹25 lakh", benefits: ["Construction of rural godowns", "Warehouse for farmers", "Loan against stored produce", "Reduces distress sale"],
+        eligibility: ["Individual farmers", "FPOs", "Cooperatives", "SHGs"], documents: ["Land documents", "Project report", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    },
+    {
+        id: 129, name: "Kisan Sampada Yojana", fullName: "PMKS - Kisan Sampada Scheme", category: "market",
+        icon: "fa-industry", amount: "35% subsidy up to ₹10 crore", benefits: ["Food processing units", "Mega food parks", "Cold chain infrastructure", "Value addition"],
+        eligibility: ["Food processors", "FPOs", "Cooperatives", "Agri-entrepreneurs"], documents: ["Detailed Project Report", "Land documents", "Company registration", "Bank account"], helpline: "1800-180-1551", website: "https://mofpi.nic.in"
+    },
+    {
+        id: 130, name: "Direct Marketing Scheme", fullName: "Farmers' Direct Marketing Scheme", category: "market",
+        icon: "fa-store", amount: "50% subsidy up to ₹2 lakh", benefits: ["Farmer market stall subsidy", "Direct-to-consumer sales", "Branding support", "Digital payment setup"],
+        eligibility: ["Individual farmers", "FPOs", "SHGs", "Women farmers"], documents: ["Land records", "Market stall plan", "Aadhaar", "Bank account"], helpline: "1800-180-1551", website: "https://agricoop.nic.in"
+    }
 ];
 
 // =====================================================
