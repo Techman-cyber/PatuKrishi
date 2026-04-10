@@ -914,4 +914,337 @@
         font-size: 0.65rem !important;
     }
 }
+/* ========== NOTIFICATIONS MOBILE ========== */
+@media (max-width: 768px) {
+    #notification-container {
+        top: 70px !important;
+        right: 10px !important;
+        left: 10px !important;
+    }
+    
+    #notification-container > div {
+        font-size: 0.8rem !important;
+        padding: 10px 15px !important;
+    }
+}
+
+/* ========== TABLES & LISTS MOBILE ========== */
+@media (max-width: 768px) {
+    .info-list li {
+        font-size: 0.85rem !important;
+        word-break: break-word;
+    }
+    
+    .modal-list li {
+        word-break: break-word;
+    }
+    
+    .big-friendly {
+        font-size: 0.9rem !important;
+        line-height: 1.5 !important;
+    }
+}
+
+/* ========== LANDSCAPE MODE FIXES ========== */
+@media (max-width: 900px) and (orientation: landscape) {
+    .main-header {
+        padding: 8px !important;
+    }
+    
+    .main-nav {
+        gap: 15px !important;
+    }
+    
+    .swiper {
+        height: 180px !important;
+    }
+    
+    .chatbot-window {
+        max-height: 80vh;
+    }
+}
+
+/* ========== TOUCH FRIENDLY BUTTONS ========== */
+@media (max-width: 768px) {
+    button, 
+    .btn-3d,
+    .nav-item,
+    .click-card,
+    .scheme-card,
+    .market-card,
+    .cat-filter-btn,
+    .lang-header,
+    .user-profile {
+        cursor: pointer;
+        min-height: 44px;
+    }
+    
+    button:active,
+    .btn-3d:active {
+        transform: scale(0.97);
+        transition: transform 0.05s;
+    }
+}
+
+/* ========== FONT SIZES FOR BETTER READABILITY ========== */
+@media (max-width: 480px) {
+    .agri-border {
+        font-size: 1.2rem !important;
+    }
+    
+    .stat-item .amount {
+        font-size: 1.2rem !important;
+    }
+    
+    .scheme-amount-badge .amount {
+        font-size: 1rem !important;
+    }
+}
+
+/* ========== HIDE NON-ESSENTIAL ON MOBILE ========== */
+@media (max-width: 480px) {
+    .scheme-card-footer .scheme-helpline {
+        font-size: 0.65rem !important;
+    }
+}
+
+/* ========== IMPROVED MOBILE LAYOUT ========== */
+@media (max-width: 768px) {
+    /* Header fixes */
+    .main-header {
+        flex-direction: column !important;
+        padding: 12px !important;
+        gap: 12px !important;
+    }
+    
+    .logo {
+        justify-content: center !important;
+    }
+    
+    /* Navigation - horizontal scrollable */
+    .main-nav {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        gap: 8px !important;
+        padding: 8px 5px !important;
+        scrollbar-width: thin;
+    }
+    
+    .main-nav::-webkit-scrollbar {
+        height: 3px;
+    }
+    
+    .nav-item {
+        white-space: nowrap !important;
+        padding: 8px 14px !important;
+        font-size: 0.85rem !important;
+    }
+    
+    /* Header right section */
+    .main-header > div:last-child {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 12px !important;
+    }
+    
+    /* Dashboard grid - single column */
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        padding: 0 10px !important;
+    }
+    
+    /* Cards */
+    .card {
+        padding: 18px !important;
+        margin: 0 0 15px 0 !important;
+    }
+    
+    /* Hero section */
+    .hero-section {
+        padding: 20px 15px !important;
+        text-align: center !important;
+    }
+    
+    .hero-section h1 {
+        font-size: 1.5rem !important;
+    }
+    
+    /* Weather section inputs */
+    #weather-section .card > div:first-child {
+        flex-direction: column !important;
+    }
+    
+    #cityInput, 
+    #weather-section .btn-3d {
+        width: 100% !important;
+    }
+    
+    /* Mandi section */
+    #mandi-section .card > div:first-child {
+        grid-template-columns: 1fr !important;
+    }
+    
+    /* Crop Lens */
+    .lens-container {
+        padding: 20px 15px !important;
+        margin: 0 10px !important;
+    }
+    
+    .lens-container button {
+        width: 100% !important;
+        margin: 5px 0 !important;
+    }
+    
+    /* Advisory section */
+    #advisory-section .card > div:first-child {
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+    
+    #generalModeBtn, 
+    #specificModeBtn {
+        width: 100% !important;
+    }
+    
+    /* Schemes section */
+    .schemes-stats-bar {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        padding: 10px !important;
+    }
+    
+    .stat-item {
+        padding: 10px !important;
+    }
+    
+    .schemes-category-strip {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        padding: 10px !important;
+    }
+    
+    .cat-filter-btn {
+        padding: 8px 12px !important;
+        font-size: 0.7rem !important;
+    }
+    
+    .schemes-full-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        padding: 0 10px !important;
+    }
+    
+    /* Videos section */
+    .video-gallery {
+        flex-direction: column !important;
+        gap: 20px !important;
+        padding: 0 10px !important;
+    }
+    
+    .video-card iframe {
+        height: 200px !important;
+    }
+    
+    /* About section */
+    .team-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    
+    .value-prop {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+    
+    /* Footer */
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 25px !important;
+        text-align: center !important;
+    }
+    
+    .footer-logo {
+        justify-content: center !important;
+    }
+    
+    .social-links {
+        justify-content: center !important;
+    }
+    
+    /* Chatbot */
+    .chatbot-window {
+        width: calc(100% - 20px) !important;
+        right: 10px !important;
+        left: 10px !important;
+        bottom: 80px !important;
+        max-height: 60vh !important;
+    }
+    
+    .chatbot-btn {
+        bottom: 20px !important;
+        right: 20px !important;
+        width: 50px !important;
+        height: 50px !important;
+    }
+    
+    /* Profile modal */
+    .modal-content {
+        width: 90% !important;
+        margin: 20% auto !important;
+        padding: 20px !important;
+    }
+    
+    /* General spacing */
+    .content-section {
+        padding: 15px !important;
+    }
+    
+    h2.agri-border {
+        font-size: 1.3rem !important;
+        text-align: center !important;
+    }
+    
+    /* Fix for select dropdowns */
+    select.nice-select {
+        font-size: 16px !important;
+    }
+    
+    /* Input fields */
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* ========== EXTRA SMALL DEVICES (below 480px) ========== */
+@media (max-width: 480px) {
+    .nav-item {
+        padding: 6px 10px !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .hero-section h1 {
+        font-size: 1.3rem !important;
+    }
+    
+    .stat-item span {
+        font-size: 1rem !important;
+    }
+    
+    .scheme-card h3 {
+        font-size: 1rem !important;
+    }
+    
+    .video-info h4 {
+        font-size: 0.9rem !important;
+    }
+    
+    .footer-bottom {
+        font-size: 0.7rem !important;
+    }
+}
 </style>
