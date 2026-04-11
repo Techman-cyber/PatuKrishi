@@ -182,4 +182,4 @@ input,select,textarea{font-size:16px!important}
 .lang-name{font-weight:600;font-size:0.9rem;color:var(--text1)}
 .lang-native{font-size:0.7rem;opacity:0.7}
 .lang-item-card:hover .lang-native{color:rgba(255,255,255,0.8)}
-@media (max-width:480px){.lang-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}.lang-item-card{padding:10px 12px}.lang-flag-icon{font-size:1.5rem}.lang-name{font-size:0.8rem}}
+@media (max-width:480px){.lang-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}.lang-item-card{padding:10px 12px}.lang-flag-icon{font-size:1.5rem}.lang-name{font-size:0.8rem}}'
