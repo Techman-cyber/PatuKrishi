@@ -3,10 +3,10 @@
 /* ========== HEADER - FLEX LAYOUT ========== */
 .main-header{background:var(--header-bg);backdrop-filter:blur(16px);padding:10px 30px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:15px}
 
-/* Logo - LEFT - NO BORDER, PROPER SIZE */
-.logo{display:flex;align-items:center;gap:15px;font-family:Quicksand,sans-serif;font-weight:800;font-size:1.8rem;color:#2e7d32;cursor:pointer}
-.logo img{width:60px;height:auto;object-fit:contain;border:none;border-radius:0}
-.logo-text{font-size:1.8rem;font-weight:800}
+/* Logo - LEFT - NO BORDER, BIGGER SIZE */
+.logo{display:flex;align-items:center;gap:15px;font-family:Quicksand,sans-serif;font-weight:800;font-size:2rem;color:#2e7d32;cursor:pointer}
+.logo img{width:90px;height:auto;object-fit:contain;border:none;border-radius:0}
+.logo-text{font-size:2rem;font-weight:800}
 
 /* Bigger Menu */
 .main-nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px;flex:1;margin:0 20px}
@@ -33,7 +33,10 @@
 .dropdown-item{padding:12px 16px;border-radius:20px;display:flex;align-items:center;gap:14px;cursor:pointer}
 .dropdown-item:hover{background:var(--hover-bg);color:var(--primary)}
 
-.footer-logo img{width:60px;height:auto;object-fit:contain;border:none;border-radius:0}
+@media (max-width:768px){
+.logo img{width:55px;height:auto}
+.logo-text{font-size:1.5rem}
+}
 
 .main-content{padding:30px 25px;max-width:1400px;margin:0 auto;width:100%}
 .content-section{display:none;animation:fade .3s}
@@ -182,4 +185,4 @@ input,select,textarea{font-size:16px!important}
 .lang-name{font-weight:600;font-size:0.9rem;color:var(--text1)}
 .lang-native{font-size:0.7rem;opacity:0.7}
 .lang-item-card:hover .lang-native{color:rgba(255,255,255,0.8)}
-@media (max-width:480px){.lang-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}.lang-item-card{padding:10px 12px}.lang-flag-icon{font-size:1.5rem}.lang-name{font-size:0.8rem}}'
+@media (max-width:480px){.lang-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}.lang-item-card{padding:10px 12px}.lang-flag-icon{font-size:1.5rem}.lang-name{font-size:0.8rem}}
