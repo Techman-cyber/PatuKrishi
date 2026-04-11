@@ -182,9 +182,13 @@ input,select,textarea{font-size:16px!important}
 .lang-native{font-size:0.7rem;opacity:0.7}
 .lang-item-card:hover .lang-native{color:rgba(255,255,255,0.8)}
 @media (max-width:480px){.lang-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px}.lang-item-card{padding:10px 12px}.lang-flag-icon{font-size:1.5rem}.lang-name{font-size:0.8rem}}
-/* Logo - LEFT - NO BORDER AT ALL */
-.logo{display:flex;align-items:center;gap:12px;font-family:Quicksand,sans-serif;font-weight:700;font-size:1.5rem;color:#2e7d32;cursor:pointer}
-.logo img{width:192px;height:192px;object-fit:cover;border:none;border-radius:0}
-
-/* Footer logo - also NO BORDER */
-.footer-logo img{width:200px;height:100px;object-fit:cover;border:none;border-radius:0}
+/* Logo - NO BORDER, PROPER SIZE */
+.logo{display:flex;align-items:center;gap:15px;font-family:Quicksand,sans-serif;font-weight:800;font-size:1.8rem;color:#2e7d32;cursor:pointer}
+.logo img{width:60px;height:auto;object-fit:contain;border:none;border-radius:0}
+.logo-text{font-size:1.8rem;font-weight:800}
+.footer-logo img{width:60px;height:auto;object-fit:contain;border:none;border-radius:0}
+/* Bigger Menu */
+.main-nav{display:flex;gap:25px;flex-wrap:wrap;align-items:center}
+.nav-item{padding:10px 18px;font-weight:600;color:var(--text2);cursor:pointer;transition:all .3s ease;font-size:1rem;border-radius:40px}
+.nav-item:hover{background:#f9a82520;color:#f9a825!important;transform:translateY(-2px)}
+.nav-item.active{background:#2e7d3220;color:#2e7d32!important}
