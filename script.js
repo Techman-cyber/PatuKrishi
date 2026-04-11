@@ -1,6 +1,7 @@
 
 
 
+
 (function(){
     // ==================== SWIPER INITIALIZATION ====================
     const swiper = new Swiper('.mySwiper', {
@@ -2857,60 +2858,5 @@ window.renderAllSchemes = renderAllSchemes;
 if(sectionId === 'videos') {
     // Show videos section, hide others
 }
-  // Open Language Modal (Popup inside page)
-function openLanguagePopup() {
-    const modal = document.getElementById('langModal');
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-}
-
-// Close Language Modal
-function closeLanguageModal() {
-    const modal = document.getElementById('langModal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-
-// Change language and close modal
-function changeLanguageAndClose(lang) {
-    if (typeof changeLanguage === 'function') {
-        changeLanguage(lang);
-    } else if (window.changeLanguage) {
-        window.changeLanguage(lang);
-    }
-    closeLanguageModal();
-    showNotification(`Language changed successfully!`, 'success');
-}
-
-// Close modal when clicking outside
-document.addEventListener('click', function(event) {
-    const modal = document.getElementById('langModal');
-    if (modal && modal.classList.contains('active')) {
-        if (event.target === modal) {
-            closeLanguageModal();
-        }
-    }
-});
-  function openLanguagePopup() { 
-    document.getElementById('langModal').classList.add('active'); 
-    document.body.style.overflow = 'hidden'; 
-}
-function closeLanguageModal() { 
-    document.getElementById('langModal').classList.remove('active'); 
-    document.body.style.overflow = ''; 
-}
-function changeLanguageAndClose(lang) { 
-    if (typeof changeLanguage === 'function') changeLanguage(lang); 
-    closeLanguageModal(); 
-    showNotification('Language changed to ' + lang, 'success'); 
-}
-// Close modal on outside click
-document.addEventListener('click', function(event) { 
-    const modal = document.getElementById('langModal'); 
-    if (modal && modal.classList.contains('active') && event.target === modal) closeLanguageModal(); 
-});
+  
 })();
