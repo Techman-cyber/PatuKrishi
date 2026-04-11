@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>PatuKrishi · Smart Farming for Indian Farmers</title>
-    <link rel="icon" type="image/png" href=https://i.ibb.co/qFrQLp75/image-2026-04-11-184808116-removebg-preview.png">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/qFrQLp75/image-2026-04-11-184808116-removebg-preview.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -33,22 +33,7 @@
         
         #notification-container{position:fixed;top:80px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px}
         
-        #auth-container{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:9000;padding:16px}
-        .auth-card{display:flex;max-width:1000px;width:100%;min-height:580px;background:rgba(255,255,255,.2);backdrop-filter:blur(14px);border-radius:48px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.2);overflow:hidden}
-        .auth-greeting{flex:1;background:linear-gradient(130deg,#2e7d32cc,#f9a825cc);padding:40px;color:#fff;display:flex;flex-direction:column;justify-content:center}
-        .auth-greeting h1::first-letter{font-size:2.8rem}
-        .auth-form-wrap{flex:1;background:var(--card-bg);padding:40px;display:flex;flex-direction:column;justify-content:center}
-        .auth-tabs{display:flex;gap:8px;background:var(--bg);padding:5px;border-radius:50px;margin-bottom:30px}
-        .auth-tab{flex:1;text-align:center;padding:12px;border-radius:40px;font-weight:600;cursor:pointer}
-        .auth-tab.active{background:var(--primary);color:#fff}
-        .auth-form{display:none}
-        .auth-form.active{display:block}
-        .form-group{margin-bottom:22px}
-        .form-label{display:block;margin-bottom:6px;font-weight:500;text-transform:capitalize}
-        .form-input{width:100%;padding:14px 18px;background:var(--bg);border:2px solid var(--border);border-radius:30px;color:var(--text1)}
-        .form-input:focus{border-color:var(--primary);outline:none}
-        
-        .dashboard-container{display:none;flex:1}
+        .dashboard-container{display:block;flex:1}
         
         /* ========== HEADER ========== */
         .main-header{background:var(--header-bg);backdrop-filter:blur(16px);padding:10px 30px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:15px}
@@ -222,12 +207,10 @@
 
 <div id="loading-screen"><div class="loading-logo"><i class="fas fa-seedling"></i><h1>PatuKrishi</h1></div><div class="loading-bar"><div class="loading-fill"></div></div><p>Smart Farming for Indian Farmers</p></div>
 
-<div id="auth-container"><div class="auth-card"><div class="auth-greeting"><h1>Welcome Farmer 🙏</h1><p style="margin:20px 0">Your personal agri-companion</p></div><div class="auth-form-wrap"><div class="auth-tabs"><div class="auth-tab active" onclick="switchAuthTab('login')">Login</div><div class="auth-tab" onclick="switchAuthTab('signup')">Sign up</div></div><form id="login-form" class="auth-form active" onsubmit="handleLogin(event)"><div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="login-email" required></div><div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="login-password" required></div><div id="login-error" style="color:#d32f2f;margin-bottom:12px"></div><button class="btn-3d" style="width:100%">Login</button></form><form id="signup-form" class="auth-form" onsubmit="handleSignup(event)"><div class="form-group"><label class="form-label">Full name</label><input type="text" class="form-input" id="signup-name" required></div><div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="signup-email" required></div><div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="signup-password" required></div><div id="signup-error" style="color:#d32f2f;margin-bottom:12px"></div><button class="btn-3d" style="width:100%">Create account</button></form></div></div></div>
-
 <div id="dashboard" class="dashboard-container">
     <header class="main-header">
         <div class="logo click-card" onclick="switchSection('home')">
-            <img src=https://i.ibb.co/qFrQLp75/image-2026-04-11-184808116-removebg-preview.png" alt="PatuKrishi Logo">
+            <img src="https://i.ibb.co/qFrQLp75/image-2026-04-11-184808116-removebg-preview.png" alt="PatuKrishi Logo">
             <span class="logo-text" data-translate="logo">PatuKrishi</span>
         </div>
         <nav class="main-nav">
@@ -248,8 +231,8 @@
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="user-profile" onclick="toggleUserDropdown()">
-                <div class="user-avatar" id="header-avatar">U</div>
-                <span id="header-name">User</span>
+                <div class="user-avatar" id="header-avatar">👤</div>
+                <span id="header-name">Farmer</span>
                 <i class="fas fa-chevron-down"></i>
                 <div class="user-dropdown" id="user-dropdown">
                     <div class="dropdown-item" onclick="openProfileModal()"><i class="fas fa-user-edit"></i> <span data-translate="profile">Profile</span></div>
@@ -291,7 +274,7 @@
         <section id="schemes-section" class="content-section">
             <h2 class="agri-border"><i class="fas fa-file-alt"></i> <span data-translate="govtSchemes">Government Schemes for Farmers</span><span style="font-size: 0.8rem; background: #2e7d32; color: white; padding: 4px 12px; border-radius: 30px; margin-left: 10px;">100 Active Schemes</span></h2>
             <div class="schemes-stats-bar"><div class="stat-item"><i class="fas fa-rupee-sign"></i><span>₹1.5 Lakh Cr+</span><small>Total Budget</small></div><div class="stat-item"><i class="fas fa-users"></i><span>15 Cr+</span><small>Farmers Benefited</small></div><div class="stat-item"><i class="fas fa-building"></i><span>13</span><small>Categories</small></div><div class="stat-item"><i class="fas fa-calendar-alt"></i><span>2026-27</span><small>Updated</small></div></div>
-            <div class="schemes-category-strip" id="schemeCategoryStrip"><button class="cat-filter-btn active" onclick="filterSchemesByCategory('all')">📌 All (100)</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('income')">💰 Income</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('insurance')">🛡️ Insurance</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('credit')">💳 Credit</button><button class="cat-filtxer-btn" onclick="filterSchemesByCategory('irrigation')">💧 Irrigation</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('machinery')">🚜 Machinery</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('soil')">🌱 Soil</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('organic')">🌿 Organic</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('animal')">🐄 Animal</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('horticulture')">🥥 Horticulture</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('digital')">🤖 Digital</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('solar')">☀️ Solar</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('market')">📊 Market</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('disaster')">⚠️ Disaster</button></div>
+            <div class="schemes-category-strip" id="schemeCategoryStrip"><button class="cat-filter-btn active" onclick="filterSchemesByCategory('all')">📌 All (100)</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('income')">💰 Income</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('insurance')">🛡️ Insurance</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('credit')">💳 Credit</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('irrigation')">💧 Irrigation</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('machinery')">🚜 Machinery</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('soil')">🌱 Soil</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('organic')">🌿 Organic</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('animal')">🐄 Animal</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('horticulture')">🥥 Horticulture</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('digital')">🤖 Digital</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('solar')">☀️ Solar</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('market')">📊 Market</button><button class="cat-filter-btn" onclick="filterSchemesByCategory('disaster')">⚠️ Disaster</button></div>
             <div id="allSchemesContainer" class="schemes-full-grid"></div>
         </section>
 
@@ -362,6 +345,21 @@
 <script src="script.js"></script>
 
 <script>
+// Simplified no-auth version: directly show dashboard and simulate a default user
+let currentUser = { name: "Farmer", email: "guest@patukrishi.in" };
+
+function checkAuth() {
+    // Always show dashboard, no login required
+    document.getElementById('dashboard').style.display = 'block';
+    loadDashboard();
+}
+
+function loadDashboard() {
+    document.getElementById('welcome-name').innerText = currentUser.name;
+    document.getElementById('header-name').innerText = currentUser.name.split(' ')[0];
+    document.getElementById('header-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+}
+
 function openLanguagePopup() { document.getElementById('langModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
 function closeLanguageModal() { document.getElementById('langModal').classList.remove('active'); document.body.style.overflow = ''; }
 function changeLanguageAndClose(lang) { if (typeof changeLanguage === 'function') changeLanguage(lang); closeLanguageModal(); showNotification('Language changed to ' + lang, 'success'); }
@@ -372,12 +370,15 @@ function updateTime() { document.getElementById('current-time').textContent = ne
 function updateTipOfTheDay() { const tips = ["🌱 Always test your soil before sowing for better yield.", "💧 Drip irrigation saves 30% water and increases yield.", "🌾 Practice crop rotation to maintain soil fertility.", "🐛 Regular pest inspection can save your crops early.", "💰 Check mandi prices before selling to get best rates."]; const today = new Date(); const index = today.getDate() % tips.length; document.getElementById('tip-of-the-day').textContent = tips[index]; document.getElementById('tip-number').textContent = `#${String(index + 1).padStart(2, '0')}`; }
 function switchSection(section) { const sections = ['home', 'weather', 'mandi', 'lens', 'advisory', 'schemes', 'videos', 'about']; document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', sections[i] === section)); document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active')); document.getElementById(section + '-section').classList.add('active'); window.scrollTo(0, 0); }
 function toggleUserDropdown() { document.getElementById('user-dropdown').classList.toggle('show'); }
-function openProfileModal() { document.getElementById('profile-modal').classList.add('show'); toggleUserDropdown(); document.getElementById('edit-name').value = currentUser?.name || ''; }
+function openProfileModal() { document.getElementById('profile-modal').classList.add('show'); toggleUserDropdown(); document.getElementById('edit-name').value = currentUser.name; }
 function closeProfileModal() { document.getElementById('profile-modal').classList.remove('show'); }
-function saveProfile() { let newName = document.getElementById('edit-name').value; if (newName && currentUser) { currentUser.name = newName; userDatabase[currentUser.email] = currentUser; localStorage.setItem('patukrishi_users', JSON.stringify(userDatabase)); localStorage.setItem('patukrishi_session', JSON.stringify(currentUser)); loadDashboard(); closeProfileModal(); showNotification('Profile updated successfully!', 'success'); } }
-function logout() { localStorage.removeItem('patukrishi_session'); location.reload(); }
+function saveProfile() { let newName = document.getElementById('edit-name').value; if (newName) { currentUser.name = newName; loadDashboard(); closeProfileModal(); showNotification('Profile updated successfully!', 'success'); } }
+function logout() { showNotification('Logged out (guest mode remains active)', 'info'); }
+function toggleChatbot() { const win = document.getElementById('chat-window'); win.style.display = win.style.display === 'flex' ? 'none' : 'flex'; }
+function sendMessage() { const inp = document.getElementById('chat-input'); if (!inp.value.trim()) return; const msgDiv = document.getElementById('chat-messages'); const userMsg = document.createElement('div'); userMsg.className = 'message msg-user'; userMsg.innerText = inp.value; msgDiv.appendChild(userMsg); const botReply = document.createElement('div'); botReply.className = 'message msg-bot'; botReply.innerText = "🙏 Krishi sahayak: Aap mandi bhav, mausam, crop lens ya advisory ke baare mein pooch sakte hain."; msgDiv.appendChild(botReply); msgDiv.scrollTop = msgDiv.scrollHeight; inp.value = ''; }
 
-window.addEventListener('load', function() { AOS.init(); setTimeout(function() { document.getElementById('loading-screen').style.opacity = '0'; setTimeout(function() { document.getElementById('loading-screen').style.display = 'none'; checkAuth(); updateTime(); setInterval(updateTime, 1000); updateTipOfTheDay(); }, 500); }, 2000); });
+// Theme toggle
+document.getElementById('theme-toggle')?.addEventListener('click', () => document.body.classList.toggle('dark-theme'));
 </script>
 
 </body>
