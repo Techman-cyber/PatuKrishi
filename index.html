@@ -45,24 +45,6 @@
             cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="27" viewBox="0 0 24 27"><polygon points="2,2 22,13 12,16 2,25" fill="%23ffd966" stroke="%23b45f06" stroke-width="1.5"/><text x="8" y="18" font-size="10">🌱</text></svg>'), pointer;
 
         }
-
-   .lang-btn {
-        background: linear-gradient(135deg, #2e7d32, #f9a825);
-        color: white;
-        border: none;
-        border-radius: 50px;
-        padding: 10px 20px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: all 0.3s ease;
-   }
-   .lang-btn:hover {
-        transform: translateY(-2px);
-   }
 </style>
    
 </head>
@@ -77,40 +59,54 @@
 
     <header class="main-header">
 
-<div class="logo click-card" onclick="switchSection('home')" style="display: flex; align-items: center; gap: 12px;">
-    <img src="patukrishi logo.png" alt="PatuKrishi Logo" style="width: 80px; height: 80px; object-fit: cover; border: none;">
-    <span class="logo-text" data-translate="logo" style="font-size: 1.5rem; font-weight: 700; color: #2e7d32;">PatuKrishi</span>
-</div>
+        <div class="logo click-card" onclick="switchSection('home')"><img src="patukrishi logo.png" alt="PatuKrishi Logo"><span class="logo-text" data-translate="logo">PatuKrishi</span></div>
 
-        <nav class="main-nav">
-            <span class="nav-item active" onclick="switchSection('home')"><span data-translate="home">Home</span></span>
-            <span class="nav-item" onclick="switchSection('weather')"><span data-translate="weather">Weather</span></span>
-            <span class="nav-item" onclick="switchSection('mandi')"><span data-translate="mandi">Mandi</span></span>
-            <span class="nav-item" onclick="switchSection('lens')"><span data-translate="lens">Crop Lens</span></span>
-            <span class="nav-item" onclick="switchSection('advisory')"><span data-translate="advisory">Advisory</span></span>
-            <span class="nav-item" onclick="switchSection('schemes')"><span data-translate="govtSchemes">Government Schemes</span></span>
-            <span class="nav-item" onclick="switchSection('videos')"><span data-translate="videos">Videos</span></span>
-            <span class="nav-item" onclick="switchSection('about')"><span data-translate="about">About</span></span>
-        </nav>
+      <nav class="main-nav"><span class="nav-item active" onclick="switchSection('home')"><span data-translate="home">Home</span></span><span class="nav-item" onclick="switchSection('weather')"><span data-translate="weather">Weather</span></span><span class="nav-item" onclick="switchSection('mandi')"><span data-translate="mandi">Mandi</span></span><span class="nav-item" onclick="switchSection('lens')"><span data-translate="lens">Crop Lens</span></span><span class="nav-item" onclick="switchSection('advisory')"><span data-translate="advisory">Advisory</span></span><span class="nav-item" onclick="switchSection('schemes')"><span data-translate="govtSchemes">Government Schemes</span></span><span class="nav-item" onclick="switchSection('videos')"><span data-translate="videos">Videos</span></span><span class="nav-item" onclick="switchSection('about')"><span data-translate="about">About</span></span></nav>
 
-        <div style="display:flex;gap:15px;align-items:center">
-            <button class="lang-btn" onclick="openLanguagePopup()">
-                <i class="fas fa-globe"></i>
-                <span>🌐 Language</span>
-                <i class="fas fa-external-link-alt" style="font-size: 0.6rem;"></i>
-            </button>
+        <div style="display:flex;gap:18px;align-items:center">
 
-            <button id="theme-toggle" style="background:none;border:none;font-size:1.3rem;color:var(--text1)"><i class="fas fa-moon"></i></button>
+            <div class="lang-select-container">
 
-            <div class="user-profile" onclick="toggleUserDropdown()">
-                <div class="user-avatar" id="header-avatar">U</div>
-                <span id="header-name">User</span>
-                <i class="fas fa-chevron-down"></i>
-                <div class="user-dropdown" id="user-dropdown">
-                    <div class="dropdown-item" onclick="openProfileModal()"><i class="fas fa-user-edit"></i> <span data-translate="profile">Profile</span></div>
-                    <div class="dropdown-item" style="color:var(--danger)" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span data-translate="logout">Logout</span></div>
+                <div class="lang-header" id="langHeader" onclick="toggleLangDropdown()"><span class="flag" id="currentLangFlag">🇬🇧</span><span class="current-lang" id="currentLangName">English</span><i class="fas fa-chevron-down arrow"></i></div>
+
+                <div class="lang-dropdown-grid" id="langDropdown">
+
+                    <div class="lang-option active" onclick="changeLanguage('en')"><span class="flag">🇬🇧</span><span class="lang-name">English</span><span class="lang-native">English</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('hi')"><span class="flag">🇮🇳</span><span class="lang-name">Hindi</span><span class="lang-native">हिंदी</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('bn')"><span class="flag">🇮🇳</span><span class="lang-name">Bengali</span><span class="lang-native">বাংলা</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('te')"><span class="flag">🇮🇳</span><span class="lang-name">Telugu</span><span class="lang-native">తెలుగు</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('mr')"><span class="flag">🇮🇳</span><span class="lang-name">Marathi</span><span class="lang-native">मराठी</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('gu')"><span class="flag">🇮🇳</span><span class="lang-name">Gujarati</span><span class="lang-native">ગુજરાતી</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('mwr')"><span class="flag">🇮🇳</span><span class="lang-name">Marwadi</span><span class="lang-native">मारवाड़ी</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('pa')"><span class="flag">🇮🇳</span><span class="lang-name">Punjabi</span><span class="lang-native">ਪੰਜਾਬੀ</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('ta')"><span class="flag">🇮🇳</span><span class="lang-name">Tamil</span><span class="lang-native">தமிழ்</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('ml')"><span class="flag">🇮🇳</span><span class="lang-name">Malayalam</span><span class="lang-native">മലയാളം</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('ur')"><span class="flag">🇮🇳</span><span class="lang-name">Urdu</span><span class="lang-native">اردو</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('kn')"><span class="flag">🇮🇳</span><span class="lang-name">Kannada</span><span class="lang-native">ಕನ್ನಡ</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('or')"><span class="flag">🇮🇳</span><span class="lang-name">Odia</span><span class="lang-native">ଓଡ଼ିଆ</span></div>
+
+                    <div class="lang-option" onclick="changeLanguage('sa')"><span class="flag">🇮🇳</span><span class="lang-name">Sanskrit</span><span class="lang-native">संस्कृतम्</span></div>
+
                 </div>
+
             </div>
+
+            <button id="theme-toggle" style="background:none;border:none;font-size:1.4rem;color:var(--text1)"><i class="fas fa-moon"></i></button>
+
+            <div class="user-profile" onclick="toggleUserDropdown()"><div class="user-avatar" id="header-avatar">U</div><span id="header-name">User</span><i class="fas fa-chevron-down"></i><div class="user-dropdown" id="user-dropdown"><div class="dropdown-item" onclick="openProfileModal()"><i class="fas fa-user-edit"></i> <span data-translate="profile">Profile</span></div><div class="dropdown-item" style="color:var(--danger)" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span data-translate="logout">Logout</span></div></div></div>
+
         </div>
 
     </header>
@@ -329,85 +325,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<!-- Language Popup Script -->
-<script>
-function openLanguagePopup() {
-    var langWindow = window.open('', '_blank', 'width=500,height=550,scrollbars=yes,resizable=yes');
-    
-    langWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>🌐 PatuKrishi - Choose Language</title>
-            <meta charset="UTF-8">
-            <style>
-                *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
-                body{background:linear-gradient(135deg,#0d4710,#2e7d32);min-height:100vh;padding:20px;}
-                .container{max-width:500px;margin:0 auto;background:white;border-radius:30px;overflow:hidden;}
-                .header{background:linear-gradient(135deg,#2e7d32,#f9a825);color:white;padding:25px;text-align:center;}
-                .header h1{font-size:1.8rem;}
-                .lang-list{padding:20px;max-height:450px;overflow-y:auto;}
-                .lang-item{display:flex;align-items:center;gap:15px;padding:12px 20px;margin:8px 0;background:#f8faf6;border-radius:50px;cursor:pointer;border:2px solid #e0e8e0;}
-                .lang-item:hover{background:#e8f5e9;border-color:#f9a825;}
-                .lang-flag{font-size:2rem;}
-                .lang-name{font-weight:800;}
-                .close-btn{display:block;width:90%;margin:15px auto;background:#2e7d32;color:white;border:none;padding:12px;border-radius:50px;cursor:pointer;}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <div class="header">
-                    <h1>🌐 Choose Language</h1>
-                    <p>अपनी भाषा चुनें</p>
-                </div>
-                <div class="lang-list">
-                    <div class="lang-item" onclick="selectLang('en')"><div class="lang-flag">🇬🇧</div><div><div class="lang-name">English</div><div>English</div></div></div>
-                    <div class="lang-item" onclick="selectLang('hi')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Hindi</div><div>हिंदी</div></div></div>
-                    <div class="lang-item" onclick="selectLang('bn')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Bengali</div><div>বাংলা</div></div></div>
-                    <div class="lang-item" onclick="selectLang('te')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Telugu</div><div>తెలుగు</div></div></div>
-                    <div class="lang-item" onclick="selectLang('mr')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Marathi</div><div>मराठी</div></div></div>
-                    <div class="lang-item" onclick="selectLang('gu')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Gujarati</div><div>ગુજરાતી</div></div></div>
-                    <div class="lang-item" onclick="selectLang('pa')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Punjabi</div><div>ਪੰਜਾਬੀ</div></div></div>
-                    <div class="lang-item" onclick="selectLang('ta')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Tamil</div><div>தமிழ்</div></div></div>
-                    <div class="lang-item" onclick="selectLang('ml')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Malayalam</div><div>മലയാളം</div></div></div>
-                    <div class="lang-item" onclick="selectLang('kn')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Kannada</div><div>ಕನ್ನಡ</div></div></div>
-                    <div class="lang-item" onclick="selectLang('or')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Odia</div><div>ଓଡ଼ିଆ</div></div></div>
-                    <div class="lang-item" onclick="selectLang('ur')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Urdu</div><div>اردو</div></div></div>
-                                        <div class="lang-item" onclick="selectLang('mwr')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Marwadi</div><div>मारवाड़ी</div></div></div>
-                                                                                <div class="lang-item" onclick="selectLang('sa')"><div class="lang-flag">🇮🇳</div><div><div class="lang-name">Sanskrit</div><div>संस्कृतम्</div></div></div>
-                                        
-                </div>
-                <button class="close-btn" onclick="window.close()">✖ Close</button>
-            </div>
-            <script>
-                function selectLang(code) {
-                    if(window.opener && !window.opener.closed) {
-                        if(typeof window.opener.changeLanguage === 'function') {
-                            window.opener.changeLanguage(code);
-                        }
-                        alert('Language changed!');
-                    }
-                    window.close();
-                }
-            <\/script>
-        </body>
-        </html>
-    `);
-    langWindow.document.close();
-}
-
-// Simple changeLanguage function that works with your existing script.js
-window.changeLanguage = function(lang) {
-    console.log('Language changed to:', lang);
-    // This will work with your existing translation system in script.js
-    if(typeof currentLanguage !== 'undefined') {
-        // If your script.js has currentLanguage variable
-        // The existing changeLanguage function will handle the rest
-    }
-    alert('Language changed to: ' + lang);
-};
-</script>
 
 <!-- Your custom JavaScript -->
 <script src="script.js"></script>
