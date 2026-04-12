@@ -1,5 +1,7 @@
 
 
+
+
 (function(){
     // ==================== SWIPER INITIALIZATION ====================
     const swiper = new Swiper('.mySwiper', {
@@ -1415,6 +1417,66 @@ document.addEventListener('DOMContentLoaded', () => {
             container.innerHTML = `<h3>${crop} – 3-Step Guide</h3><p class="big-friendly" style="white-space:pre-line;">${t}</p>`;
         }
     };
+    
+    // ==================== ANALYTICS FUNCTIONS ====================
+    function initAnalyticsCharts() {
+        if(typeof Chart === 'undefined') return;
+        const priceChart = document.getElementById('priceTrendChart')?.getContext('2d');
+        if(priceChart) {
+            new Chart(priceChart, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [
+                        { label: 'Wheat (₹/q)', data: [2250, 2300, 2380, 2420, 2400, 2450], borderColor: '#2e7d32', tension: .4, fill: !0 },
+                        { label: 'Rice (₹/q)', data: [2e3, 2050, 2100, 2150, 2120, 2150], borderColor: '#f9a825', tension: .4, fill: !0 }
+                    ]
+                },
+                options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+        const cropChart = document.getElementById('cropDistributionChart')?.getContext('2d');
+        if(cropChart) {
+            new Chart(cropChart, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Wheat', 'Rice', 'Cotton', 'Sugarcane', 'Other'],
+                    datasets: [{ data: [38, 32, 14, 10, 6], backgroundColor: ['#2e7d32', '#f9a825', '#d32f2f', '#4caf50', '#9c27b0'] }]
+                },
+                options: { responsive: !0, maintainAspectRatio: !1, plugins: { legend: { position: 'bottom' } } }
+            });
+        }
+    }
+    
+    window.calculateProfit = function() {
+        const cropSelect = document.getElementById('profit-crop');
+        const areaInput = document.getElementById('profit-area');
+        const resultDiv = document.getElementById('profit-result');
+        if(!cropSelect || !areaInput || !resultDiv) return;
+        const e = cropSelect.value;
+        const t = parseFloat(areaInput.value) || 1;
+        const n = {
+            wheat: { yield: 48, price: 2450, cost: 37e3 },
+            rice: { yield: 58, price: 2150, cost: 42e3 },
+            cotton: { yield: 24, price: 7200, cost: 58e3 },
+            sugarcane: { yield: 780, price: 380, cost: 85e3 },
+            potato: { yield: 265, price: 2850, cost: 47e3 }
+        };
+        const o = n[e];
+        if(!o) return;
+        const l = o.yield * o.price * t;
+        const r = o.cost * t;
+        const i = l - r;
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `<h4 style="color:var(--primary); margin-bottom:10px;">Profit Analysis</h4>
+            <p><strong>Area:</strong> ${t} acre(s)</p>
+            <p><strong>Expected Yield:</strong> ${o.yield * t} quintals</p>
+            <p><strong>Revenue:</strong> ₹${l.toLocaleString()}</p>
+            <p><strong>Cost:</strong> ₹${r.toLocaleString()}</p>
+            <p style="font-size:1.3rem; color:${i > 0 ? 'var(--success)' : 'var(--danger)'}; margin-top:10px;">
+            <strong>Net Profit: ₹${i.toLocaleString()}</strong></p>`;
+    };
+    
     // ==================== CHATBOT FUNCTIONS ====================
     window.toggleChatbot = () => {
         const chatWindow = document.getElementById('chat-window');
