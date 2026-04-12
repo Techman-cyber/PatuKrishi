@@ -33,7 +33,22 @@
         
         #notification-container{position:fixed;top:80px;right:20px;z-index:10000;display:flex;flex-direction:column;gap:10px}
         
-        .dashboard-container{display:block;flex:1}
+        #auth-container{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:9000;padding:16px}
+        .auth-card{display:flex;max-width:1000px;width:100%;min-height:580px;background:rgba(255,255,255,.2);backdrop-filter:blur(14px);border-radius:48px;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.2);overflow:hidden}
+        .auth-greeting{flex:1;background:linear-gradient(130deg,#2e7d32cc,#f9a825cc);padding:40px;color:#fff;display:flex;flex-direction:column;justify-content:center}
+        .auth-greeting h1::first-letter{font-size:2.8rem}
+        .auth-form-wrap{flex:1;background:var(--card-bg);padding:40px;display:flex;flex-direction:column;justify-content:center}
+        .auth-tabs{display:flex;gap:8px;background:var(--bg);padding:5px;border-radius:50px;margin-bottom:30px}
+        .auth-tab{flex:1;text-align:center;padding:12px;border-radius:40px;font-weight:600;cursor:pointer}
+        .auth-tab.active{background:var(--primary);color:#fff}
+        .auth-form{display:none}
+        .auth-form.active{display:block}
+        .form-group{margin-bottom:22px}
+        .form-label{display:block;margin-bottom:6px;font-weight:500;text-transform:capitalize}
+        .form-input{width:100%;padding:14px 18px;background:var(--bg);border:2px solid var(--border);border-radius:30px;color:var(--text1)}
+        .form-input:focus{border-color:var(--primary);outline:none}
+        
+        .dashboard-container{display:none;flex:1}
         
         /* ========== HEADER ========== */
         .main-header{background:var(--header-bg);backdrop-filter:blur(16px);padding:10px 30px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:15px}
@@ -207,6 +222,8 @@
 
 <div id="loading-screen"><div class="loading-logo"><i class="fas fa-seedling"></i><h1>PatuKrishi</h1></div><div class="loading-bar"><div class="loading-fill"></div></div><p>Smart Farming for Indian Farmers</p></div>
 
+<div id="auth-container"><div class="auth-card"><div class="auth-greeting"><h1>Welcome Farmer 🙏</h1><p style="margin:20px 0">Your personal agri-companion</p></div><div class="auth-form-wrap"><div class="auth-tabs"><div class="auth-tab active" onclick="switchAuthTab('login')">Login</div><div class="auth-tab" onclick="switchAuthTab('signup')">Sign up</div></div><form id="login-form" class="auth-form active" onsubmit="handleLogin(event)"><div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="login-email" required></div><div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="login-password" required></div><div id="login-error" style="color:#d32f2f;margin-bottom:12px"></div><button class="btn-3d" style="width:100%">Login</button></form><form id="signup-form" class="auth-form" onsubmit="handleSignup(event)"><div class="form-group"><label class="form-label">Full name</label><input type="text" class="form-input" id="signup-name" required></div><div class="form-group"><label class="form-label">Email</label><input type="email" class="form-input" id="signup-email" required></div><div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" id="signup-password" required></div><div id="signup-error" style="color:#d32f2f;margin-bottom:12px"></div><button class="btn-3d" style="width:100%">Create account</button></form></div></div></div>
+
 <div id="dashboard" class="dashboard-container">
     <header class="main-header">
         <div class="logo click-card" onclick="switchSection('home')">
@@ -231,8 +248,8 @@
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="user-profile" onclick="toggleUserDropdown()">
-                <div class="user-avatar" id="header-avatar">👤</div>
-                <span id="header-name">Farmer</span>
+                <div class="user-avatar" id="header-avatar">U</div>
+                <span id="header-name">User</span>
                 <i class="fas fa-chevron-down"></i>
                 <div class="user-dropdown" id="user-dropdown">
                     <div class="dropdown-item" onclick="openProfileModal()"><i class="fas fa-user-edit"></i> <span data-translate="profile">Profile</span></div>
@@ -345,40 +362,212 @@
 <script src="script.js"></script>
 
 <script>
-// Simplified no-auth version: directly show dashboard and simulate a default user
-let currentUser = { name: "Farmer", email: "guest@patukrishi.in" };
+// ==================== AUTHENTICATION & UI FUNCTIONS ====================
+// These work alongside script.js - no overwriting!
+
+let currentUser = null;
+let userDatabase = JSON.parse(localStorage.getItem('patukrishi_users') || '{}');
 
 function checkAuth() {
-    // Always show dashboard, no login required
+    let session = localStorage.getItem('patukrishi_session');
+    if (session) {
+        currentUser = JSON.parse(session);
+        document.getElementById('auth-container').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        if (typeof loadDashboard === 'function') loadDashboard();
+    } else {
+        document.getElementById('auth-container').style.display = 'flex';
+        document.getElementById('dashboard').style.display = 'none';
+    }
+}
+
+function handleLogin(e) {
+    e.preventDefault();
+    let email = document.getElementById('login-email').value;
+    let password = document.getElementById('login-password').value;
+    if (userDatabase[email] && userDatabase[email].password === password) {
+        currentUser = userDatabase[email];
+        localStorage.setItem('patukrishi_session', JSON.stringify(currentUser));
+        document.getElementById('auth-container').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        if (typeof loadDashboard === 'function') loadDashboard();
+        showNotification('Login successful! Welcome back!', 'success');
+    } else {
+        document.getElementById('login-error').innerText = 'Invalid email or password';
+    }
+}
+
+function handleSignup(e) {
+    e.preventDefault();
+    let name = document.getElementById('signup-name').value;
+    let email = document.getElementById('signup-email').value;
+    let password = document.getElementById('signup-password').value;
+    if (!name || !email || !password) return;
+    if (userDatabase[email]) {
+        document.getElementById('signup-error').innerText = 'Email already exists. Please login.';
+        return;
+    }
+    let newUser = { name: name, email: email, password: password };
+    userDatabase[email] = newUser;
+    localStorage.setItem('patukrishi_users', JSON.stringify(userDatabase));
+    currentUser = newUser;
+    localStorage.setItem('patukrishi_session', JSON.stringify(currentUser));
+    document.getElementById('auth-container').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
-    loadDashboard();
+    if (typeof loadDashboard === 'function') loadDashboard();
+    showNotification('Account created successfully! Welcome to PatuKrishi!', 'success');
 }
 
-function loadDashboard() {
-    document.getElementById('welcome-name').innerText = currentUser.name;
-    document.getElementById('header-name').innerText = currentUser.name.split(' ')[0];
-    document.getElementById('header-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+function logout() {
+    localStorage.removeItem('patukrishi_session');
+    location.reload();
 }
 
-function openLanguagePopup() { document.getElementById('langModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
-function closeLanguageModal() { document.getElementById('langModal').classList.remove('active'); document.body.style.overflow = ''; }
-function changeLanguageAndClose(lang) { if (typeof changeLanguage === 'function') changeLanguage(lang); closeLanguageModal(); showNotification('Language changed to ' + lang, 'success'); }
-document.addEventListener('click', function(event) { const modal = document.getElementById('langModal'); if (modal && modal.classList.contains('active') && event.target === modal) closeLanguageModal(); });
+function switchAuthTab(tab) {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+    if (tab === 'login') {
+        document.querySelectorAll('.auth-tab')[0].classList.add('active');
+        document.getElementById('login-form').classList.add('active');
+    } else {
+        document.querySelectorAll('.auth-tab')[1].classList.add('active');
+        document.getElementById('signup-form').classList.add('active');
+    }
+}
 
-function showNotification(msg, type) { let n = document.createElement('div'); n.style = `background:var(--card-bg); padding:12px 20px; border-radius:40px; margin-bottom:10px; border-left:4px solid #f9a825; box-shadow:var(--shadow); font-weight:500;`; n.innerText = msg; document.getElementById('notification-container').appendChild(n); setTimeout(() => n.remove(), 3000); }
-function updateTime() { document.getElementById('current-time').textContent = new Date().toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); }
-function updateTipOfTheDay() { const tips = ["🌱 Always test your soil before sowing for better yield.", "💧 Drip irrigation saves 30% water and increases yield.", "🌾 Practice crop rotation to maintain soil fertility.", "🐛 Regular pest inspection can save your crops early.", "💰 Check mandi prices before selling to get best rates."]; const today = new Date(); const index = today.getDate() % tips.length; document.getElementById('tip-of-the-day').textContent = tips[index]; document.getElementById('tip-number').textContent = `#${String(index + 1).padStart(2, '0')}`; }
-function switchSection(section) { const sections = ['home', 'weather', 'mandi', 'lens', 'advisory', 'schemes', 'videos', 'about']; document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', sections[i] === section)); document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active')); document.getElementById(section + '-section').classList.add('active'); window.scrollTo(0, 0); }
-function toggleUserDropdown() { document.getElementById('user-dropdown').classList.toggle('show'); }
-function openProfileModal() { document.getElementById('profile-modal').classList.add('show'); toggleUserDropdown(); document.getElementById('edit-name').value = currentUser.name; }
-function closeProfileModal() { document.getElementById('profile-modal').classList.remove('show'); }
-function saveProfile() { let newName = document.getElementById('edit-name').value; if (newName) { currentUser.name = newName; loadDashboard(); closeProfileModal(); showNotification('Profile updated successfully!', 'success'); } }
-function logout() { showNotification('Logged out (guest mode remains active)', 'info'); }
-function toggleChatbot() { const win = document.getElementById('chat-window'); win.style.display = win.style.display === 'flex' ? 'none' : 'flex'; }
-function sendMessage() { const inp = document.getElementById('chat-input'); if (!inp.value.trim()) return; const msgDiv = document.getElementById('chat-messages'); const userMsg = document.createElement('div'); userMsg.className = 'message msg-user'; userMsg.innerText = inp.value; msgDiv.appendChild(userMsg); const botReply = document.createElement('div'); botReply.className = 'message msg-bot'; botReply.innerText = "🙏 Krishi sahayak: Aap mandi bhav, mausam, crop lens ya advisory ke baare mein pooch sakte hain."; msgDiv.appendChild(botReply); msgDiv.scrollTop = msgDiv.scrollHeight; inp.value = ''; }
+// Language modal functions
+function openLanguagePopup() { 
+    document.getElementById('langModal').classList.add('active'); 
+    document.body.style.overflow = 'hidden'; 
+}
+function closeLanguageModal() { 
+    document.getElementById('langModal').classList.remove('active'); 
+    document.body.style.overflow = ''; 
+}
+function changeLanguageAndClose(lang) { 
+    if (typeof changeLanguage === 'function') changeLanguage(lang); 
+    closeLanguageModal(); 
+    showNotification('Language changed!', 'success'); 
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) { 
+    const modal = document.getElementById('langModal'); 
+    if (modal && modal.classList.contains('active') && event.target === modal) closeLanguageModal(); 
+});
+
+// Notification function
+function showNotification(msg, type) { 
+    let n = document.createElement('div'); 
+    n.style = `background:var(--card-bg); padding:12px 20px; border-radius:40px; margin-bottom:10px; border-left:4px solid #f9a825; box-shadow:var(--shadow); font-weight:500;`; 
+    n.innerText = msg; 
+    document.getElementById('notification-container').appendChild(n); 
+    setTimeout(() => n.remove(), 3000); 
+}
+
+// Update time
+function updateTime() { 
+    document.getElementById('current-time').textContent = new Date().toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }); 
+}
+
+// Update tip of the day
+function updateTipOfTheDay() { 
+    const tips = ["🌱 Always test your soil before sowing for better yield.", "💧 Drip irrigation saves 30% water and increases yield.", "🌾 Practice crop rotation to maintain soil fertility.", "🐛 Regular pest inspection can save your crops early.", "💰 Check mandi prices before selling to get best rates."]; 
+    const today = new Date(); 
+    const index = today.getDate() % tips.length; 
+    document.getElementById('tip-of-the-day').textContent = tips[index]; 
+    document.getElementById('tip-number').textContent = `#${String(index + 1).padStart(2, '0')}`; 
+}
+
+// Section switcher (will be enhanced by script.js)
+function switchSection(section) { 
+    const sections = ['home', 'weather', 'mandi', 'lens', 'advisory', 'schemes', 'videos', 'about']; 
+    document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', sections[i] === section)); 
+    document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active')); 
+    document.getElementById(section + '-section').classList.add('active'); 
+    window.scrollTo(0, 0); 
+}
+
+// Profile functions
+function toggleUserDropdown() { 
+    document.getElementById('user-dropdown').classList.toggle('show'); 
+}
+function openProfileModal() { 
+    document.getElementById('profile-modal').classList.add('show'); 
+    toggleUserDropdown(); 
+    if (currentUser) document.getElementById('edit-name').value = currentUser.name; 
+}
+function closeProfileModal() { 
+    document.getElementById('profile-modal').classList.remove('show'); 
+}
+function saveProfile() { 
+    let newName = document.getElementById('edit-name').value; 
+    if (newName && currentUser) { 
+        currentUser.name = newName; 
+        userDatabase[currentUser.email] = currentUser; 
+        localStorage.setItem('patukrishi_users', JSON.stringify(userDatabase)); 
+        localStorage.setItem('patukrishi_session', JSON.stringify(currentUser)); 
+        if (typeof loadDashboard === 'function') loadDashboard(); 
+        closeProfileModal(); 
+        showNotification('Profile updated successfully!', 'success'); 
+    } 
+}
+
+// Chatbot functions
+function toggleChatbot() { 
+    const win = document.getElementById('chat-window'); 
+    win.style.display = win.style.display === 'flex' ? 'none' : 'flex'; 
+}
+function sendMessage() { 
+    const inp = document.getElementById('chat-input'); 
+    if (!inp.value.trim()) return; 
+    const msgDiv = document.getElementById('chat-messages'); 
+    const userMsg = document.createElement('div'); 
+    userMsg.className = 'message msg-user'; 
+    userMsg.innerText = inp.value; 
+    msgDiv.appendChild(userMsg); 
+    const botReply = document.createElement('div'); 
+    botReply.className = 'message msg-bot'; 
+    botReply.innerText = "🙏 Krishi sahayak: Aap mandi bhav, mausam, crop lens, advisory, ya government schemes ke baare mein pooch sakte hain."; 
+    msgDiv.appendChild(botReply); 
+    msgDiv.scrollTop = msgDiv.scrollHeight; 
+    inp.value = ''; 
+}
 
 // Theme toggle
 document.getElementById('theme-toggle')?.addEventListener('click', () => document.body.classList.toggle('dark-theme'));
+
+// Page load initialization
+window.addEventListener('load', function() { 
+    AOS.init(); 
+    setTimeout(function() { 
+        document.getElementById('loading-screen').style.opacity = '0'; 
+        setTimeout(function() { 
+            document.getElementById('loading-screen').style.display = 'none'; 
+            checkAuth(); 
+            updateTime(); 
+            setInterval(updateTime, 1000); 
+            updateTipOfTheDay(); 
+        }, 500); 
+    }, 2000); 
+});
+
+// Make functions global
+window.handleLogin = handleLogin;
+window.handleSignup = handleSignup;
+window.logout = logout;
+window.switchAuthTab = switchAuthTab;
+window.openLanguagePopup = openLanguagePopup;
+window.closeLanguageModal = closeLanguageModal;
+window.changeLanguageAndClose = changeLanguageAndClose;
+window.showNotification = showNotification;
+window.switchSection = switchSection;
+window.toggleUserDropdown = toggleUserDropdown;
+window.openProfileModal = openProfileModal;
+window.closeProfileModal = closeProfileModal;
+window.saveProfile = saveProfile;
+window.toggleChatbot = toggleChatbot;
+window.sendMessage = sendMessage;
 </script>
 
 </body>
